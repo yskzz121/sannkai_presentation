@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>修繕投資計画 2026–2028｜有限会社 三海</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy:  #0D1B3E;
+    --blue:  #1A3A7C;
+    --gold:  #C8952A;
+    --gold2: #E8B84B;
+    --cream: #F5F0E8;
+    --red:   #C0392B;
+    --green: #1A7A4A;
+    --slate: #8A9BB5;
+    --white: #FFFFFF;
+    --light: #EDF1F8;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--cream); color:var(--navy); }
+
+  .slide-container { max-width:1280px; margin:0 auto; padding:20px; display:flex; flex-direction:column; gap:24px; }
+
+  .slide {
+    width:100%; aspect-ratio:16/9; position:relative; overflow:hidden;
+    border-radius:4px; box-shadow:0 8px 40px rgba(13,27,62,0.25);
+  }
+
+  /* ── Header ── */
+  .slide-header {
+    position:absolute; top:0; left:0; right:0; height:13%;
+    background:var(--navy); display:flex; align-items:center; padding:0 4%; gap:14px;
+  }
+  .hbar { width:4px; height:55%; background:var(--gold); border-radius:2px; }
+  .htitle { font-size:clamp(14.6px,2.13vw,22.0px); font-weight:700; color:var(--white); letter-spacing:0.04em; }
+  .hbadge { margin-left:auto; font-size:clamp(8.5px,1.04vw,11.0px); color:var(--gold2); letter-spacing:0.12em; font-weight:500; }
+  .slide-page  { position:absolute; bottom:2%; right:4%; font-size:clamp(8.5px,0.92vw,9.0px); font-family:'DM Mono',monospace; color:var(--slate); }
+  .slide-label { position:absolute; bottom:2%; left:4%;  font-size:clamp(8.5px,0.92vw,9.0px); color:var(--slate); letter-spacing:0.1em; font-family:'DM Mono',monospace; }
+
+  /* ══════════════════════════════════════
+     SLIDE 1 — COVER
+  ══════════════════════════════════════ */
+  .cover-left-bar { position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--gold); }
+  .cover-grid {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+                      linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+  .cover-content { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:6% 8%; }
+  .cover-eyebrow { font-size:clamp(11.0px,1.22vw,13.0px); letter-spacing:0.35em; color:var(--gold2); text-transform:uppercase; margin-bottom:1.5%; font-weight:500; }
+  .cover-title   { font-size:clamp(31.7px,4.88vw,54.0px); font-weight:900; color:var(--white); line-height:1.15; margin-bottom:1.5%; }
+  .cover-title em { color:var(--gold2); font-style:normal; }
+  .cover-sub     { font-size:clamp(12.2px,1.46vw,15.0px); color:var(--slate); margin-bottom:4%; letter-spacing:0.04em; }
+  .cover-kpi-row { display:flex; gap:2.5%; margin-top:1%; }
+  .cover-kpi     { background:rgba(255,255,255,0.06); border:1px solid rgba(200,149,42,0.3); border-radius:4px; padding:2% 3%; }
+  .ck-label { font-size:clamp(8.5px,0.95vw,10.0px); color:var(--slate); letter-spacing:0.08em; margin-bottom:4px; }
+  .ck-value { font-family:'DM Mono',monospace; font-size:clamp(15.9px,2.32vw,24.0px); font-weight:500; color:var(--gold2); }
+  .ck-unit  { font-size:0.6em; color:var(--slate); margin-left:2px; }
+
+  /* ══════════════════════════════════════
+     SLIDE 2 — PMX
+  ══════════════════════════════════════ */
+  .pmx-body {
+    position:absolute; top:13%; left:0; right:0; bottom:0;
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:0;
+  }
+  .pmx-q { padding:3% 4%; border:1px solid rgba(13,27,62,0.08); position:relative; display:flex; flex-direction:column; gap:3%; }
+  .pmx-q1 { background:#FEF3F2; }
+  .pmx-q2 { background:#F0F7FF; }
+  .pmx-q3 { background:#F9FAFB; }
+  .pmx-q4 { background:#FFFDF0; }
+  .q-label {
+    font-size:clamp(8.5px,1.07vw,11.0px); font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; display:flex; align-items:center; gap:7px;
+    border-bottom:1px solid rgba(13,27,62,0.07); padding-bottom:3%; margin-bottom:1%;
+  }
+  .pmx-q1 .q-label { color:var(--red); }
+  .pmx-q2 .q-label { color:#1A5EA8; }
+  .pmx-q3 .q-label { color:#555; }
+  .pmx-q4 .q-label { color:#9A7A00; }
+  .qdot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .pmx-q1 .qdot { background:var(--red); }
+  .pmx-q2 .qdot { background:#1A5EA8; }
+  .pmx-q3 .qdot { background:#888; }
+  .pmx-q4 .qdot { background:#C09000; }
+
+  .qi { display:flex; flex-direction:column; gap:2px; margin-bottom:3%; }
+  .qi-name { font-size:clamp(9.8px,1.16vw,12.0px); font-weight:700; color:var(--navy); line-height:1.3; }
+  .qi-cost { font-family:'DM Mono',monospace; font-size:clamp(11.0px,1.4vw,15.0px); font-weight:500; }
+  .pmx-q1 .qi-cost { color:var(--red); }
+  .pmx-q2 .qi-cost { color:#1A5EA8; }
+  .pmx-q3 .qi-cost { color:#555; }
+  .pmx-q4 .qi-cost { color:#9A7A00; }
+  .qi-note { font-size:clamp(7.3px,0.88vw,9.0px); color:var(--slate); line-height:1.4; }
+
+  /* ══════════════════════════════════════
+     SLIDE 3 — MATRIX TABLE
+  ══════════════════════════════════════ */
+  .matrix-body {
+    position:absolute; top:13%; left:2%; right:2%; bottom:5%;
+  }
+  .mx { width:100%; height:100%; border-collapse:collapse; font-size:clamp(7.9px,1.0vw,10.5px); }
+  .mx th {
+    background:var(--navy); color:var(--white); padding:2.5% 1.5%;
+    text-align:center; border:1px solid rgba(255,255,255,0.1);
+    font-size:clamp(7.3px,0.88vw,9.0px); font-weight:600;
+  }
+  .mx th.th-prop { text-align:left; padding-left:2%; width:23%; }
+  .mx th.th-yr   { background:var(--blue); font-family:'DM Mono',monospace; font-size:clamp(9.8px,1.22vw,13.0px); }
+  .mx th.th-sub  { font-size:clamp(6.7px,0.79vw,8.0px); color:rgba(255,255,255,0.6); font-weight:400; }
+
+  .mx td { padding:1.8% 1.5%; text-align:center; border:1px solid rgba(13,27,62,0.07); vertical-align:middle; }
+  .mx td.td-name { text-align:left; padding-left:2%; font-weight:600; color:var(--navy); line-height:1.3; font-size:clamp(7.9px,1.0vw,10.0px); }
+  .mx td.td-area { font-size:clamp(6.7px,0.79vw,8.0px); color:var(--slate); font-weight:400; display:block; }
+  .mx tr:nth-child(even) td { background:var(--light); }
+
+  .cf { font-family:'DM Mono',monospace; font-weight:600; color:var(--red); font-size:clamp(9.2px,1.16vw,12.0px); }
+  .cv { font-family:'DM Mono',monospace; color:#D97706; font-size:clamp(7.9px,1.0vw,10.0px); }
+  .cn { color:rgba(13,27,62,0.2); font-family:'DM Mono',monospace; }
+  .ct { font-size:clamp(6.7px,0.79vw,8.0px); color:var(--slate); font-style:italic; }
+
+  .mx tr.sep td { background:rgba(200,149,42,0.12)!important; color:var(--gold); font-weight:700; font-size:clamp(6.7px,0.83vw,8.5px); letter-spacing:0.1em; text-transform:uppercase; padding:1% 2%; border-color:rgba(200,149,42,0.25); }
+  .mx tr.tot td { background:var(--navy)!important; color:var(--white); font-weight:700; font-family:'DM Mono',monospace; font-size:clamp(9.8px,1.22vw,13.0px); border-color:rgba(255,255,255,0.12); }
+  .mx tr.tot td.tl { text-align:left; padding-left:2%; letter-spacing:0.04em; }
+  .mx tr.tot td.tf { color:#FF9999; }
+  .mx tr.tot td.tv { color:#FFB84D; }
+  .mx tr.max td { background:rgba(200,149,42,0.18)!important; font-weight:700; font-family:'DM Mono',monospace; font-size:clamp(11.0px,1.4vw,15.0px); border-color:rgba(200,149,42,0.3); color:var(--gold2); }
+  .mx tr.max td.tl { text-align:left; padding-left:2%; }
+
+  .mx-legend { position:absolute; bottom:1%; right:2%; display:flex; gap:14px; font-size:clamp(6.7px,0.83vw,8.5px); color:var(--slate); align-items:center; }
+  .leg { display:flex; align-items:center; gap:4px; }
+  .leg-dot { width:7px; height:7px; border-radius:2px; }
+
+  /* ══════════════════════════════════════
+     SLIDE 4 — CF CHART
+  ══════════════════════════════════════ */
+  .cf-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:4%;
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:2%;
+  }
+  .cf-card {
+    border-radius:6px; padding:5% 6%; display:flex; flex-direction:column; gap:4%;
+    border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05);
+  }
+  .cf-card.y26 { border-color:rgba(192,57,43,0.6); background:rgba(192,57,43,0.1); }
+  .cf-card.y27 { border-color:rgba(200,149,42,0.5); background:rgba(200,149,42,0.08); }
+  .cf-card.y28 { border-color:rgba(26,122,74,0.5);  background:rgba(26,122,74,0.08); }
+
+  .cy-label { font-family:'Bebas Neue',sans-serif; font-size:clamp(24.4px,3.66vw,42.0px); color:var(--white); letter-spacing:0.06em; }
+  .cy-sub   { font-size:clamp(7.9px,0.95vw,10.0px); color:var(--slate); margin-top:-3%; letter-spacing:0.1em; }
+
+  .bar-group { flex:1; display:flex; flex-direction:column; justify-content:flex-end; gap:5px; }
+  .bar-item  { display:flex; flex-direction:column; gap:2px; }
+  .bar-lbl   { font-size:clamp(7.3px,0.88vw,9.0px); color:var(--slate); }
+  .bar-track { height:11px; background:rgba(255,255,255,0.08); border-radius:2px; overflow:hidden; }
+  .bar-fill  { height:100%; border-radius:2px; }
+  .bf-fix  { background:var(--red); }
+  .bf-var  { background:#D97706; }
+  .bf-ebit { background:var(--green); }
+
+  .num-row { display:flex; flex-direction:column; gap:4px; border-top:1px solid rgba(255,255,255,0.1); padding-top:4%; }
+  .nl { display:flex; justify-content:space-between; align-items:baseline; }
+  .nl-l { font-size:clamp(7.3px,0.88vw,9.0px); color:var(--slate); }
+  .nl-v { font-family:'DM Mono',monospace; font-size:clamp(10.4px,1.28vw,13.0px); font-weight:500; }
+  .vf { color:#FF9999; } .vv { color:#FFB84D; } .vm { color:var(--gold2); }
+  .vw { color:var(--red); } .vo { color:#FFD080; } .vg { color:#5DE89A; }
+
+  .risk-badge {
+    padding:3% 4%; border-radius:4px;
+    font-size:clamp(7.9px,0.95vw,10.0px); font-weight:700; letter-spacing:0.06em;
+    text-align:center; text-transform:uppercase;
+  }
+  .rb-h { background:rgba(192,57,43,0.3); color:#FF9999; border:1px solid rgba(192,57,43,0.5); }
+  .rb-m { background:rgba(200,149,42,0.2); color:var(--gold2); border:1px solid rgba(200,149,42,0.4); }
+  .rb-l { background:rgba(26,122,74,0.2);  color:#5DE89A;  border:1px solid rgba(26,122,74,0.4); }
+
+  /* ══════════════════════════════════════
+     SLIDE 5 — ACTION CARDS
+  ══════════════════════════════════════ */
+  .act-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:4%;
+    display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:2%;
+  }
+  .act-card { border-radius:5px; padding:4% 5%; display:flex; flex-direction:column; gap:4%; border:1px solid rgba(13,27,62,0.1); }
+  .ac-red   { background:#FEF9F8; border-color:rgba(192,57,43,0.2); }
+  .ac-blue  { background:#F5F8FE; border-color:rgba(26,58,124,0.18); }
+  .ac-gold  { background:#FFFCF0; border-color:rgba(200,149,42,0.18); }
+  .ac-green { background:#F4FCF8; border-color:rgba(26,122,74,0.18); }
+
+  .ac-hd { display:flex; align-items:flex-start; gap:8px; }
+  .ac-num { font-family:'Bebas Neue',sans-serif; font-size:clamp(29.3px,4.27vw,46.0px); line-height:1; flex-shrink:0; opacity:0.22; }
+  .ac-red   .ac-num { color:var(--red); }
+  .ac-blue  .ac-num { color:var(--blue); }
+  .ac-gold  .ac-num { color:var(--gold); }
+  .ac-green .ac-num { color:var(--green); }
+
+  .ac-chip { display:inline-block; padding:1px 7px; border-radius:2px; font-size:clamp(7.3px,0.85vw,8.5px); font-weight:700; letter-spacing:0.07em; margin-bottom:3%; }
+  .chip-r { background:rgba(192,57,43,0.1); color:var(--red); }
+  .chip-b { background:rgba(26,58,124,0.1); color:var(--blue); }
+  .chip-g { background:rgba(200,149,42,0.15); color:#9A6A00; }
+  .chip-gn{ background:rgba(26,122,74,0.1);  color:var(--green); }
+
+  .ac-title { font-size:clamp(11.0px,1.34vw,14.0px); font-weight:700; color:var(--navy); line-height:1.3; margin-bottom:3%; }
+  .ac-body  { font-size:clamp(9.2px,1.07vw,11.0px); color:#444; line-height:1.65; flex:1; }
+  .ac-tgt   {
+    margin-top:auto; font-family:'DM Mono',monospace;
+    font-size:clamp(9.8px,1.16vw,12.0px); font-weight:500;
+    padding-top:3%; border-top:1px solid rgba(13,27,62,0.08);
+  }
+  .ac-red   .ac-tgt { color:var(--red); }
+  .ac-blue  .ac-tgt { color:var(--blue); }
+  .ac-gold  .ac-tgt { color:var(--gold); }
+  .ac-green .ac-tgt { color:var(--green); }
+
+  /* ══════════════════════════════════════
+     SLIDE 6 — ROADMAP
+  ══════════════════════════════════════ */
+  .rm-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:4%;
+    display:flex; flex-direction:column;
+  }
+  .rm-row {
+    display:grid; grid-template-columns:22% 1fr 1fr 1fr;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    flex:1;
+  }
+  .rm-row.rm-hd { flex:0 0 9%; border-bottom:2px solid rgba(200,149,42,0.3); grid-template-columns:22% 1fr 1fr 1fr; }
+
+  .rm-hd-cell {
+    font-family:'DM Mono',monospace; font-size:clamp(9.8px,1.22vw,13.0px);
+    color:var(--gold2); font-weight:500; display:flex; align-items:center;
+    justify-content:center; padding:0 1%; border-left:1px solid rgba(255,255,255,0.07);
+  }
+  .rm-hd-cell:first-child { border-left:none; color:var(--slate); font-size:clamp(7.3px,0.85vw,9.0px); justify-content:flex-start; }
+
+  .rm-lbl {
+    font-size:clamp(8.5px,1.0vw,10.0px); color:var(--white); font-weight:600;
+    padding:0 3%; display:flex; flex-direction:column; justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.08); gap:2px;
+  }
+  .rm-lbl span { font-size:clamp(6.7px,0.76vw,7.5px); color:var(--slate); font-weight:400; }
+
+  .rm-cell {
+    padding:1.5% 1.5%; display:flex; align-items:center; justify-content:center;
+    border-left:1px solid rgba(255,255,255,0.05);
+  }
+  .rm-bar {
+    width:95%; border-radius:3px; padding:5px 8px;
+    font-size:clamp(8.5px,1.0vw,10.5px); text-align:center;
+    font-weight:600; letter-spacing:0.03em; line-height:1.4;
+  }
+  .br  { background:rgba(192,57,43,0.7); color:#FFAAAA; }
+  .bo  { background:rgba(217,119,6,0.6);  color:#FFD080; }
+  .bb  { background:rgba(26,58,124,0.7);  color:#99BBFF; }
+  .bg  { background:rgba(26,122,74,0.7);  color:#80FFBB; }
+  .bgy { background:rgba(138,155,181,0.2); color:var(--slate); }
+  .bau { background:rgba(200,149,42,0.5);  color:var(--gold2); }
+
+  .rm-phase-row {
+    display:grid; grid-template-columns:19% 1fr 1fr 1fr;
+    gap:0.5%; margin-top:1%; flex:0 0 10%;
+    align-items:center;
+  }
+  .ph { border-radius:3px; padding:2% 3%; text-align:center; }
+  .ph-label { font-size:clamp(7.9px,0.95vw,10.0px); font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .ph-sub   { font-size:clamp(6.7px,0.79vw,8.0px); color:var(--slate); margin-top:2px; }
+  .ph1 { background:rgba(192,57,43,0.2); border:1px solid rgba(192,57,43,0.4); }
+  .ph2 { background:rgba(200,149,42,0.15); border:1px solid rgba(200,149,42,0.3); }
+  .ph3 { background:rgba(26,122,74,0.15); border:1px solid rgba(26,122,74,0.3); }
+</style>
+</head>
+<body>
+<div class="slide-container">
+
+<!-- ════════════════════════════════
+     SLIDE 1 ─ COVER
+════════════════════════════════ -->
+<div class="slide" style="background:var(--navy);">
+  <div class="cover-left-bar"></div>
+  <div class="cover-grid"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">有限会社 三海 ／ Sankai Co., Ltd.</div>
+    <div class="cover-title">修繕投資計画<br><em>2026 – 2028</em></div>
+    <div class="cover-sub">中期経営計画 付属資料 ／ 修繕リスク管理と収益最大化の両立</div>
+    <div class="cover-kpi-row">
+      <div class="cover-kpi">
+        <div class="ck-label">総資産（2024年末）</div>
+        <div class="ck-value">32.9<span class="ck-unit">億円</span></div>
+      </div>
+      <div class="cover-kpi">
+        <div class="ck-label">年間売上（2024年）</div>
+        <div class="ck-value">3.9<span class="ck-unit">億円</span></div>
+      </div>
+      <div class="cover-kpi">
+        <div class="ck-label">営業利益率（2024年）</div>
+        <div class="ck-value">34.1<span class="ck-unit">%</span></div>
+      </div>
+      <div class="cover-kpi">
+        <div class="ck-label">自己資本比率（2024年末）</div>
+        <div class="ck-value">22.4<span class="ck-unit">%</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;right:5%;bottom:5%;font-family:'Bebas Neue',sans-serif;font-size:min(18vw,200px);color:rgba(255,255,255,0.05);line-height:1;user-select:none;">2028</div>
+  <div class="slide-page">01 / 04</div>
+  <div class="slide-label">SANKAI — MEDIUM-TERM REPAIR PLAN</div>
+</div>
+
+<!-- ════════════════════════════════
+     SLIDE 2 ─ PMX
+════════════════════════════════ -->
+<div class="slide" style="background:var(--white);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">修繕優先度マトリクス（PMX）｜2026–2028 対象案件</div>
+    <div class="hbadge">緊急度 × 重要度</div>
+  </div>
+  <div class="pmx-body">
+
+    <!-- Q1 今すぐ対応 -->
+    <div class="pmx-q pmx-q1">
+      <div class="q-label"><span class="qdot"></span>Q1 ／ 今すぐ対応（法令・安全・収益）</div>
+      <div class="qi">
+        <div class="qi-name">アスベスト除去（沖縄6棟）</div>
+        <div class="qi-cost">160万 × 検出室数（年約20室）＝ 約3,200万/年</div>
+        <div class="qi-note">▶ 法令遵守最優先。調査→検出室→除去の順で段階施工</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">退去時修繕｜床コンクリ補修</div>
+        <div class="qi-cost">確定 120万 × 30室/年 ＝ 3,600万/年</div>
+        <div class="qi-note">▶ 年間30室を確定費用として計上。退去状況により上振れの可能性</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">札幌 ドレン管修繕</div>
+        <div class="qi-cost">確定 160万（2026年）＋α（追加工事次第）</div>
+        <div class="qi-note">▶ 2026年実施確定。追加工事の有無は現地確認後に判断</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">沖縄 米軍賃貸 賃料改定</div>
+        <div class="qi-cost">修繕完了室から順次 22万 → 25万/室</div>
+        <div class="qi-note">▶ 修繕完了と同時に交渉開始。年間最大 ＋3,996万の収益増</div>
+      </div>
+    </div>
+
+    <!-- Q2 計画的に対応 -->
+    <div class="pmx-q pmx-q2">
+      <div class="q-label"><span class="qdot"></span>Q2 ／ 計画的に対応（構造・収益）</div>
+      <div class="qi">
+        <div class="qi-name">沖縄 OP2 外壁修繕</div>
+        <div class="qi-cost">確定 1,300万（2027年施工）</div>
+        <div class="qi-note">▶ 2026年中に工事計画・業者選定を完了</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">群馬物件｜大規模修繕 or 売却判断</div>
+        <div class="qi-cost">修繕実施なら 4,700万（2026年確定必須）</div>
+        <div class="qi-note">▶ 残債・修繕内訳・損賠請求の4点確認後にNPV比較で判断</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">退去時修繕｜浴槽交換</div>
+        <div class="qi-cost">約100万 × 交換必要室数（室数未定）</div>
+        <div class="qi-note">▶ 退去査定で交換必要と判断された室のみ実施</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">アルピナハイム（札幌）外壁修繕</div>
+        <div class="qi-cost">確定 1,560万（2026年・春〜秋施工）</div>
+        <div class="qi-note">▶ 施工枠を早期確保。春先に業者契約完了</div>
+      </div>
+    </div>
+
+    <!-- Q3 委任・監視 -->
+    <div class="pmx-q pmx-q3">
+      <div class="q-label"><span class="qdot"></span>Q3 ／ 委任・監視（経過観察）</div>
+      <div class="qi">
+        <div class="qi-name">福岡 太陽光保険コスト最適化</div>
+        <div class="qi-cost">目標：300〜400万削減（現行→最適化後）</div>
+        <div class="qi-note">▶ 保険ブローカー経由で複数社一括見積。FIT残存期間も再計算</div>
+      </div>
+
+    </div>
+
+    <!-- Q4 後回し検討 -->
+    <div class="pmx-q pmx-q4">
+      <div class="q-label"><span class="qdot"></span>Q4 ／ 後回し検討（将来検討）</div>
+      <div class="qi">
+        <div class="qi-name">新規物件取得（2029年以降）</div>
+        <div class="qi-cost">修繕峠を越えた2029年以降に再検討</div>
+        <div class="qi-note">▶ 自己資本比率25%超・有利子負債20億円割れを条件に検討開始</div>
+      </div>
+      <div class="qi">
+        <div class="qi-name">収益モデル転換の検討</div>
+        <div class="qi-cost">民泊転換は「条件4点」達成後に再評価</div>
+        <div class="qi-note">▶ 修繕完了・市場調査・試験運営・NPV比較の4条件を満たしてから判断</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-page" style="color:#8A9BB5;">02 / 04</div>
+  <div class="slide-label" style="color:#8A9BB5;">SANKAI — PMX MATRIX</div>
+</div>
+
+<!-- ════════════════════════════════
+     SLIDE 3 ─ MATRIX TABLE
+════════════════════════════════ -->
+<!-- ===== SLIDE 3: 案件×年度 修繕費用マトリクス ===== -->
+<div class="slide" style="background:var(--navy);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">修繕アクション・ロードマップ（2026〜2028）</div>
+    <div class="hbadge">年度別・案件別 実施スケジュール</div>
+  </div>
+  <div class="rm-body" style="padding-top:1%;">
+
+    <!-- ヘッダ行 -->
+    <div class="rm-row rm-hd">
+      <div class="rm-hd-cell">案件</div>
+      <div class="rm-hd-cell" style="font-size:clamp(12.2px,1.59vw,17.0px);">2026年度</div>
+      <div class="rm-hd-cell" style="font-size:clamp(12.2px,1.59vw,17.0px);">2027年度</div>
+      <div class="rm-hd-cell" style="font-size:clamp(12.2px,1.59vw,17.0px);">2028年度</div>
+    </div>
+
+    <!-- アスベスト -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">アスベスト除去<span>沖縄6棟｜160万×20室/年</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar br" style="padding:5px 8px;">全室調査→除去施工（優先室）<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,200万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bo" style="padding:5px 8px;">残室 除去継続<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,200万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bg" style="padding:5px 8px;">維持管理フェーズ<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,200万</span></div>
+      </div>
+    </div>
+
+    <!-- 退去時修繕（床） -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">退去時修繕｜床<span>沖縄｜確定 120万×30室/年</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar br" style="padding:5px 8px;">基準策定・順次実施<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,600万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar br" style="padding:5px 8px;">順次実施（継続）<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,600万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar br" style="padding:5px 8px;">順次実施（継続）<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">3,600万</span></div>
+      </div>
+    </div>
+
+    <!-- 退去時修繕（浴槽） -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">退去時修繕｜浴槽<span>沖縄｜100万×必要室数（変動）</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar bo" style="padding:5px 8px;">査定→必要室のみ実施<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">上限 1,000万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bo" style="padding:5px 8px;">必要室のみ実施<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">上限 1,000万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bo" style="padding:5px 8px;">必要室のみ実施<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">上限 1,000万</span></div>
+      </div>
+    </div>
+
+    <!-- OP2外壁 -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">OP2 外壁修繕<span>沖縄｜確定 1,300万</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar bb" style="padding:5px 8px;">計画策定・業者選定<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">—</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bb" style="padding:5px 8px;">施工実施・完了検査<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">1,300万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+    </div>
+
+    <!-- アルピナハイム外壁 -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">アルピナハイム外壁<span>札幌｜確定 1,560万</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar bb" style="padding:5px 8px;">業者選定→春〜秋施工完了<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">1,560万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+    </div>
+
+    <!-- ドレン管 -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">ドレン管修繕<span>札幌｜確定 160万＋α</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar bb" style="padding:5px 8px;">2026年確定・施工完了<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">160万＋α</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+    </div>
+
+    <!-- 群馬 -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;">
+      <div class="rm-lbl">群馬 大規模修繕<span>群馬｜保有継続時のみ</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar br" style="padding:5px 8px;">NPV判断確定→施工 or 売却<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">4,700万（保有時）</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">完了 or 売却後<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bgy" style="padding:5px 8px;">—<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);">—</span></div>
+      </div>
+    </div>
+
+    <!-- 福岡保険 -->
+    <div class="rm-row" style="grid-template-columns:22% 1fr 1fr 1fr;border-bottom:none;">
+      <div class="rm-lbl">福岡 太陽光保険<span>福岡｜300〜400万削減目標</span></div>
+      <div class="rm-cell">
+        <div class="rm-bar bau" style="padding:5px 8px;">複数社見積→新契約適用<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">500万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bg" style="padding:5px 8px;">削減効果継続<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">500万</span></div>
+      </div>
+      <div class="rm-cell">
+        <div class="rm-bar bg" style="padding:5px 8px;">削減効果継続<br><span style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);font-weight:700;">500万</span></div>
+      </div>
+    </div>
+
+    <!-- フェーズラベル -->
+    <div style="display:grid;grid-template-columns:22% 1fr 1fr 1fr;margin-top:1.5%;gap:0.5%;">
+      <div></div>
+      <div style="background:rgba(192,57,43,0.2);border:1px solid rgba(192,57,43,0.4);border-radius:3px;padding:2% 3%;text-align:center;">
+        <div style="font-size:clamp(7.9px,0.95vw,10.0px);font-weight:700;color:#FF9999;letter-spacing:0.1em;text-transform:uppercase;">Phase 1</div>
+        <div style="font-size:clamp(6.7px,0.79vw,8.0px);color:var(--slate);margin-top:2px;">確定費用集中・判断確定</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);color:#FF9999;font-weight:700;margin-top:4px;">9,060万〜13,760万</div>
+      </div>
+      <div style="background:rgba(200,149,42,0.15);border:1px solid rgba(200,149,42,0.3);border-radius:3px;padding:2% 3%;text-align:center;">
+        <div style="font-size:clamp(7.9px,0.95vw,10.0px);font-weight:700;color:var(--gold2);letter-spacing:0.1em;text-transform:uppercase;">Phase 2</div>
+        <div style="font-size:clamp(6.7px,0.79vw,8.0px);color:var(--slate);margin-top:2px;">修繕収束・外壁工事実行</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);color:var(--gold2);font-weight:700;margin-top:4px;">9,600万</div>
+      </div>
+      <div style="background:rgba(26,122,74,0.15);border:1px solid rgba(26,122,74,0.3);border-radius:3px;padding:2% 3%;text-align:center;">
+        <div style="font-size:clamp(7.9px,0.95vw,10.0px);font-weight:700;color:#5DE89A;letter-spacing:0.1em;text-transform:uppercase;">Phase 3</div>
+        <div style="font-size:clamp(6.7px,0.79vw,8.0px);color:var(--slate);margin-top:2px;">安定・新規取得余力回復</div>
+        <div style="font-family:'DM Mono',monospace;font-size:clamp(9.8px,1.22vw,13.0px);color:#5DE89A;font-weight:700;margin-top:4px;">8,300万</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-page">03 / 04</div>
+  <div class="slide-label">SANKAI — REPAIR ROADMAP 2026–2028</div>
+</div>
+
+</html><!-- ===== SLIDE 4: 修繕費用を抑制する4つの経営アクション ===== -->
+<div class="slide" style="background:var(--white);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">修繕費用を抑制する4つの経営アクション</div>
+    <div class="hbadge">コスト圧縮＋収益増の両輪　最大▲6,200万の余地</div>
+  </div>
+  <div class="act-body">
+
+    <!-- 01 群馬判断 -->
+    <div class="act-card ac-red">
+      <div class="ac-hd">
+        <div class="ac-num">01</div>
+        <div>
+          <div class="ac-chip chip-r">2026年上期確定必須</div>
+          <div class="ac-title">群馬物件｜保有継続 or 売却の定量判断</div>
+        </div>
+      </div>
+      <div class="ac-body">
+        残債確認 → 修繕内訳精査（必須vs任意を分離）→ 管理会社変更可否 → 前管理会社への損害賠償請求可否の法的確認の4点を2026年上期中に完了。NPV比較で判断する。売却の場合、修繕費4,700万が不要となり2026年の資金負荷が大幅に軽減される。
+      </div>
+      <div class="ac-tgt">▲ 最大 4,700万円 の負荷圧縮</div>
+    </div>
+
+    <!-- 02 退去管理 -->
+    <div class="act-card ac-blue">
+      <div class="ac-hd">
+        <div class="ac-num">02</div>
+        <div>
+          <div class="ac-chip chip-b">退去数コントロール</div>
+          <div class="ac-title">沖縄 退去時修繕｜退去抑制と修繕スコープ管理</div>
+        </div>
+      </div>
+      <div class="ac-body">
+        退去時修繕（床・浴槽）は退去室数と査定結果に直結する。入居条件の改善・長期入居インセンティブ・退去前査定基準の標準化で実際の施工範囲を圧縮できる。床修繕は年30室確定だが、浴槽交換は必要室のみに絞ることで変動費を削減。年間修繕予算の上限を設定し、超過時のリファイナンス方法を事前設計する。
+      </div>
+      <div class="ac-tgt">▲ 浴槽修繕の圧縮で年間数百万〜1,000万超の削減余地</div>
+    </div>
+
+    <!-- 03 太陽光保険 -->
+    <div class="act-card ac-gold">
+      <div class="ac-hd">
+        <div class="ac-num">03</div>
+        <div>
+          <div class="ac-chip chip-g">即実行可能</div>
+          <div class="ac-title">福岡 太陽光保険｜ブローカー経由で300〜400万削減</div>
+        </div>
+      </div>
+      <div class="ac-body">
+        現行保険料を損害保険ブローカー経由で複数社に一括見積依頼。FIT残存期間と収益率のバランスを再計算し、最適カバレッジに設計し直す。目標は300〜400万円の削減。3年間で900〜1,200万円の累積節減効果が見込める。
+      </div>
+      <div class="ac-tgt">▲ 300〜400万/年（3年計 最大1,200万）</div>
+    </div>
+
+    <!-- 04 賃料改定 -->
+    <div class="act-card ac-green">
+      <div class="ac-hd">
+        <div class="ac-num">04</div>
+        <div>
+          <div class="ac-chip chip-gn">修繕完了室から順次</div>
+          <div class="ac-title">沖縄 賃料改定｜修繕投資を収益増で回収する構造</div>
+        </div>
+      </div>
+      <div class="ac-body">
+        アスベスト除去・外壁修繕完了後の物件から順次、米軍向け賃料を現行22万円から25万円へ改定交渉を開始する。修繕完了室が増えるにつれて段階的に収益が拡大し、2028年時点での全室完了なら年間最大＋3,996万円の収益増効果となる。
+      </div>
+      <div class="ac-tgt">＋ 最大 3,996万/年（全室完了時・段階実施）</div>
+    </div>
+
+  </div>
+  <div class="slide-page" style="color:#8A9BB5;">04 / 04</div>
+  <div class="slide-label" style="color:#8A9BB5;">SANKAI — ACTION PLAN</div>
+</div>
+
+

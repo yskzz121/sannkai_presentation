@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有限会社三海｜沖縄物件 SWOT・競合・市場分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --navy: #0a1628; --navy-mid: #132240; --navy-light: #1e3460;
+  --ocean: #0d6aad; --ocean-light: #1a8fd1;
+  --teal: #0f8b70; --teal-light: #13b08e;
+  --amber: #c8891a; --amber-light: #f0a82a;
+  --coral: #c94030; --coral-light: #e85040;
+  --text-primary: #f0ece4; --text-secondary: #a8b8cc; --text-muted: #687888;
+  --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--navy); color: var(--text-primary); min-height: 100vh; padding: 2rem; }
+.nav { display: flex; gap: 8px; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.nav-btn { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; padding: 6px 16px; border-radius: 99px; border: 0.5px solid var(--card-border); background: var(--card-bg); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+.nav-btn.active { background: var(--ocean); border-color: var(--ocean-light); color: #fff; }
+.slide { display: none; animation: fadeIn 0.35s ease; }
+.slide.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.slide-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--border); }
+.slide-meta { font-size: 10px; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 6px; }
+.slide-title { font-size: 24px; font-weight: 300; color: var(--text-primary); letter-spacing: -0.02em; }
+.slide-title strong { font-weight: 700; color: #fff; }
+.company-badge { font-size: 11px; color: var(--text-muted); border: 0.5px solid var(--border); padding: 4px 12px; border-radius: 99px; white-space: nowrap; }
+.sec-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+.divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+
+/* SWOT */
+.swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.swot-cell { border-radius: 12px; padding: 18px 20px; border: 0.5px solid var(--card-border); position: relative; overflow: hidden; }
+.swot-cell::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.swot-s { background: rgba(15,139,112,0.1); } .swot-s::before { background: linear-gradient(90deg,var(--teal),var(--teal-light)); }
+.swot-w { background: rgba(200,137,26,0.1); } .swot-w::before { background: linear-gradient(90deg,var(--amber),var(--amber-light)); }
+.swot-o { background: rgba(13,106,173,0.1); } .swot-o::before { background: linear-gradient(90deg,var(--ocean),var(--ocean-light)); }
+.swot-t { background: rgba(201,64,48,0.1); } .swot-t::before { background: linear-gradient(90deg,var(--coral),var(--coral-light)); }
+.swot-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.swot-s .swot-label { color: var(--teal-light); } .swot-w .swot-label { color: var(--amber-light); }
+.swot-o .swot-label { color: var(--ocean-light); } .swot-t .swot-label { color: var(--coral-light); }
+.swot-badge { font-size: 9px; padding: 2px 8px; border-radius: 99px; }
+.swot-s .swot-badge { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+.swot-w .swot-badge { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.swot-o .swot-badge { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.swot-t .swot-badge { background: rgba(201,64,48,0.25); color: var(--coral-light); }
+.swot-list { list-style: none; }
+.swot-list li { font-size: 12px; color: var(--text-secondary); line-height: 1.6; padding: 4px 0 4px 14px; position: relative; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.swot-list li:last-child { border-bottom: none; }
+.swot-list li::before { content: ''; position: absolute; left: 0; top: 12px; width: 5px; height: 1px; }
+.swot-s .swot-list li::before { background: var(--teal); } .swot-w .swot-list li::before { background: var(--amber); }
+.swot-o .swot-list li::before { background: var(--ocean); } .swot-t .swot-list li::before { background: var(--coral); }
+.tag-new { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 99px; margin-left: 5px; background: rgba(13,106,173,0.3); color: var(--ocean-light); vertical-align: middle; }
+
+/* Strategy grid */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.strat-card { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 10px; padding: 14px 16px; }
+.strat-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.strat-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 99px; }
+.sb-so { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+.sb-st { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.sb-wo { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.sb-wt { background: rgba(201,64,48,0.25); color: var(--coral-light); }
+.strat-title { font-size: 12px; font-weight: 500; color: #fff; }
+.strat-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.strat-body strong { color: #fff; font-weight: 500; }
+
+/* Comp */
+.comp-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.comp-card { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 12px; padding: 18px; }
+.comp-card.self { border-color: var(--ocean-light); background: rgba(13,106,173,0.1); }
+.comp-head { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.comp-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 99px; }
+.badge-self { background: rgba(13,106,173,0.35); color: var(--ocean-light); }
+.badge-ca { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.badge-cb { background: rgba(201,64,48,0.25); color: var(--coral-light); }
+.comp-name { font-size: 13px; font-weight: 500; color: #fff; }
+.comp-desc { font-size: 11px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+.comp-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; padding: 4px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.comp-row:last-child { border-bottom: none; }
+.comp-row-label { color: var(--text-muted); }
+.dots { display: flex; gap: 3px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+.dot.oc { background: var(--ocean-light); } .dot.tl { background: var(--teal-light); } .dot.am { background: var(--amber-light); }
+
+/* Property */
+.property-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.prop-card { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 10px; padding: 14px 16px; }
+.prop-card.alert { border-color: rgba(200,137,26,0.5); background: rgba(200,137,26,0.07); }
+.prop-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.prop-code { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; padding: 2px 8px; border-radius: 99px; }
+.pc-sp { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.pc-op { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.pc-ok { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+.prop-name { font-size: 13px; font-weight: 500; color: #fff; }
+.prop-spec { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; }
+.tag-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.tag { font-size: 10px; padding: 2px 8px; border-radius: 99px; background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.12); color: var(--text-secondary); }
+.bah-row { font-size: 11px; color: var(--text-muted); }
+.bah-row strong { color: var(--text-secondary); font-weight: 500; }
+.issue-text { font-size: 11px; color: var(--amber-light); margin-top: 4px; line-height: 1.5; }
+
+/* Effect */
+.effect-row { display: grid; grid-template-columns: 1fr 36px 1fr; gap: 8px; align-items: center; margin-bottom: 1.5rem; }
+.effect-box { background: var(--card-bg); border-radius: 10px; padding: 12px 16px; }
+.effect-box.before { border: 0.5px solid rgba(201,64,48,0.4); }
+.effect-box.after { border: 0.5px solid rgba(15,139,112,0.4); }
+.eff-label { font-size: 10px; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 4px; }
+.eff-val { font-size: 14px; font-weight: 500; }
+.effect-box.before .eff-val { color: var(--coral-light); }
+.effect-box.after .eff-val { color: var(--teal-light); }
+.eff-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; line-height: 1.5; }
+.arrow-mid { text-align: center; color: var(--text-muted); font-size: 18px; }
+
+/* KPI */
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.5rem; }
+.kpi { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 10px; padding: 12px 14px; }
+.kpi-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; }
+.kpi-value { font-size: 17px; font-weight: 500; color: #fff; line-height: 1.2; }
+.kpi-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+/* Boxes */
+.info-box { background: rgba(13,106,173,0.12); border: 0.5px solid rgba(13,106,173,0.4); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
+.info-box p { font-size: 12px; color: rgba(180,210,240,0.9); line-height: 1.7; }
+.info-box strong { color: #fff; font-weight: 500; }
+.risk-box { border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
+.risk-box.danger { background: rgba(201,64,48,0.1); border: 0.5px solid rgba(201,64,48,0.35); }
+.risk-box.warn { background: rgba(200,137,26,0.1); border: 0.5px solid rgba(200,137,26,0.35); }
+.risk-title { font-size: 12px; font-weight: 500; margin-bottom: 5px; }
+.risk-box.danger .risk-title { color: var(--coral-light); }
+.risk-box.warn .risk-title { color: var(--amber-light); }
+.risk-body { font-size: 12px; line-height: 1.6; }
+.risk-box.danger .risk-body { color: rgba(240,180,170,0.85); }
+.risk-box.warn .risk-body { color: rgba(240,210,130,0.85); }
+.risk-body strong { font-weight: 500; }
+.risk-box.danger .risk-body strong { color: var(--coral-light); }
+.risk-box.warn .risk-body strong { color: var(--amber-light); }
+.chart-wrap { position: relative; width: 100%; height: 220px; margin-bottom: 6px; }
+.chart-note { font-size: 10px; color: var(--text-muted); text-align: right; margin-bottom: 1.5rem; }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSlide('swot',this)">4-A｜SWOT分析</button>
+  <button class="nav-btn" onclick="showSlide('comp',this)">4-B｜競合分析・棟別戦略</button>
+  <button class="nav-btn" onclick="showSlide('market',this)">4-C｜市場成長予測</button>
+</nav>
+
+<!-- 4-A SWOT -->
+<div class="slide active" id="slide-swot">
+  <div class="slide-header">
+    <div>
+      <div class="slide-meta">SLIDE 4-A　｜　有限会社三海 中期経営計画 2026–2028</div>
+      <div class="slide-title"><strong>SWOT分析</strong>——沖縄物件（SP1・SP2・OP1〜OP4）</div>
+    </div>
+    <div class="company-badge">有限会社三海</div>
+  </div>
+  <div class="swot-grid">
+    <div class="swot-cell swot-s">
+      <div class="swot-label"><span class="swot-badge">STRENGTHS</span>強み</div>
+      <ul class="swot-list">
+        <li>GATE至近×海岸沿い立地——代替不可能な希少立地（全棟オーシャンフロント）</li>
+        <li>遮蔽物ゼロのオーシャンビュー——米国人の「眺望重視」と直結</li>
+        <li>退去後平均1ヶ月で次入居確定——市場平均を大幅に下回る空室期間</li>
+        <li>全室白壁紙・タイル刷新済——軍検水準を維持・清潔感と高級感を両立</li>
+        <li>アスベスト除去完了——資産毀損リスクを先手で排除した実績</li>
+        <li>家電完備——即入居可能・エージェントが提案しやすい物件</li>
+        <li>OP1〜OP4：3LDK・独立浴室＋独立トイレ——ファミリー層の居住品質が高い</li>
+        <li>58号線・パイプライン・ユニオン至近——生活利便性が高い</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-w">
+      <div class="swot-label"><span class="swot-badge">WEAKNESSES</span>弱み</div>
+      <ul class="swot-list">
+        <li>SP1・SP2：キッチン・浴室が年季を感じる水準——競合B（基地内新築）と比較されると劣後</li>
+        <li>全沖縄物件で浴室改修が必要——総投資額 約1億9,800万円（中期最大の資本課題）</li>
+        <li>広間取りゆえ改修単価が高い（大型浴槽要件あり・100万円/室）</li>
+        <li>競合流出の棟別・時期別データが未整備——対策精度が上がらない</li>
+        <li>米軍一本依存（収益源の複線化が未着手）</li>
+        <li>築20〜27年——上位階級向けに「新築感」で競り負けるリスク</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-o">
+      <div class="swot-label"><span class="swot-badge">OPPORTUNITIES</span>機会</div>
+      <ul class="swot-list">
+        <li>軍検制度が「退去ごと再検査」→「5年に一回」に緩和<span class="tag-new">最新</span></li>
+        <li>基地内マンション稼働率97%超→基地側が基地外居住を推奨——弊社への需要流入トリガー<span class="tag-new">構造的機会</span></li>
+        <li>軍検最低登録家賃が175,000円に改定——市場全体の賃料底上げ</li>
+        <li>沖縄入域観光客2024年 約966万人——コロナ前の95%水準に回復</li>
+        <li>2030年に外国人観光客が国内客と同数（各871万人）になる見通し</li>
+        <li>民泊届出件数が全国4位（沖縄）——転用環境の整備が進む</li>
+        <li>広間取り＋家電完備——民泊・中長期滞在転用のハードルが低い</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-t">
+      <div class="swot-label"><span class="swot-badge">THREATS</span>脅威</div>
+      <ul class="swot-list">
+        <li>基地内マンション大規模リフォーム——通勤ゼロ＋新内装で直接競合（流出6件以上確認済）</li>
+        <li>軍検制度：現在5年に一回だが、嘉手納ハウジング担当責任者の交代で「退去ごと再検査」に戻るリスク</li>
+        <li>米軍再編・基地返還——在沖縄米軍関係者（推計4〜5万人）が政策変動で変化する可能性</li>
+        <li>米賃物件の供給増——差別化できない物件は空室が長期化する傾向が強まっている</li>
+        <li>資材費・修繕費の上昇（円安・インフレ）——改修コストが超過するリスク</li>
+      </ul>
+    </div>
+  </div>
+  <div class="sec-label">SWOT交差戦略オプション（中期3年の方向性）</div>
+  <div class="strategy-grid">
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-so">SO戦略</span><span class="strat-title">強み × 機会：オーシャンビューのプレミアム化</span></div>
+      <div class="strat-body">眺望・広さ・海岸立地を武器に<strong>上位階級（家賃手当高額）層への特化訴求</strong>。インバウンド増を見据え民泊転用可能性の調査も並行実施。同エリア最高賃料水準を目指す。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-st">ST戦略</span><span class="strat-title">強み × 脅威：入居者体験による流出防止</span></div>
+      <div class="strat-body">競合Bが勝てない「基地外の生活の質」を強化。<strong>退去者ヒアリングの定例化</strong>・流出理由を定量把握し、内装・設備・対応の改善サイクルを確立する。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wo">WO戦略</span><span class="strat-title">弱み × 機会：収益源の複線化</span></div>
+      <div class="strat-body">米軍一本依存リスクを軽減するため<strong>民泊・中長期滞在への部分転用</strong>を検討。広間取り＋家電完備のアドバンテージを観光需要に活かす。転用条件・時期を本計画で明示。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wt">WT戦略</span><span class="strat-title">弱み × 脅威：経営の数値化</span></div>
+      <div class="strat-body">空室率・流出件数・棟別稼働率を<strong>月次でモニタリングする仕組みを構築</strong>。「感覚経営」から「データ経営」への移行が中期計画の前提条件であり、場当たり脱却の証明となる。</div>
+    </div>
+  </div>
+</div>
+
+<!-- 4-B 競合 -->
+<div class="slide" id="slide-comp">
+  <div class="slide-header">
+    <div>
+      <div class="slide-meta">SLIDE 4-B　｜　有限会社三海 中期経営計画 2026–2028</div>
+      <div class="slide-title"><strong>競合分析</strong>——棟別ポジショニングと戦略対応</div>
+    </div>
+    <div class="company-badge">有限会社三海</div>
+  </div>
+  <div class="sec-label">3軸比較：弊社物件 vs 競合A（近隣民間米賃） vs 競合B（基地内改修後）</div>
+  <div class="comp-grid">
+    <div class="comp-card self">
+      <div class="comp-head"><span class="comp-badge badge-self">自社</span><span class="comp-name">弊社（SP1/2・OP1〜4）</span></div>
+      <div class="comp-desc">GATE至近×海岸沿い×オーシャンビュー。米国人が重視する「眺望・立地・広さ」を最上位で満たす。壁紙・タイル刷新済。</div>
+      <div class="comp-row"><span class="comp-row-label">立地魅力度</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">内装新しさ</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">通勤利便性</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">空室期間</span><div class="dots"><div class="dot tl"></div><div class="dot tl"></div><div class="dot tl"></div><div class="dot tl"></div><div class="dot tl"></div></div></div>
+      <div style="margin-top:8px;font-size:10px;color:var(--teal-light);">空室期間：平均約1ヶ月（優位）</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-head"><span class="comp-badge badge-ca">競合A</span><span class="comp-name">近隣民間米賃マンション</span></div>
+      <div class="comp-desc">同エリアの米軍向け物件。眺望・設備に差があるものの、価格帯で競合する可能性あり。</div>
+      <div class="comp-row"><span class="comp-row-label">立地魅力度</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">内装新しさ</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">通勤利便性</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">空室期間</span><div class="dots"><div class="dot am"></div><div class="dot am"></div><div class="dot am"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div style="margin-top:8px;font-size:10px;color:var(--text-muted);">※詳細稼働率・空室期間は要調査</div>
+    </div>
+    <div class="comp-card">
+      <div class="comp-head"><span class="comp-badge badge-cb">競合B</span><span class="comp-name">基地内マンション（大規模改修後）</span></div>
+      <div class="comp-desc">最大の脅威。通勤ゼロ＋新内装の組み合わせで一部顧客が流出した実績あり。稼働率97%超で基地外居住を推奨する仕組みがある。</div>
+      <div class="comp-row"><span class="comp-row-label">立地魅力度</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">内装新しさ</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">通勤利便性</span><div class="dots"><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div><div class="dot oc"></div></div></div>
+      <div class="comp-row"><span class="comp-row-label">空室期間</span><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+      <div style="margin-top:8px;font-size:10px;color:var(--coral-light);">基地内のため外部から稼働率不明</div>
+    </div>
+  </div>
+  <div class="sec-label">棟別 強み・課題・ターゲット層</div>
+  <div class="property-grid">
+    <div class="prop-card alert">
+      <div class="prop-head"><span class="prop-code pc-sp">SP1・SP2</span><span class="prop-name">北谷 各12室（計24室）</span></div>
+      <div class="prop-spec">2LDK・ユニットバス / GATE至近・オーシャンフロント</div>
+      <div class="tag-row"><span class="tag">GATE最至近</span><span class="tag">オーシャンビュー最強</span><span class="tag">単身・小世帯向け</span></div>
+      <div class="bah-row">ターゲット：<strong>下士官〜中位（家賃手当 15〜22万円台）</strong></div>
+      <div class="issue-text">⚠ キッチン・浴室の古さを指摘される事例あり。競合Bの新築内装と同価格帯で競合。キッチン（見積もり中）＋浴室改修（2,400万円）が最優先投資。</div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-head"><span class="prop-code pc-op">OP1</span><span class="prop-name">宜野湾 20室</span></div>
+      <div class="prop-spec">3LDK・独立浴室＋独立トイレ / オーシャンフロント</div>
+      <div class="tag-row"><span class="tag">オーシャンビュー</span><span class="tag">ファミリー向け</span><span class="tag">独立浴室</span><span class="tag">58号線近接</span></div>
+      <div class="bah-row">ターゲット：<strong>下士官ファミリー〜中位将校（家賃手当 22〜35万円台）</strong></div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-head"><span class="prop-code pc-op">OP3・OP4</span><span class="prop-name">宜野湾 各26室（計52室）</span></div>
+      <div class="prop-spec">3LDK・独立浴室＋独立トイレ / オーシャンフロント</div>
+      <div class="tag-row"><span class="tag">オーシャンビュー</span><span class="tag">最大規模</span><span class="tag">パイプライン近接</span><span class="tag">ユニオン至近</span></div>
+      <div class="bah-row">ターゲット：<strong>下士官ファミリー〜中位将校（家賃手当 22〜35万円台）</strong></div>
+    </div>
+    <div class="prop-card">
+      <div class="prop-head"><span class="prop-code pc-ok">OP2</span><span class="prop-name">嘉手納 15室</span></div>
+      <div class="prop-spec">3LDK・独立浴室＋独立トイレ / オーシャンフロント</div>
+      <div class="tag-row"><span class="tag">嘉手納GATE近接</span><span class="tag">空軍向け</span><span class="tag">オーシャンビュー</span><span class="tag">58号線近接</span></div>
+      <div class="bah-row">ターゲット：<strong>空軍・中位（家賃手当 22〜35万円台）</strong></div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="sec-label">改修投資の効果——発表で語れる成功実績</div>
+  <div class="effect-row">
+    <div class="effect-box before">
+      <div class="eff-label">改修前（壁紙・タイル工事前）</div>
+      <div class="eff-val">競合流出 6件以上</div>
+      <div class="eff-sub">基地内マンション改修後、内装の古さを理由に流出する事例が頻発した</div>
+    </div>
+    <div class="arrow-mid">→</div>
+    <div class="effect-box after">
+      <div class="eff-label">壁紙全室刷新・タイル改修後（現在）</div>
+      <div class="eff-val">流出が格段に減少</div>
+      <div class="eff-sub">空室期間 平均約1ヶ月を維持。投資が稼働率に直結することを実績で証明</div>
+    </div>
+  </div>
+  <div class="risk-box danger">
+    <div class="risk-title">競合B（基地内マンション）との構造的な非対称競争</div>
+    <div class="risk-body">基地内マンションは「<strong>通勤ゼロ</strong>」という弊社が構造上勝てない軸で差別化してくる。消耗戦を避けるため、「眺望・広さ・プライベートな海側の生活環境」軸に訴求を集中し、上位階級ファミリー層に特化する戦略が有効。</div>
+  </div>
+  <div class="risk-box warn">
+    <div class="risk-title">構造的機会：基地内稼働率97%超 → 民間需要が溢れ出すトリガー</div>
+    <div class="risk-body">基地内マンションの稼働率が97%を超えると、基地側が積極的に基地外居住を促す仕組みがある。このタイミングをモニタリングし、超えた際に<strong>家賃手当上限付近への値上げ交渉</strong>を行う戦術が有効。</div>
+  </div>
+</div>
+
+<!-- 4-C 市場 -->
+<div class="slide" id="slide-market">
+  <div class="slide-header">
+    <div>
+      <div class="slide-meta">SLIDE 4-C　｜　有限会社三海 中期経営計画 2026–2028</div>
+      <div class="slide-title"><strong>市場成長予測</strong>——沖縄 米賃市場・観光市場のマクロ動向</div>
+    </div>
+    <div class="company-badge">有限会社三海</div>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">在沖縄米軍関係者（推計）</div><div class="kpi-value">4〜5万人</div><div class="kpi-sub">民間住宅需要の母数（横ばい〜微増）</div></div>
+    <div class="kpi"><div class="kpi-label">軍検最低登録家賃（改定後）</div><div class="kpi-value">175,000円〜</div><div class="kpi-sub">市場の賃料水準が底上げ</div></div>
+    <div class="kpi"><div class="kpi-label">沖縄入域観光客（2024年）</div><div class="kpi-value">約966万人</div><div class="kpi-sub">前年比+17%・コロナ前95%水準</div></div>
+    <div class="kpi"><div class="kpi-label">2030年外国人観光客予測</div><div class="kpi-value">約871万人</div><div class="kpi-sub">2018年比303%増・国内客と同数に</div></div>
+  </div>
+  <div class="sec-label">沖縄 入域観光客数 推移と予測（万人）</div>
+  <div class="chart-wrap"><canvas id="marketChart"></canvas></div>
+  <div class="chart-note">出所：沖縄OCVB・日本交通公社旅行年報2025・各種業界データをもとに作成（2026年以降は予測値）</div>
+  <div class="divider"></div>
+  <div class="risk-box danger">
+    <div class="risk-title">構造的リスク（要注視）</div>
+    <div class="risk-body">米賃市場は在沖縄米軍人数に直結。近年の米軍再編議論・基地返還動向によっては<strong>需要母数が縮小するシナリオ</strong>がある。単一市場への依存はリスク要因であり、民泊・中長期滞在等のセカンドマーケット構築が中期課題。</div>
+  </div>
+  <div class="info-box">
+    <p><strong>2030年シナリオと弊社の資産価値：</strong>沖縄観光客数は外国人客が2018年比303%増（OCVB予測）で国内客と同数になる見通し。インバウンド消費単価はすでに2019年比1.4倍。オーシャンビュー×広間取り×家電完備の弊社物件は、米軍向けのみならず<strong>観光需要にも転用可能な資産価値</strong>を持つ。中期計画において「第二の収益軸」として民泊・短期滞在転用の検討時期・条件を明示することが、先輩経営者への説得力をさらに高める。</p>
+  </div>
+</div>
+
+<script>
+function showSlide(id, btn) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('slide-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+new Chart(document.getElementById('marketChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2019年\n(コロナ前)','2021年\n(底)','2022年','2023年','2024年','2026年\n(予測)','2028年\n(予測)','2030年\n(予測)'],
+    datasets: [
+      { label: '国内観光客（万人）', data: [824,230,499,756,766,800,840,871], backgroundColor: 'rgba(13,106,173,0.7)', stack: 'a' },
+      { label: '外国人観光客（万人）', data: [300,10,30,82,229,400,600,871], backgroundColor: 'rgba(15,139,112,0.7)', stack: 'a' }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y.toLocaleString() + '万人' } } },
+    scales: {
+      x: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 11 }, maxRotation: 0 } },
+      y: { stacked: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 11 }, callback: v => v + '万' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

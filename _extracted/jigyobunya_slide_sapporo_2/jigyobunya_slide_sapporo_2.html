@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>事業分野の定義（札幌） ─ 中期経営計画 2026–2028</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', sans-serif; background: #f5f5f3; display: flex; justify-content: center; padding: 2rem 1rem; min-height: 100vh; }
+  .slide { background: #ffffff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 2.5rem 3rem; max-width: 860px; width: 100%; }
+  .slide-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; color: #888780; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .slide-title { font-size: 26px; font-weight: 500; color: #2c2c2a; margin: 0 0 0.25rem; line-height: 1.3; }
+  .slide-subtitle { font-size: 14px; color: #5f5e5a; margin: 0 0 2rem; }
+  .divider { height: 0.5px; background: rgba(0,0,0,0.12); margin: 0 0 2rem; }
+  .section-head { font-size: 12px; font-weight: 500; color: #5f5e5a; margin: 0 0 0.75rem; }
+
+  .core-def { background: #f5f5f3; border-left: 3px solid #185FA5; border-radius: 0 8px 8px 0; padding: 1rem 1.25rem; margin-bottom: 2rem; }
+  .core-def-label { font-size: 11px; color: #888780; margin-bottom: 4px; }
+  .core-def-text { font-size: 17px; font-weight: 500; color: #2c2c2a; line-height: 1.6; }
+
+  .structure-row { display: grid; grid-template-columns: minmax(0,1fr) 32px minmax(0,1fr) 32px minmax(0,1fr); gap: 0; align-items: center; margin-bottom: 1.5rem; }
+  .struct-box { background: #f5f5f3; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 8px; padding: 0.75rem 1rem; text-align: center; }
+  .struct-box-label { font-size: 11px; color: #888780; }
+  .struct-box-val { font-size: 13px; font-weight: 500; color: #2c2c2a; margin-top: 2px; }
+  .arrow-cell { text-align: center; font-size: 16px; color: #888780; }
+
+  .portfolio-table { width: 100%; border-collapse: collapse; margin-bottom: 2rem; font-size: 13px; }
+  .portfolio-table thead th { background: #1E2761; color: #ffffff; font-weight: 500; font-size: 11px; padding: 0.5rem 0.75rem; text-align: left; }
+  .portfolio-table thead th:first-child { border-radius: 6px 0 0 0; }
+  .portfolio-table thead th:last-child { border-radius: 0 6px 0 0; }
+  .portfolio-table tbody tr { border-bottom: 0.5px solid rgba(0,0,0,0.08); }
+  .portfolio-table tbody tr:last-child { border-bottom: none; }
+  .portfolio-table tbody td { padding: 0.55rem 0.75rem; color: #2c2c2a; vertical-align: middle; }
+  .portfolio-table tbody tr:nth-child(even) td { background: #f9f9f8; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 7px; border-radius: 4px; }
+  .badge-own { background: #E6F1FB; color: #185FA5; }
+  .badge-mgmt { background: #FAEEDA; color: #85500B; }
+  .badge-grp  { background: #E1F5EE; color: #0F6E56; }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin-bottom: 2rem; }
+  .card { background: #ffffff; border: 0.5px solid rgba(0,0,0,0.12); border-radius: 12px; padding: 1rem; }
+  .card-label { font-size: 11px; color: #888780; margin-bottom: 4px; }
+  .card-value { font-size: 14px; font-weight: 500; color: #2c2c2a; line-height: 1.4; }
+  .card-sub { font-size: 12px; color: #5f5e5a; margin-top: 3px; }
+
+  .challenge-row { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin-bottom: 2rem; }
+  .challenge-item { display: flex; align-items: flex-start; gap: 10px; background: #f5f5f3; border-radius: 8px; padding: 0.75rem 1rem; }
+  .challenge-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .challenge-text { font-size: 13px; color: #2c2c2a; line-height: 1.5; }
+
+  .vision-bar { background: #E6F1FB; border-radius: 8px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 16px; }
+  .vision-bar-arrow { font-size: 20px; color: #185FA5; flex-shrink: 0; }
+  .vision-bar-text { font-size: 14px; color: #0C447C; font-weight: 500; line-height: 1.6; }
+
+  @media (max-width: 600px) {
+    .slide { padding: 1.5rem 1.25rem; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .structure-row { grid-template-columns: 1fr; gap: 8px; }
+    .arrow-cell { display: none; }
+    .challenge-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="slide">
+  <div class="slide-label">中期経営計画 2026–2028　｜　第2章</div>
+  <div class="slide-title">事業分野の定義（札幌）</div>
+  <div class="slide-subtitle">私たちは何をしている会社か ─ 札幌不動産事業の本質と現状</div>
+  <div class="divider"></div>
+
+  <div class="section-head">事業の本質的定義</div>
+  <div class="core-def">
+    <div class="core-def-label">Core Business Definition</div>
+    <div class="core-def-text">
+      主要駅 徒歩5分圏内という立地優位性を武器に、<br>
+      高稼働・安定収益を実現する「立地特化型 安定インカム事業」
+    </div>
+  </div>
+
+  <div class="section-head">事業の基本構造</div>
+  <div class="structure-row">
+    <div class="struct-box">
+      <div class="struct-box-label">物件ポートフォリオ</div>
+      <div class="struct-box-val">15棟超<br><span style="font-size:12px;font-weight:400;color:#5f5e5a;">住居・テナント・駐車場</span></div>
+    </div>
+    <div class="arrow-cell">→</div>
+    <div class="struct-box">
+      <div class="struct-box-label">収益モデル</div>
+      <div class="struct-box-val">インカムゲイン<br><span style="font-size:12px;font-weight:400;color:#5f5e5a;">管理会社完全委託で運営</span></div>
+    </div>
+    <div class="arrow-cell">→</div>
+    <div class="struct-box">
+      <div class="struct-box-label">月次総収入（2026年3月）</div>
+      <div class="struct-box-val">約1,400万円<br><span style="font-size:12px;font-weight:400;color:#5f5e5a;">三海保有＋管理受託合算</span></div>
+    </div>
+  </div>
+
+  <div class="section-head">物件ポートフォリオ（主要物件）</div>
+  <table class="portfolio-table">
+    <thead>
+      <tr>
+        <th>物件名</th>
+        <th>区分</th>
+        <th>月次収入</th>
+        <th>特記事項</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>二条GCビル</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約256万円</td>
+        <td>最大収益物件。住居＋テナント＋大型駐車場</td>
+      </tr>
+      <tr>
+        <td>アムール平岸</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約292万円</td>
+        <td>大型住居＋テナント複合</td>
+      </tr>
+      <tr>
+        <td>SKグレース</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約154万円</td>
+        <td>高稼働マンション</td>
+      </tr>
+      <tr>
+        <td>レクザ山鼻</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約122万円</td>
+        <td>住居＋駐車場。入居入替で家賃値上げ実施中</td>
+      </tr>
+      <tr>
+        <td>ブランシャール西線14条</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約115万円</td>
+        <td>全室入居。コーナー大型住戸が強み</td>
+      </tr>
+      <tr>
+        <td>アルピナハイム</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>約152万円</td>
+        <td>安定稼働</td>
+      </tr>
+      <tr>
+        <td>フォレスト15・8</td>
+        <td><span class="badge badge-grp">グループ</span></td>
+        <td>約49万円（全体）</td>
+        <td>1階三海保有・2〜5階は小渡家4名。階層別所有</td>
+      </tr>
+      <tr>
+        <td>パレス札幌1 / BACHIKOI / ファーストレート / ファーストプレイス</td>
+        <td><span class="badge badge-own">自社保有</span></td>
+        <td>合計約306万円</td>
+        <td>住居系4棟。管理委託で高稼働維持</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-head">現状の収益構成</div>
+  <div style="display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px; margin-bottom:2rem;">
+    <div class="card">
+      <div class="card-label">三海 自社保有収入（札幌・グロス）</div>
+      <div class="card-value">月次 約1,397万円</div>
+      <div class="card-sub">主要7物件グロス合算（経費控除前）<br>（沖縄物件・フォレスト15・8は別途集計）</div>
+    </div>
+    <div class="card">
+      <div class="card-label">フォレスト15・8（グループ保有）</div>
+      <div class="card-value">月次 約1,887万円</div>
+      <div class="card-sub">1階三海保有。2〜5階は小渡家4名<br>階層別所有による収益分担構造</div>
+    </div>
+  </div>
+
+  <div class="section-head">認識している経営上の課題</div>
+  <div class="challenge-row">
+    <div class="challenge-item">
+      <div class="challenge-dot" style="background:#E24B4A;"></div>
+      <div class="challenge-text"><strong style="font-weight:500;">財務数値の全体集計が未整備</strong><br>物件別・区分別のP&amp;Lを経営者自身が把握できていない</div>
+    </div>
+    <div class="challenge-item">
+      <div class="challenge-dot" style="background:#E24B4A;"></div>
+      <div class="challenge-text"><strong style="font-weight:500;">稼働率管理が受け身</strong><br>空室状況を管理会社の報告で受け身的に把握している</div>
+    </div>
+    <div class="challenge-item">
+      <div class="challenge-dot" style="background:#185FA5;"></div>
+      <div class="challenge-text"><strong style="font-weight:500;">収益モデルのテナント特化への転換【戦略優先事項】</strong><br>賃貸×テナント混在から全テナント化へ移行し、収益単価の引き上げと長期安定化を同時に実現する</div>
+    </div>
+    <div class="challenge-item">
+      <div class="challenge-dot" style="background:#BA7517;"></div>
+      <div class="challenge-text"><strong style="font-weight:500;">築年数老朽化による修繕費増大</strong><br>長期修繕計画が未策定。コスト急増リスクが顕在化しつつある</div>
+    </div>
+  </div>
+
+  <div class="section-head">3年後に目指す姿</div>
+  <div class="vision-bar">
+    <div class="vision-bar-arrow">→</div>
+    <div class="vision-bar-text">
+      全物件の財務数値を経営者自ら月次で把握し、<br>
+      家賃値上げ＋リノベーションで自社保有物件の収益単価を引き上げる。<br>
+      「管理会社任せ」から「オーナー主導の能動経営」へ転換する。
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有限会社 三海｜財務分析レポート 2022–2025上半期</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  :root {
+    --navy: #1a2456;
+    --navy-mid: #2a3a7a;
+    --navy-light: #3a4f99;
+    --gold: #c8922a;
+    --gold-light: #e8b84a;
+    --cream: #f8f5ee;
+    --cream-dark: #ede8dc;
+    --white: #ffffff;
+    --text: #1a1a2e;
+    --muted: #5a6080;
+    --border: #d4cfc2;
+    --red: #b83030;
+    --green: #1e6644;
+    --green-light: #eaf4ed;
+    --red-light: #fdf0f0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #0e1228;
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ─── NAVIGATION ─── */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(14,18,40,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,146,42,0.25);
+    display: flex; align-items: center; gap: 0; padding: 0 2rem;
+    height: 52px;
+  }
+  .nav-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 14px; color: var(--gold-light);
+    letter-spacing: 0.05em; margin-right: auto;
+  }
+  .nav-tabs { display: flex; gap: 2px; }
+  .nav-tab {
+    padding: 6px 14px; font-size: 11px; font-weight: 500;
+    color: rgba(255,255,255,0.5); cursor: pointer;
+    border-radius: 4px; transition: all 0.2s; letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { color: rgba(255,255,255,0.85); background: rgba(255,255,255,0.06); }
+  .nav-tab.active { color: var(--gold-light); background: rgba(200,146,42,0.15); }
+
+  /* ─── SLIDES ─── */
+  .slide { display: none; min-height: 100vh; padding-top: 52px; }
+  .slide.active { display: block; }
+
+  /* ─── SLIDE 1: COVER ─── */
+  #slide-cover {
+    background: linear-gradient(135deg, #0b0f28 0%, #1a2456 50%, #0f1a3a 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  #slide-cover.active { display: flex; }
+  .cover-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(200,146,42,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,146,42,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .cover-accent {
+    position: absolute; top: 0; left: 0;
+    width: 4px; height: 100%; background: var(--gold);
+  }
+  .cover-content { text-align: center; position: relative; z-index: 2; padding: 3rem; }
+  .cover-eyebrow {
+    font-size: 11px; letter-spacing: 0.25em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 1.5rem;
+  }
+  .cover-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    color: var(--white); line-height: 1.1; margin-bottom: 0.5rem;
+  }
+  .cover-sub {
+    font-family: 'Noto Serif JP', serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+    color: var(--gold-light); margin-bottom: 2rem;
+  }
+  .cover-period {
+    display: inline-block;
+    border: 1px solid rgba(200,146,42,0.4);
+    padding: 8px 24px; border-radius: 2px;
+    font-size: 13px; color: rgba(255,255,255,0.7);
+    letter-spacing: 0.1em;
+  }
+  .cover-kpis {
+    display: flex; gap: 3rem; justify-content: center;
+    margin-top: 3rem; flex-wrap: wrap;
+  }
+  .cover-kpi { text-align: center; }
+  .cover-kpi-val {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem; color: var(--white);
+    display: block; line-height: 1;
+  }
+  .cover-kpi-lbl {
+    font-size: 10px; color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em; margin-top: 6px;
+    text-transform: uppercase;
+  }
+  .cover-kpi-sep { width: 1px; background: rgba(200,146,42,0.3); }
+
+  /* ─── SLIDE CONTENT WRAPPER ─── */
+  .slide-inner {
+    max-width: 1200px; margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+  }
+  .slide-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 2.5rem; padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .slide-eyebrow {
+    font-size: 10px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .slide-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    color: var(--navy);
+  }
+  .slide-num {
+    font-size: 48px; font-weight: 700;
+    color: rgba(26,36,86,0.07);
+    font-family: 'DM Serif Display', serif;
+    line-height: 1;
+  }
+
+  /* Light slides */
+  .slide-light { background: var(--cream); }
+  .slide-light .slide-inner { }
+
+  /* Dark slides */
+  .slide-dark { background: #0e1228; }
+  .slide-dark .slide-title { color: var(--white); }
+  .slide-dark .slide-header { border-bottom-color: rgba(255,255,255,0.1); }
+  .slide-dark .slide-num { color: rgba(255,255,255,0.05); }
+
+  /* ─── KPI CARDS ─── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem; margin-bottom: 2rem;
+  }
+  .kpi-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.25rem 1.5rem;
+    position: relative; overflow: hidden;
+  }
+  .kpi-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; width: 3px; height: 100%;
+  }
+  .kpi-card.navy::before { background: var(--navy); }
+  .kpi-card.gold::before { background: var(--gold); }
+  .kpi-card.green::before { background: var(--green); }
+  .kpi-card.red::before { background: var(--red); }
+  .kpi-label { font-size: 10px; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .kpi-value { font-family: 'DM Serif Display', serif; font-size: 1.9rem; color: var(--navy); line-height: 1; }
+  .kpi-value.small { font-size: 1.4rem; }
+  .kpi-sub { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .kpi-delta {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 2px 7px; border-radius: 2px; margin-top: 6px;
+  }
+  .kpi-delta.up { background: var(--green-light); color: var(--green); }
+  .kpi-delta.down { background: var(--red-light); color: var(--red); }
+
+  /* ─── DARK KPI CARDS ─── */
+  .kpi-card.dark {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .kpi-card.dark .kpi-label { color: rgba(255,255,255,0.4); }
+  .kpi-card.dark .kpi-value { color: var(--white); }
+  .kpi-card.dark .kpi-sub { color: rgba(255,255,255,0.4); }
+  .kpi-card.dark::before { opacity: 0.8; }
+
+  /* ─── TABLES ─── */
+  .fin-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px; margin-bottom: 1.5rem;
+  }
+  .fin-table th {
+    background: var(--navy); color: var(--white);
+    padding: 10px 14px; text-align: right; font-weight: 500;
+    font-size: 11px; letter-spacing: 0.05em;
+  }
+  .fin-table th:first-child { text-align: left; }
+  .fin-table td {
+    padding: 9px 14px; text-align: right;
+    border-bottom: 1px solid var(--cream-dark);
+    color: var(--text);
+  }
+  .fin-table td:first-child { text-align: left; color: var(--muted); }
+  .fin-table tr:hover td { background: rgba(26,36,86,0.03); }
+  .fin-table .section-head td {
+    background: rgba(26,36,86,0.06); font-weight: 600;
+    color: var(--navy); border-top: 1px solid var(--border);
+  }
+  .fin-table .total-row td {
+    background: var(--navy); color: var(--white);
+    font-weight: 600; font-size: 14px; border: none;
+  }
+  .fin-table .sub-total td {
+    background: rgba(200,146,42,0.08);
+    font-weight: 600; color: var(--navy);
+    border-top: 1.5px solid var(--gold);
+  }
+  .fin-table .highlight-row td {
+    background: rgba(30,102,68,0.06); color: var(--green); font-weight: 600;
+  }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
+
+  /* ─── CHART CONTAINERS ─── */
+  .chart-wrap {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .chart-title {
+    font-size: 12px; font-weight: 600; color: var(--navy);
+    letter-spacing: 0.05em; margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  @media (max-width: 700px) { .chart-grid { grid-template-columns: 1fr; } }
+
+  /* ─── TWO COL LAYOUT ─── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+  @media (max-width: 900px) { .three-col { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .three-col { grid-template-columns: 1fr; } }
+
+  /* ─── SECTION LABELS ─── */
+  .section-label {
+    font-size: 10px; letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 10px; font-weight: 600;
+  }
+  .card {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 4px; padding: 1.5rem;
+  }
+  .card-title {
+    font-size: 13px; font-weight: 600; color: var(--navy);
+    margin-bottom: 1rem; padding-bottom: 8px;
+    border-bottom: 1px solid var(--cream-dark);
+  }
+
+  /* ─── INSIGHT BOXES ─── */
+  .insight {
+    border-left: 3px solid var(--gold);
+    background: rgba(200,146,42,0.06);
+    padding: 0.75rem 1rem; margin-bottom: 1rem;
+    border-radius: 0 4px 4px 0;
+    font-size: 12.5px; line-height: 1.6; color: var(--text);
+  }
+  .insight strong { color: var(--navy); }
+  .insight.warn {
+    border-left-color: var(--red);
+    background: rgba(184,48,48,0.05);
+  }
+  .insight.good {
+    border-left-color: var(--green);
+    background: rgba(30,102,68,0.05);
+  }
+
+  /* ─── PROPERTY TABLE ─── */
+  .prop-table {
+    width: 100%; font-size: 12px; border-collapse: collapse;
+  }
+  .prop-table th {
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); padding: 6px 10px; text-align: right;
+    border-bottom: 1px solid var(--border); font-weight: 500;
+  }
+  .prop-table th:first-child { text-align: left; }
+  .prop-table td {
+    padding: 7px 10px; text-align: right;
+    border-bottom: 1px solid rgba(212,207,194,0.5);
+    color: var(--text);
+  }
+  .prop-table td:first-child { text-align: left; color: var(--navy); font-weight: 500; }
+  .prop-table tr:hover td { background: rgba(26,36,86,0.03); }
+  .prop-badge {
+    display: inline-block; font-size: 9px; padding: 1px 6px;
+    border-radius: 2px; font-weight: 600; letter-spacing: 0.05em;
+  }
+  .badge-ok { background: var(--green-light); color: var(--green); }
+  .badge-warn { background: rgba(200,146,42,0.15); color: #7a5010; }
+
+  /* ─── RATIO BAR ─── */
+  .ratio-bar { height: 6px; background: var(--cream-dark); border-radius: 3px; overflow: hidden; }
+  .ratio-fill { height: 100%; border-radius: 3px; transition: width 0.8s ease; }
+
+  /* ─── YEAR BADGE ─── */
+  .year-pill {
+    display: inline-block; font-size: 10px; font-weight: 600;
+    padding: 3px 10px; border-radius: 12px; letter-spacing: 0.05em;
+  }
+  .pill-2022 { background: rgba(26,36,86,0.1); color: var(--navy); }
+  .pill-2023 { background: rgba(26,58,153,0.12); color: var(--navy-light); }
+  .pill-2024 { background: rgba(200,146,42,0.15); color: #6b4a10; }
+  .pill-2025 { background: rgba(30,102,68,0.12); color: var(--green); }
+
+  /* ─── TREND ARROW ─── */
+  .trend-up::after { content: ' ↑'; color: var(--green); font-size: 11px; }
+  .trend-down::after { content: ' ↓'; color: var(--red); font-size: 11px; }
+
+  /* ─── DARK CHART WRAP ─── */
+  .chart-wrap.dark {
+    background: rgba(255,255,255,0.03);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .chart-wrap.dark .chart-title { color: rgba(255,255,255,0.7); }
+
+  /* ─── FOOTNOTE ─── */
+  .footnote {
+    font-size: 10px; color: var(--muted);
+    padding-top: 0.5rem; line-height: 1.6;
+    border-top: 1px solid var(--cream-dark);
+    margin-top: 0.5rem;
+  }
+
+  /* ─── SCROLL ─── */
+  .scroll-hint {
+    text-align: center; padding: 0.5rem;
+    font-size: 10px; color: var(--muted); letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+  <div class="nav-brand">三海 Financial Report</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showSlide(0)">表紙</div>
+    <div class="nav-tab" onclick="showSlide(1)">損益推移</div>
+    <div class="nav-tab" onclick="showSlide(2)">収益明細</div>
+    <div class="nav-tab" onclick="showSlide(3)">貸借対照表</div>
+    <div class="nav-tab" onclick="showSlide(4)">財務健全性</div>
+    <div class="nav-tab" onclick="showSlide(5)">2025上半期</div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 0: COVER -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide active" id="slide-cover">
+  <div class="cover-grid"></div>
+  <div class="cover-accent"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">Financial Report</div>
+    <div class="cover-title">有限会社 三海</div>
+    <div class="cover-sub">財務分析レポート</div>
+    <div class="cover-period">2022年度 ── 2025年上半期</div>
+    <div class="cover-kpis">
+      <div class="cover-kpi">
+        <span class="cover-kpi-val">39.0億</span>
+        <span class="cover-kpi-lbl">2024年末 総資産</span>
+      </div>
+      <div class="cover-kpi-sep"></div>
+      <div class="cover-kpi">
+        <span class="cover-kpi-val">3.89億</span>
+        <span class="cover-kpi-lbl">2024年 売上高</span>
+      </div>
+      <div class="cover-kpi-sep"></div>
+      <div class="cover-kpi">
+        <span class="cover-kpi-val">6.72億</span>
+        <span class="cover-kpi-lbl">2024年 当期純利益</span>
+      </div>
+      <div class="cover-kpi-sep"></div>
+      <div class="cover-kpi">
+        <span class="cover-kpi-val">22.4%</span>
+        <span class="cover-kpi-lbl">2024年末 自己資本比率</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 1: 損益推移 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide slide-light" id="slide-1">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div>
+        <div class="slide-eyebrow">Profit & Loss</div>
+        <div class="slide-title">損益計算書 推移（2022–2024年）</div>
+      </div>
+      <div class="slide-num">01</div>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card navy">
+        <div class="kpi-label">売上高（2024年）</div>
+        <div class="kpi-value small">389,908,450円</div>
+        <div class="kpi-sub">約3億9,000万</div>
+        <div class="kpi-delta down">前年比 −0.03%</div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">営業利益（2024年）</div>
+        <div class="kpi-value small">132,916,170円</div>
+        <div class="kpi-sub">営業利益率 34.1%</div>
+        <div class="kpi-delta up">前年比 +5.1%</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">当期純利益（2024年）</div>
+        <div class="kpi-value small">67,159,399円</div>
+        <div class="kpi-sub">純利益率 17.2%</div>
+        <div class="kpi-delta up">前年比 +14.2%</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">累計繰越利益（2024年末）</div>
+        <div class="kpi-value small">732,800,108円</div>
+        <div class="kpi-sub">約7.3億円</div>
+        <div class="kpi-delta up">3年連続増加</div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="chart-grid">
+      <div class="chart-wrap">
+        <div class="chart-title">売上高・営業利益・当期純利益（万円）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-pl"></canvas>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">利益率推移（%）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-margin"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th style="width:30%">科目</th>
+          <th>2022年度</th>
+          <th>2023年度</th>
+          <th>2024年度</th>
+          <th>2025年上半期</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-head"><td colspan="5">収益</td></tr>
+        <tr><td>売上高</td><td>397,762,327</td><td>390,006,607</td><td>389,908,450</td><td>200,483,233</td></tr>
+        <tr class="sub-total"><td>売上総利益</td><td>397,762,327</td><td>390,006,607</td><td>389,908,450</td><td>200,483,233</td></tr>
+        <tr class="section-head"><td colspan="5">費用</td></tr>
+        <tr><td>　役員報酬</td><td>9,260,000</td><td>8,160,000</td><td>8,160,000</td><td>4,080,000</td></tr>
+        <tr><td>　修繕費</td><td>36,167,872</td><td>64,766,153</td><td>62,703,095</td><td>20,284,720</td></tr>
+        <tr><td>　租税公課</td><td>25,954,796</td><td>23,179,300</td><td>21,334,750</td><td>10,598,500</td></tr>
+        <tr><td>　減価償却費</td><td>118,035,783</td><td>115,618,773</td><td>110,822,884</td><td>54,873,784</td></tr>
+        <tr><td>　支払手数料</td><td>13,201,378</td><td>9,699,258</td><td>11,000,954</td><td>6,175,910</td></tr>
+        <tr><td>　管理手数料</td><td>10,668,137</td><td>11,576,539</td><td>11,448,183</td><td>5,958,650</td></tr>
+        <tr><td>　水道光熱費</td><td>13,936,708</td><td>14,823,546</td><td>14,095,728</td><td>7,623,903</td></tr>
+        <tr><td>　保険料</td><td>3,842,439</td><td>4,400,049</td><td>5,147,264</td><td>1,188,387</td></tr>
+        <tr class="sub-total"><td>販管費合計</td><td>244,609,535</td><td>263,575,946</td><td>256,992,280</td><td>117,640,644</td></tr>
+        <tr class="highlight-row"><td>営業利益</td><td class="pos">153,152,792</td><td class="pos">126,430,661</td><td class="pos">132,916,170</td><td class="pos">82,842,589</td></tr>
+        <tr><td>　支払利息</td><td>41,033,023</td><td>38,764,721</td><td>36,537,941</td><td>17,529,897</td></tr>
+        <tr><td>　社債利息</td><td>753,042</td><td>1,577,559</td><td>1,529,592</td><td>746,808</td></tr>
+        <tr class="sub-total"><td>経常利益</td><td class="pos">107,225,641</td><td class="pos">80,197,062</td><td class="pos">91,921,501</td><td class="pos">64,916,934</td></tr>
+        <tr><td>法人税等</td><td>39,046,236</td><td>26,088,029</td><td>34,582,555</td><td>21,956,932</td></tr>
+        <tr class="total-row"><td>当期純利益</td><td>75,959,705</td><td>58,798,994</td><td>67,159,399</td><td>43,621,784</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight">
+      <strong>修繕費の急増（2022→2023）：</strong>2022年3,617万から2023年6,477万（+79%）へ急増。2024年は6,270万と高水準を維持。大規模修繕投資が継続中。
+    </div>
+    <div class="insight good">
+      <strong>支払利息の逓減：</strong>借入返済の進行により支払利息が4,103万（2022）→3,654万（2024）と11%減少。財務コスト改善が継続。
+    </div>
+    <div class="footnote">※ 単位：円。2025年上半期は1〜6月の6ヶ月累計。減価償却費は当期発生額のみ記載（期首繰越は除外）。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 2: 収益明細（物件別） -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide slide-light" id="slide-2">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div>
+        <div class="slide-eyebrow">Revenue Breakdown</div>
+        <div class="slide-title">物件別・収益源別 売上明細</div>
+      </div>
+      <div class="slide-num">02</div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-wrap">
+        <div class="chart-title">2024年 収益構成比（円グラフ）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-pie"></canvas>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">主要物件 売上推移（万円）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-prop"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <table class="prop-table">
+      <thead>
+        <tr>
+          <th>物件名</th>
+          <th>エリア</th>
+          <th>2022年</th>
+          <th>2023年</th>
+          <th>2024年</th>
+          <th>2025上半期</th>
+          <th>傾向</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>シーサイドパレスⅠ</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>28,905,364</td><td>27,032,891</td><td>26,424,229</td><td>14,788,353</td><td class="neg trend-down"></td></tr>
+        <tr><td>シーサイドパレスⅡ</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>29,840,828</td><td>28,911,076</td><td>28,941,607</td><td>13,862,854</td><td class="pos trend-up"></td></tr>
+        <tr><td>オーシャンパレスⅠ5・6階</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>23,936,719</td><td>19,754,406</td><td>23,993,449</td><td>12,332,073</td><td class="pos trend-up"></td></tr>
+        <tr><td>オーシャンパレスⅡ</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>38,324,125</td><td>40,702,237</td><td>38,193,517</td><td>22,068,497</td><td class="neg trend-down"></td></tr>
+        <tr><td>オーシャンパレスⅢ8階</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>10,862,115</td><td>7,504,953</td><td>8,183,431</td><td>4,778,291</td><td class="pos trend-up"></td></tr>
+        <tr><td>オーシャンパレスⅣ8階801</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>3,869,544</td><td>5,658,334</td><td>5,858,302</td><td>3,040,516</td><td class="pos trend-up"></td></tr>
+        <tr style="border-top:2px solid var(--gold)"><td>二条GCビル</td><td><span class="prop-badge badge-warn">札幌</span></td><td>27,070,451</td><td>26,396,454</td><td>27,563,354</td><td>13,736,582</td><td class="pos trend-up"></td></tr>
+        <tr><td>アムール平岸</td><td><span class="prop-badge badge-warn">札幌</span></td><td>33,038,328</td><td>32,592,825</td><td>32,636,590</td><td>16,477,516</td><td class="pos">→</td></tr>
+        <tr><td>アルピナハイム</td><td><span class="prop-badge badge-warn">札幌</span></td><td>17,490,298</td><td>17,556,496</td><td>17,487,753</td><td>9,040,098</td><td class="pos">→</td></tr>
+        <tr><td>SKグレース</td><td><span class="prop-badge badge-warn">札幌</span></td><td>15,720,326</td><td>15,491,597</td><td>16,151,545</td><td>8,445,718</td><td class="pos trend-up"></td></tr>
+        <tr><td>ブランシャール西線14条</td><td><span class="prop-badge badge-warn">札幌</span></td><td>1,876,464</td><td>13,728,000</td><td>13,393,391</td><td>6,553,080</td><td class="pos">→</td></tr>
+        <tr><td>レクザ山鼻</td><td><span class="prop-badge badge-warn">札幌</span></td><td>10,522,030</td><td>10,282,496</td><td>10,154,244</td><td>5,540,236</td><td class="neg trend-down"></td></tr>
+        <tr><td>広木マンション</td><td><span class="prop-badge badge-warn">札幌</span></td><td>13,233,476</td><td>12,993,497</td><td>10,555,260</td><td>5,645,686</td><td class="neg trend-down"></td></tr>
+        <tr><td>バチコイ</td><td><span class="prop-badge badge-warn">札幌</span></td><td>10,380,084</td><td>10,465,921</td><td>10,626,774</td><td>5,289,762</td><td class="pos trend-up"></td></tr>
+        <tr><td>ファーストレート</td><td><span class="prop-badge badge-warn">札幌</span></td><td>6,265,610</td><td>6,290,400</td><td>6,200,768</td><td>3,048,384</td><td class="pos">→</td></tr>
+        <tr><td>ファーストプレイス</td><td><span class="prop-badge badge-warn">札幌</span></td><td>7,057,896</td><td>7,045,957</td><td>6,918,949</td><td>3,384,322</td><td class="neg trend-down"></td></tr>
+        <tr><td>パレス札幌1</td><td><span class="prop-badge badge-warn">札幌</span></td><td>11,484,870</td><td>11,777,820</td><td>11,406,430</td><td>5,642,640</td><td class="pos">→</td></tr>
+        <tr style="border-top:2px solid var(--gold)"><td>売電収入（八女）</td><td><span class="prop-badge" style="background:rgba(30,100,68,0.1);color:#1e5a3a">福岡</span></td><td>85,044,600</td><td>73,639,484</td><td>73,796,512</td><td>36,649,982</td><td class="pos">→</td></tr>
+        <tr><td>売電収入（沖縄）</td><td><span class="prop-badge badge-ok">沖縄</span></td><td>9,434,276</td><td>9,514,877</td><td>8,398,145</td><td>3,577,774</td><td class="neg trend-down"></td></tr>
+        <tr style="background:rgba(26,36,86,0.04);font-weight:600">
+          <td>合計</td><td></td>
+          <td>397,762,327</td><td>390,006,607</td><td>389,908,450</td><td>200,483,233</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="insight warn">
+      <strong>売電収入（八女）の依存リスク：</strong>2022年8,504万→2023年7,364万（−13.5%）と減少。売上全体の約19%を占める単一収益源の変動が収益を大きく左右する。
+    </div>
+    <div class="insight">
+      <strong>ブランシャール西線14条の急成長：</strong>2022年187万→2023年1,373万（+633%）。新規満室稼働の効果。以降は安定。
+    </div>
+    <div class="footnote">※ 単位：円。沖縄物件=米軍向け賃貸。札幌物件=日本人向け賃貸。礼金収入は省略。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 3: 貸借対照表 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide slide-light" id="slide-3">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div>
+        <div class="slide-eyebrow">Balance Sheet</div>
+        <div class="slide-title">貸借対照表 推移（2022–2025上半期）</div>
+      </div>
+      <div class="slide-num">03</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card navy">
+        <div class="kpi-label">総資産（2024年末）</div>
+        <div class="kpi-value">32.9億</div>
+        <div class="kpi-sub">3,292,384,761円</div>
+        <div class="kpi-delta up">前年比 +0.1%</div>
+      </div>
+      <div class="kpi-card gold">
+        <div class="kpi-label">純資産（2024年末）</div>
+        <div class="kpi-value">7.4億</div>
+        <div class="kpi-sub">735,800,108円</div>
+        <div class="kpi-delta up">前年比 +10.1%</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-label">自己資本比率（2024年末）</div>
+        <div class="kpi-value">22.4%</div>
+        <div class="kpi-sub">（2022年: 18.0%）</div>
+        <div class="kpi-delta up">4.4pt改善</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-label">有利子負債（2024年末）</div>
+        <div class="kpi-value">24.5億</div>
+        <div class="kpi-sub">長期借入2,055M＋社債396M</div>
+        <div class="kpi-delta down">借入残1,993M（2025上期末）</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-wrap">
+        <div class="chart-title">総資産・純資産・有利子負債 推移（億円）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-bs"></canvas>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <div class="chart-title">資産構成比（2024年末）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-asset-mix"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- BS Table -->
+    <table class="fin-table">
+      <thead>
+        <tr>
+          <th>科目</th>
+          <th>2022年末</th>
+          <th>2023年末</th>
+          <th>2024年末</th>
+          <th>2025年6月末</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="section-head"><td colspan="5">資産の部</td></tr>
+        <tr><td>　現金・預金</td><td>163,465,134</td><td>155,256,053</td><td>197,068,589</td><td>217,771,379</td></tr>
+        <tr><td>　未収入金・立替金</td><td>362,033,133</td><td>365,015,823</td><td>367,580,814</td><td>369,519,309</td></tr>
+        <tr class="sub-total"><td>流動資産合計</td><td>525,498,267</td><td>520,271,876</td><td>564,649,403</td><td>587,290,688</td></tr>
+        <tr><td>　建物</td><td>1,444,931,099</td><td>1,414,957,041</td><td>1,374,607,697</td><td>1,346,318,359</td></tr>
+        <tr><td>　機械装置</td><td>365,065,517</td><td>321,634,252</td><td>282,952,685</td><td>265,706,520</td></tr>
+        <tr><td>　土地</td><td>951,828,615</td><td>951,828,615</td><td>951,828,615</td><td>951,828,615</td></tr>
+        <tr class="sub-total"><td>固定資産合計</td><td>2,866,289,515</td><td>2,768,958,641</td><td>2,727,735,358</td><td>2,694,592,234</td></tr>
+        <tr class="total-row"><td>資産合計</td><td>3,391,787,782</td><td>3,289,230,517</td><td>3,292,384,761</td><td>3,281,882,922</td></tr>
+        <tr class="section-head"><td colspan="5">負債の部</td></tr>
+        <tr><td>　流動負債合計</td><td>31,528,950</td><td>11,972,747</td><td>28,032,546</td><td>38,296,037</td></tr>
+        <tr><td>　長期借入金</td><td>2,306,133,926</td><td>2,179,709,104</td><td>2,055,186,200</td><td>1,993,741,289</td></tr>
+        <tr><td>　社債</td><td>422,082,000</td><td>408,804,000</td><td>395,526,000</td><td>388,887,000</td></tr>
+        <tr><td>　役員等長期借入金</td><td>2,436,234</td><td>0</td><td>57,536,250</td><td>61,271,147</td></tr>
+        <tr><td>　敷金預り金</td><td>19,764,957</td><td>20,103,957</td><td>20,303,657</td><td>20,265,557</td></tr>
+        <tr class="sub-total"><td>固定負債合計</td><td>2,750,417,117</td><td>2,608,617,061</td><td>2,528,552,107</td><td>2,464,164,993</td></tr>
+        <tr class="total-row"><td>負債合計</td><td>2,781,946,067</td><td>2,620,589,808</td><td>2,556,584,653</td><td>2,502,461,030</td></tr>
+        <tr class="section-head"><td colspan="5">純資産の部</td></tr>
+        <tr><td>　資本金</td><td>3,000,000</td><td>3,000,000</td><td>3,000,000</td><td>3,000,000</td></tr>
+        <tr><td>　繰越利益剰余金</td><td>606,841,715</td><td>665,640,709</td><td>732,800,108</td><td>776,421,892</td></tr>
+        <tr class="total-row"><td>純資産合計</td><td>609,841,715</td><td>668,640,709</td><td>735,800,108</td><td>779,421,892</td></tr>
+      </tbody>
+    </table>
+
+    <div class="insight good">
+      <strong>長期借入金の着実な返済：</strong>2022年末2,306M→2024年末2,055M→2025年6月末1,994M。3年半で約3.12億円（312百万円）の圧縮（−13.5%）。年間約1.25億円ペースで返済継続中。
+    </div>
+    <div class="insight">
+      <strong>繰越利益の蓄積：</strong>繰越利益剰余金が6億600万円（2022年末）→6億6,564万円（2023年末）→7億3,280万円（2024年末）→7億7,642万円（2025年6月末）へ。毎年の利益が純資産を積み上げ、自己資本比率の改善に寄与。
+    </div>
+    <div class="footnote">※ 単位：円。2025年6月末は財務報告書による。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 4: 財務健全性分析 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide slide-light" id="slide-4">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div>
+        <div class="slide-eyebrow">Financial Health</div>
+        <div class="slide-title">財務健全性・主要指標分析</div>
+      </div>
+      <div class="slide-num">04</div>
+    </div>
+
+    <!-- Ratio cards -->
+    <div class="three-col">
+      <div class="card">
+        <div class="section-label">自己資本比率</div>
+        <div style="margin-bottom:12px">
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+            <tr><td style="padding:4px 0;color:var(--muted)">2022年末</td><td style="text-align:right;font-weight:600">18.0%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2023年末</td><td style="text-align:right;font-weight:600">20.3%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2024年末</td><td style="text-align:right;font-weight:600;color:var(--green)">22.4%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2025年6月末</td><td style="text-align:right;font-weight:600;color:var(--green)">23.7%</td></tr>
+          </table>
+        </div>
+        <div class="ratio-bar"><div class="ratio-fill" style="width:23.7%;background:var(--green)"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px">不動産業の目安: 20%超で健全</div>
+      </div>
+
+      <div class="card">
+        <div class="section-label">有利子負債 / 総資産</div>
+        <div style="margin-bottom:12px">
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+            <tr><td style="padding:4px 0;color:var(--muted)">2022年末</td><td style="text-align:right;font-weight:600">80.9%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2023年末</td><td style="text-align:right;font-weight:600">78.8%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2024年末</td><td style="text-align:right;font-weight:600;color:var(--gold)">76.0%</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2025年6月末</td><td style="text-align:right;font-weight:600;color:var(--gold)">73.8%</td></tr>
+          </table>
+        </div>
+        <div class="ratio-bar"><div class="ratio-fill" style="width:73.8%;background:var(--gold)"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px">不動産業の典型水準。逓減傾向は良好</div>
+      </div>
+
+      <div class="card">
+        <div class="section-label">インタレスト・カバレッジ比率</div>
+        <div style="margin-bottom:12px">
+          <table style="width:100%;font-size:12px;border-collapse:collapse">
+            <tr><td style="padding:4px 0;color:var(--muted)">2022年度</td><td style="text-align:right;font-weight:600">3.66倍</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2023年度</td><td style="text-align:right;font-weight:600">3.10倍</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2024年度</td><td style="text-align:right;font-weight:600;color:var(--green)">3.49倍</td></tr>
+            <tr><td style="padding:4px 0;color:var(--muted)">2025上半期</td><td style="text-align:right;font-weight:600;color:var(--green)">4.44倍</td></tr>
+          </table>
+        </div>
+        <div class="ratio-bar"><div class="ratio-fill" style="width:55%;background:var(--green)"></div></div>
+        <div style="font-size:10px;color:var(--muted);margin-top:6px">営業利益÷支払利息。2倍超で健全</div>
+      </div>
+    </div>
+
+    <!-- ROA/ROE -->
+    <div class="two-col" style="margin-bottom:1.5rem">
+      <div class="card">
+        <div class="card-title">収益性指標</div>
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <thead>
+            <tr style="background:var(--cream-dark)">
+              <th style="padding:7px;text-align:left;font-size:10px;letter-spacing:0.05em">指標</th>
+              <th style="padding:7px;text-align:right;font-size:10px">2022</th>
+              <th style="padding:7px;text-align:right;font-size:10px">2023</th>
+              <th style="padding:7px;text-align:right;font-size:10px">2024</th>
+              <th style="padding:7px;text-align:right;font-size:10px">2025上H</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:7px;color:var(--muted)">営業利益率</td>
+              <td style="padding:7px;text-align:right">38.5%</td>
+              <td style="padding:7px;text-align:right">32.4%</td>
+              <td style="padding:7px;text-align:right">34.1%</td>
+              <td style="padding:7px;text-align:right;color:var(--green);font-weight:600">41.3%</td>
+            </tr>
+            <tr style="background:var(--cream)">
+              <td style="padding:7px;color:var(--muted)">経常利益率</td>
+              <td style="padding:7px;text-align:right">27.0%</td>
+              <td style="padding:7px;text-align:right">20.6%</td>
+              <td style="padding:7px;text-align:right">23.6%</td>
+              <td style="padding:7px;text-align:right;color:var(--green);font-weight:600">32.4%</td>
+            </tr>
+            <tr>
+              <td style="padding:7px;color:var(--muted)">純利益率</td>
+              <td style="padding:7px;text-align:right">19.1%</td>
+              <td style="padding:7px;text-align:right">15.1%</td>
+              <td style="padding:7px;text-align:right">17.2%</td>
+              <td style="padding:7px;text-align:right;color:var(--green);font-weight:600">21.8%</td>
+            </tr>
+            <tr style="background:var(--cream)">
+              <td style="padding:7px;color:var(--muted)">ROA（純利益/総資産）</td>
+              <td style="padding:7px;text-align:right">2.2%</td>
+              <td style="padding:7px;text-align:right">1.8%</td>
+              <td style="padding:7px;text-align:right">2.0%</td>
+              <td style="padding:7px;text-align:right">—</td>
+            </tr>
+            <tr>
+              <td style="padding:7px;color:var(--muted)">ROE（純利益/純資産）</td>
+              <td style="padding:7px;text-align:right">12.5%</td>
+              <td style="padding:7px;text-align:right">8.8%</td>
+              <td style="padding:7px;text-align:right">9.1%</td>
+              <td style="padding:7px;text-align:right">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-title">費用構造 分析（2024年度）</div>
+        <div style="position:relative;height:220px">
+          <canvas id="chart-cost"></canvas>
+        </div>
+        <div style="font-size:10px;color:var(--muted);margin-top:8px">
+          減価償却費が販管費の43%を占める（実質キャッシュアウトを伴わない費用）
+        </div>
+      </div>
+    </div>
+
+    <div class="insight good">
+      <strong>2025上半期の収益性が突出：</strong>営業利益率41.3%・経常利益率32.4%は過去最高水準。修繕費が2,028万（2024年比−68%ペース）と低水準に留まっていることが主因。修繕費の年間計上タイミングに注意が必要。
+    </div>
+    <div class="insight warn">
+      <strong>修繕費変動リスク：</strong>2023年度の修繕費急増（6,477万）が経常利益を1億700万円→8,020万円へ圧縮した実績あり。今後の大規模修繕計画（沖縄外壁・群馬修繕）が2026〜2027年の収益を直撃する可能性。
+    </div>
+    <div class="footnote">※ ICR = 営業利益÷支払利息（社債利息含まず）。ROA・ROEは年度決算ベース。2025上半期は年換算せず実績値。</div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- SLIDE 5: 2025上半期 -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="slide slide-dark" id="slide-5">
+  <div class="slide-inner">
+    <div class="slide-header">
+      <div>
+        <div class="slide-eyebrow">2025 H1 Report</div>
+        <div class="slide-title" style="color:var(--white)">2025年上半期（1〜6月）実績</div>
+      </div>
+      <div class="slide-num">05</div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card dark navy">
+        <div class="kpi-label">売上高（6ヶ月）</div>
+        <div class="kpi-value">200,483,233</div>
+        <div class="kpi-sub">年換算 ≈ 4.0億</div>
+        <div class="kpi-delta up">前年比ペース +2.8%</div>
+      </div>
+      <div class="kpi-card dark gold">
+        <div class="kpi-label">営業利益（6ヶ月）</div>
+        <div class="kpi-value">82,842,589</div>
+        <div class="kpi-sub">営業利益率 41.3%</div>
+        <div class="kpi-delta up">前年上半期比 +大幅改善</div>
+      </div>
+      <div class="kpi-card dark green">
+        <div class="kpi-label">当期純利益（6ヶ月）</div>
+        <div class="kpi-value">43,621,784</div>
+        <div class="kpi-sub">純利益率 21.8%</div>
+        <div class="kpi-delta up">年換算 ≈ 8.7億ペース</div>
+      </div>
+      <div class="kpi-card dark red">
+        <div class="kpi-label">総資産（6月末）</div>
+        <div class="kpi-value">3,281,882,922</div>
+        <div class="kpi-sub">32.8億円</div>
+        <div class="kpi-delta down">前年末比 −0.3%</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-wrap dark">
+        <div class="chart-title">2025H1 収益源内訳（万円）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-2025rev"></canvas>
+        </div>
+      </div>
+      <div class="chart-wrap dark">
+        <div class="chart-title">2024年度 vs 2025H1（年換算比較）</div>
+        <div style="position:relative;height:260px">
+          <canvas id="chart-compare"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2025 PL Summary -->
+    <div class="two-col">
+      <div class="card" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.1)">
+        <div class="card-title" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.1)">損益サマリー（2025年1〜6月）</div>
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">純売上高</td><td style="text-align:right;padding:7px 0;color:white;border-bottom:1px solid rgba(255,255,255,0.06);font-weight:500">200,483,233</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">販管費合計</td><td style="text-align:right;padding:7px 0;color:rgba(255,200,100,0.9);border-bottom:1px solid rgba(255,255,255,0.06)">117,640,644</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">営業利益</td><td style="text-align:right;padding:7px 0;color:#5ecb8a;border-bottom:1px solid rgba(255,255,255,0.06);font-weight:600">82,842,589</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">　うち受取利息</td><td style="text-align:right;padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">2,798,716</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">　うち支払利息</td><td style="text-align:right;padding:7px 0;color:rgba(255,150,150,0.8);border-bottom:1px solid rgba(255,255,255,0.06)">17,529,897</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">経常利益</td><td style="text-align:right;padding:7px 0;color:#5ecb8a;border-bottom:1px solid rgba(255,255,255,0.06);font-weight:600">64,916,934</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">法人税等</td><td style="text-align:right;padding:7px 0;color:rgba(255,150,150,0.8);border-bottom:1px solid rgba(255,255,255,0.06)">21,956,932</td></tr>
+          <tr><td style="padding:7px 0;color:white;font-weight:600">当期純利益</td><td style="text-align:right;padding:7px 0;color:#5ecb8a;font-weight:700;font-size:14px">43,621,784</td></tr>
+        </table>
+      </div>
+
+      <div class="card" style="background:rgba(255,255,255,0.04);border-color:rgba(255,255,255,0.1)">
+        <div class="card-title" style="color:rgba(255,255,255,0.7);border-color:rgba(255,255,255,0.1)">貸借対照表サマリー（2025年6月末）</div>
+        <table style="width:100%;font-size:12px;border-collapse:collapse">
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">現金・預金</td><td style="text-align:right;padding:7px 0;color:white;border-bottom:1px solid rgba(255,255,255,0.06)">217,771,379</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">流動資産合計</td><td style="text-align:right;padding:7px 0;color:white;border-bottom:1px solid rgba(255,255,255,0.06)">587,290,688</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">固定資産合計</td><td style="text-align:right;padding:7px 0;color:white;border-bottom:1px solid rgba(255,255,255,0.06)">2,694,592,234</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">資産合計</td><td style="text-align:right;padding:7px 0;color:rgba(200,184,74,0.9);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06)">3,281,882,922</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">長期借入金</td><td style="text-align:right;padding:7px 0;color:rgba(255,150,150,0.8);border-bottom:1px solid rgba(255,255,255,0.06)">1,993,741,289</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">社債</td><td style="text-align:right;padding:7px 0;color:rgba(255,150,150,0.8);border-bottom:1px solid rgba(255,255,255,0.06)">388,887,000</td></tr>
+          <tr><td style="padding:7px 0;color:rgba(255,255,255,0.5);border-bottom:1px solid rgba(255,255,255,0.06)">負債合計</td><td style="text-align:right;padding:7px 0;color:rgba(255,150,150,0.8);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06)">2,502,461,030</td></tr>
+          <tr><td style="padding:7px 0;color:white;font-weight:600">純資産合計</td><td style="text-align:right;padding:7px 0;color:#5ecb8a;font-weight:700;font-size:14px">779,421,892</td></tr>
+        </table>
+        <div style="margin-top:12px;font-size:11px">
+          <span style="color:rgba(255,255,255,0.4)">自己資本比率：</span>
+          <span style="color:#5ecb8a;font-weight:600;font-size:14px">23.7%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight" style="border-left-color:var(--gold-light);background:rgba(200,146,42,0.1)">
+      <span style="color:var(--gold-light)"><strong>2025上半期ハイライト：</strong></span>
+      <span style="color:rgba(255,255,255,0.8)">売電収入（八女）が6ヶ月で3,665万と年間ペース維持。修繕費が上半期2,028万と低水準（2024年通年比−68%ペース）で営業利益率が41%台に改善。後半の修繕費発生次第で年度着地が変動する点に注意。</span>
+    </div>
+    <div class="footnote" style="border-color:rgba(255,255,255,0.1);color:rgba(255,255,255,0.35)">
+      ※ 財務報告書（令和7年6月30日現在）より。単位：円。
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- CHARTS INITIALIZATION -->
+<!-- ═══════════════════════════════════════════ -->
+<script>
+// ── Helpers ──
+const fmt = v => (v/10000).toFixed(0)+'万';
+const fmtOku = v => (v/100000000).toFixed(2)+'億';
+
+// ── Color sets ──
+const NAVY = '#1a2456', NAVY_MID = '#2a3a7a', GOLD = '#c8922a', GOLD_L = '#e8b84a';
+const GREEN = '#1e6644', RED = '#b83030', MUTED = '#8090b0';
+const gridColor = 'rgba(0,0,0,0.06)';
+const gridColorDark = 'rgba(255,255,255,0.08)';
+
+const baseOpts = (darkMode = false) => ({
+  responsive: true, maintainAspectRatio: false,
+  plugins: {
+    legend: { display: false },
+    tooltip: { backgroundColor: darkMode ? '#1a2456' : '#fff',
+               titleColor: darkMode ? '#fff' : '#1a2456',
+               bodyColor: darkMode ? 'rgba(255,255,255,0.7)' : '#5a6080',
+               borderColor: darkMode ? 'rgba(255,255,255,0.1)' : '#ddd', borderWidth: 1 }
+  },
+  scales: {
+    x: { grid: { color: darkMode ? gridColorDark : gridColor },
+         ticks: { color: darkMode ? 'rgba(255,255,255,0.5)' : '#8090b0', font: { size: 11 } } },
+    y: { grid: { color: darkMode ? gridColorDark : gridColor },
+         ticks: { color: darkMode ? 'rgba(255,255,255,0.5)' : '#8090b0', font: { size: 11 } } }
+  }
+});
+
+// ── Chart 1: P&L Bar ──
+new Chart(document.getElementById('chart-pl'), {
+  type: 'bar',
+  data: {
+    labels: ['2022年', '2023年', '2024年', '2025年上半期'],
+    datasets: [
+      { label: '売上高', data: [39776, 39001, 38991, 20048], backgroundColor: NAVY, borderRadius: 2 },
+      { label: '営業利益', data: [15315, 12643, 13292, 8284], backgroundColor: GOLD, borderRadius: 2 },
+      { label: '当期純利益', data: [7596, 5880, 6716, 4362], backgroundColor: GREEN, borderRadius: 2 },
+    ]
+  },
+  options: { ...baseOpts(), plugins: {
+    ...baseOpts().plugins,
+    legend: { display: true, labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 12 } }
+  }}
+});
+
+// ── Chart 2: Margin ──
+new Chart(document.getElementById('chart-margin'), {
+  type: 'line',
+  data: {
+    labels: ['2022年', '2023年', '2024年', '2025年上半期'],
+    datasets: [
+      { label: '営業利益率', data: [38.5, 32.4, 34.1, 41.3], borderColor: GOLD, backgroundColor: 'rgba(200,146,42,0.1)', tension: 0.4, pointRadius: 5, fill: true },
+      { label: '経常利益率', data: [27.0, 20.6, 23.6, 32.4], borderColor: NAVY_MID, backgroundColor: 'rgba(42,58,122,0.08)', tension: 0.4, pointRadius: 5, fill: true },
+      { label: '純利益率', data: [19.1, 15.1, 17.2, 21.8], borderColor: GREEN, backgroundColor: 'rgba(30,102,68,0.08)', tension: 0.4, pointRadius: 5, fill: true },
+    ]
+  },
+  options: { ...baseOpts(), plugins: {
+    ...baseOpts().plugins,
+    legend: { display: true, labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 12 } }
+  }}
+});
+
+// ── Chart 3: Pie 2024 revenue ──
+new Chart(document.getElementById('chart-pie'), {
+  type: 'doughnut',
+  data: {
+    labels: ['沖縄（米軍賃貸）', '札幌（日本人賃貸）', '売電（八女）', '売電（沖縄）'],
+    datasets: [{
+      data: [11470, 17267, 7380, 840],
+      backgroundColor: [NAVY, NAVY_MID, GOLD, GOLD_L],
+      borderWidth: 2, borderColor: '#f8f5ee'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 10 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toLocaleString()}万円 (${((ctx.parsed/38991)*100).toFixed(1)}%)` } }
+    }
+  }
+});
+
+// ── Chart 4: Top properties bar ──
+new Chart(document.getElementById('chart-prop'), {
+  type: 'bar',
+  data: {
+    labels: ['アムール平岸', 'OP-Ⅱ', 'SKグレース', '二条GCビル', 'アルピナ', '売電(八女)'],
+    datasets: [
+      { label: '2022', data: [3304, 3832, 1572, 2707, 1749, 8504], backgroundColor: 'rgba(26,36,86,0.5)', borderRadius: 1 },
+      { label: '2023', data: [3259, 4070, 1549, 2640, 1756, 7364], backgroundColor: 'rgba(26,58,153,0.5)', borderRadius: 1 },
+      { label: '2024', data: [3264, 3819, 1615, 2756, 1749, 7380], backgroundColor: GOLD, borderRadius: 1 },
+    ]
+  },
+  options: { ...baseOpts(), plugins: {
+    ...baseOpts().plugins,
+    legend: { display: true, labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 10 } }
+  }, scales: { ...baseOpts().scales, x: { ...baseOpts().scales.x, ticks: { ...baseOpts().scales.x.ticks, font: { size: 9 } } } } }
+});
+
+// ── Chart 5: BS line ──
+new Chart(document.getElementById('chart-bs'), {
+  type: 'line',
+  data: {
+    labels: ['2022年末', '2023年末', '2024年末', '2025年6月末'],
+    datasets: [
+      { label: '総資産', data: [33.92, 32.89, 32.92, 32.82], borderColor: NAVY, backgroundColor: 'rgba(26,36,86,0.06)', tension: 0.3, fill: true, pointRadius: 5 },
+      { label: '純資産', data: [6.10, 6.69, 7.36, 7.79], borderColor: GREEN, backgroundColor: 'rgba(30,102,68,0.08)', tension: 0.3, fill: true, pointRadius: 5 },
+      { label: '有利子負債', data: [27.36, 25.88, 25.09, 24.43], borderColor: RED, backgroundColor: 'rgba(184,48,48,0.06)', tension: 0.3, fill: true, pointRadius: 5 },
+    ]
+  },
+  options: { ...baseOpts(), plugins: {
+    ...baseOpts().plugins,
+    legend: { display: true, labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 12 } }
+  }, scales: { ...baseOpts().scales, y: { ...baseOpts().scales.y, ticks: { ...baseOpts().scales.y.ticks, callback: v => v+'億' } } } }
+});
+
+// ── Chart 6: Asset mix doughnut ──
+new Chart(document.getElementById('chart-asset-mix'), {
+  type: 'doughnut',
+  data: {
+    labels: ['建物', '土地', '機械装置', '現金・預金', '未収入金等', 'その他'],
+    datasets: [{
+      data: [41.75, 28.91, 8.59, 5.99, 11.16, 3.60],
+      backgroundColor: [NAVY, NAVY_MID, '#3a5faa', GOLD, GOLD_L, MUTED],
+      borderWidth: 2, borderColor: '#f8f5ee'
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'bottom', labels: { color: '#5a6080', font: { size: 10 }, boxWidth: 10, padding: 8 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed.toFixed(1)}%` } }
+    }
+  }
+});
+
+// ── Chart 7: Cost breakdown 2024 ──
+new Chart(document.getElementById('chart-cost'), {
+  type: 'bar',
+  data: {
+    labels: ['減価償却', '修繕費', '租税公課', '水道光熱', '支払手数料', '管理手数料', '保険料', '人件費'],
+    datasets: [{
+      data: [11082, 6270, 2133, 1410, 1100, 1145, 515, 1009],
+      backgroundColor: [NAVY, RED, GOLD, GOLD_L, '#3a5faa', '#4a6fbf', MUTED, '#2a4a9a'],
+      borderRadius: 2
+    }]
+  },
+  options: { ...baseOpts(), indexAxis: 'y',
+    scales: {
+      x: { ...baseOpts().scales.x, ticks: { ...baseOpts().scales.x.ticks, callback: v => v+'万' } },
+      y: { ...baseOpts().scales.y, ticks: { ...baseOpts().scales.y.ticks, font: { size: 10 } } }
+    }
+  }
+});
+
+// ── Chart 8: 2025H1 revenue breakdown ──
+new Chart(document.getElementById('chart-2025rev'), {
+  type: 'bar',
+  data: {
+    labels: ['OP-Ⅱ', 'アムール平岸', 'SP-Ⅱ', '売電(八女)', '二条GCビル', 'アルピナ', 'SP-Ⅰ', 'SKグレース', 'ブランシャール', 'アムール平岸2'],
+    datasets: [{
+      data: [2207, 1648, 1386, 3665, 1374, 904, 1479, 845, 655, 564],
+      backgroundColor: [NAVY, NAVY_MID, '#3a5faa', GOLD, '#4a6fbf', '#2a4a9a', '#1a3a80', '#3a50b0', '#5060c0', '#6070d0'],
+      borderRadius: 2
+    }]
+  },
+  options: { ...baseOpts(true),
+    scales: {
+      x: { ...baseOpts(true).scales.x, ticks: { ...baseOpts(true).scales.x.ticks, font: { size: 9 } } },
+      y: { ...baseOpts(true).scales.y, ticks: { ...baseOpts(true).scales.y.ticks, callback: v => v+'万' } }
+    }
+  }
+});
+
+// ── Chart 9: 2024 vs 2025H1×2 ──
+new Chart(document.getElementById('chart-compare'), {
+  type: 'bar',
+  data: {
+    labels: ['売上高', '営業利益', '経常利益', '当期純利益'],
+    datasets: [
+      { label: '2024年（実績）', data: [38991, 13292, 9192, 6716], backgroundColor: NAVY, borderRadius: 2 },
+      { label: '2025年（上半期×2 年換算）', data: [40097, 16569, 12984, 8724], backgroundColor: GOLD, borderRadius: 2 },
+    ]
+  },
+  options: { ...baseOpts(true),
+    plugins: { ...baseOpts(true).plugins,
+      legend: { display: true, labels: { color: 'rgba(255,255,255,0.6)', font: { size: 10 }, boxWidth: 10, padding: 12 } }
+    },
+    scales: { ...baseOpts(true).scales, y: { ...baseOpts(true).scales.y, ticks: { ...baseOpts(true).scales.y.ticks, callback: v => v+'万' } } }
+  }
+});
+
+// ── Slide navigation ──
+const slides = document.querySelectorAll('.slide');
+const tabs = document.querySelectorAll('.nav-tab');
+
+function showSlide(idx) {
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  tabs.forEach((t, i) => t.classList.toggle('active', i === idx));
+  window.scrollTo(0, 0);
+}
+</script>
+
+</body>
+</html>

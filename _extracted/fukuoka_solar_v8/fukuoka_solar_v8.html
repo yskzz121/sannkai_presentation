@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福岡 太陽光売電事業 収益分析 v2｜有限会社 三海</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+  :root{--navy:#0D1B3E;--gold:#C8952A;--gold2:#E8B84B;--cream:#F5F0E8;--red:#C0392B;--green:#1A7A4A;--teal:#0E6673;--slate:#8A9BB5;--white:#FFFFFF;--light:#EDF1F8;--amber:#D97706;--solar:#F59E0B;--solar2:#FCD34D;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--navy);}
+  .sc{max-width:1280px;margin:0 auto;padding:20px;display:flex;flex-direction:column;gap:24px;}
+  .slide{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;border-radius:4px;box-shadow:0 8px 40px rgba(13,27,62,0.25);}
+  .sh{position:absolute;top:0;left:0;right:0;height:13%;background:var(--navy);display:flex;align-items:center;padding:0 4%;gap:14px;}
+  .hbar{width:4px;height:55%;background:var(--gold);border-radius:2px;}
+  .ht{font-size:clamp(12px,1.8vw,22px);font-weight:700;color:var(--white);letter-spacing:0.05em;}
+  .hb{margin-left:auto;font-size:clamp(7px,0.85vw,11px);color:var(--gold2);letter-spacing:0.15em;font-weight:500;}
+  .sp{position:absolute;bottom:2%;right:4%;font-size:clamp(7px,0.75vw,9px);font-family:'DM Mono',monospace;color:var(--slate);}
+  .sl{position:absolute;bottom:2%;left:4%;font-size:clamp(7px,0.75vw,9px);font-family:'DM Mono',monospace;color:var(--slate);letter-spacing:0.1em;}
+  .src{display:inline-block;font-size:clamp(5px,0.58vw,7.5px);background:rgba(14,102,115,0.12);color:var(--teal);padding:1px 5px;border-radius:2px;font-weight:700;margin-left:4px;vertical-align:middle;}
+
+  /* SLIDE 1 KPI */
+  .s1b{position:absolute;top:13%;left:2.5%;right:2.5%;bottom:5%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:1.5%;padding:1.5% 0;}
+  .kc{background:var(--white);border-radius:4px;border-top:3px solid var(--gold);padding:3.5% 4.5%;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 2px 12px rgba(13,27,62,0.08);}
+  .kl{font-size:clamp(6.5px,0.76vw,10px);font-weight:700;color:var(--slate);letter-spacing:0.1em;margin-bottom:1%;}
+  .kv{font-family:'Bebas Neue',sans-serif;font-size:clamp(26px,3.8vw,54px);line-height:1;}
+  .ku{font-size:clamp(7px,0.8vw,11px);font-weight:500;color:var(--slate);margin-top:2%;}
+  .ks{font-size:clamp(6px,0.67vw,9px);color:var(--slate);margin-top:2%;line-height:1.45;}
+
+  /* SLIDE 2 */
+  .s2b{position:absolute;top:13%;left:2.5%;right:2.5%;bottom:5%;display:grid;grid-template-columns:3fr 2fr;gap:2%;padding:1.5% 0;}
+  .pnl{background:var(--white);border-radius:4px;padding:3% 4%;box-shadow:0 2px 12px rgba(13,27,62,0.08);display:flex;flex-direction:column;}
+  .pt{font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--navy);border-left:3px solid var(--gold);padding-left:8px;margin-bottom:3%;flex-shrink:0;}
+  .bch{flex:1;display:flex;flex-direction:column;justify-content:space-evenly;}
+  .bgl{font-size:clamp(6.5px,0.73vw,9.5px);font-weight:700;color:var(--navy);margin-bottom:1%;padding-bottom:0.5%;border-bottom:1px solid var(--light);}
+  .br{display:flex;align-items:center;gap:2%;margin-bottom:1%;}
+  .bl{width:22%;font-size:clamp(6px,0.67vw,9px);color:var(--slate);flex-shrink:0;line-height:1.3;}
+  .bt{flex:1;height:clamp(12px,1.45vw,20px);background:var(--light);border-radius:2px;position:relative;overflow:visible;}
+  .bf{height:100%;border-radius:2px;}
+  .bv{position:absolute;right:-38%;top:50%;transform:translateY(-50%);font-size:clamp(6.5px,0.72vw,9.5px);font-family:'DM Mono',monospace;font-weight:600;white-space:nowrap;color:var(--navy);}
+  .bleg{display:flex;gap:6%;margin-top:2%;flex-shrink:0;}
+  .bli{display:flex;align-items:center;gap:4px;font-size:clamp(6px,0.65vw,8.5px);color:var(--slate);}
+  .bld{width:9px;height:7px;border-radius:1px;flex-shrink:0;}
+  .rc{display:flex;flex-direction:column;gap:2%;}
+  .pr{display:flex;justify-content:space-between;align-items:center;padding:2% 0;border-bottom:1px solid var(--light);gap:4px;}
+  .pr:last-child{border-bottom:none;}
+  .pn{font-size:clamp(6.5px,0.73vw,9.5px);color:var(--navy);line-height:1.3;}
+  .pa{font-family:'DM Mono',monospace;font-size:clamp(7px,0.8vw,10.5px);font-weight:600;white-space:nowrap;flex-shrink:0;}
+  .ptot{background:rgba(13,27,62,0.04);padding:2% 3%;border-radius:2px;margin:1% 0;border-bottom:none;}
+  .ptot .pn{font-weight:700;}
+  .ptot .pa{font-size:clamp(8px,0.92vw,12px);}
+  .ib{background:rgba(200,149,42,0.07);border-left:3px solid var(--gold);border-radius:2px;padding:3% 4%;}
+  .it{font-size:clamp(7px,0.8vw,10px);font-weight:700;color:var(--amber);letter-spacing:0.08em;margin-bottom:2%;}
+  .ix{font-size:clamp(6.5px,0.72vw,9.5px);color:var(--navy);line-height:1.5;}
+
+  /* SLIDE 3 */
+  .s3b{position:absolute;top:13%;left:2.5%;right:2.5%;bottom:5%;display:grid;grid-template-columns:3fr 2fr;gap:2%;padding:1.5% 0;}
+  .tlp{display:flex;flex-direction:column;gap:2%;}
+  .tlb{background:var(--white);border-radius:4px;padding:3% 4%;box-shadow:0 2px 12px rgba(13,27,62,0.08);}
+  .tlt{font-size:clamp(7.5px,0.88vw,11.5px);font-weight:700;color:var(--navy);margin-bottom:2%;border-bottom:1px solid var(--light);padding-bottom:1.5%;}
+  .tlo{height:clamp(18px,2.2vw,32px);background:var(--light);border-radius:3px;position:relative;overflow:visible;margin-bottom:1.5%;}
+  .tlf{position:absolute;top:0;height:100%;border-radius:3px 0 0 3px;}
+  .tlr{position:absolute;top:0;height:100%;border-radius:0 3px 3px 0;}
+  .tli{position:absolute;top:50%;transform:translateY(-50%);font-size:clamp(5.5px,0.63vw,8.5px);font-weight:700;color:var(--white);white-space:nowrap;padding:0 4px;}
+  .tltd{position:absolute;width:2px;background:var(--red);top:-25%;bottom:-15%;z-index:3;}
+  .tltg{position:absolute;top:-32%;left:3px;font-size:clamp(5px,0.58vw,7.5px);color:var(--red);font-weight:700;white-space:nowrap;}
+  .tle{display:flex;justify-content:space-between;font-size:clamp(5.5px,0.62vw,8px);color:var(--slate);font-family:'DM Mono',monospace;}
+  .tleg{display:flex;gap:6%;margin-top:2%;}
+  .tll{display:flex;align-items:center;gap:5px;font-size:clamp(6px,0.65vw,8.5px);color:var(--slate);}
+  .tld{width:10px;height:8px;border-radius:1px;flex-shrink:0;}
+  .kb{background:rgba(245,158,11,0.08);border-left:3px solid var(--solar);border-radius:2px;padding:3% 4%;}
+  .kt{font-size:clamp(7px,0.82vw,11px);font-weight:700;color:var(--amber);margin-bottom:1.5%;}
+  .kx{font-size:clamp(6.5px,0.72vw,9.5px);line-height:1.55;color:var(--navy);}
+  .ld2{background:var(--white);border-radius:4px;padding:3% 4%;box-shadow:0 2px 12px rgba(13,27,62,0.08);display:flex;flex-direction:column;gap:2%;}
+  .ldt{font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--navy);border-left:3px solid var(--navy);padding-left:8px;margin-bottom:1%;}
+  .ldg{display:grid;grid-template-columns:1fr 1fr;gap:2%;}
+  .ldi{background:var(--light);border-radius:3px;padding:3% 4%;}
+  .ldil{font-size:clamp(6px,0.68vw,9px);color:var(--slate);margin-bottom:2%;}
+  .ldiv{font-family:'DM Mono',monospace;font-weight:700;font-size:clamp(9px,1.1vw,16px);color:var(--navy);}
+  .dw{background:var(--light);border-radius:3px;padding:3% 4%;}
+  .dl{font-size:clamp(6.5px,0.72vw,9.5px);color:var(--slate);margin-bottom:2%;}
+  .dtr{height:clamp(14px,1.6vw,24px);background:rgba(13,27,62,0.1);border-radius:2px;position:relative;overflow:hidden;}
+  .dd{height:100%;position:absolute;left:0;top:0;background:linear-gradient(90deg,var(--green),#28A868);}
+  .dr{height:100%;position:absolute;top:0;background:linear-gradient(90deg,#2A4A8C,var(--navy));}
+  .din{position:absolute;top:50%;transform:translateY(-50%);font-size:clamp(5.5px,0.63vw,8.5px);font-weight:700;color:var(--white);padding-left:4px;}
+  .dn{font-size:clamp(5.5px,0.62vw,8px);color:var(--slate);margin-top:1.5%;}
+  .cb{background:rgba(13,27,62,0.04);border-radius:3px;padding:3%;}
+  .cx{font-size:clamp(6.5px,0.72vw,9.5px);color:var(--navy);line-height:1.6;}
+
+  /* SLIDE 4 */
+  .s4b{position:absolute;top:13%;left:2.5%;right:2.5%;bottom:8%;display:grid;grid-template-columns:1fr 1fr;gap:2%;padding:1.5% 0;}
+  .dp{border-radius:4px;padding:3% 4%;display:flex;flex-direction:column;gap:1.5%;box-shadow:0 2px 12px rgba(13,27,62,0.08);}
+  .dph{background:rgba(26,122,74,0.04);border:1.5px solid var(--green);}
+  .dps{background:rgba(192,57,43,0.04);border:1.5px solid var(--red);}
+  .dh{display:flex;align-items:center;gap:8px;}
+  .di{font-size:clamp(14px,1.7vw,22px);}
+  .dtl{font-size:clamp(9px,1.05vw,14px);font-weight:700;}
+  .dtl.g{color:var(--green);} .dtl.r{color:var(--red);}
+  .dnpv{background:rgba(13,27,62,0.04);border-radius:3px;padding:2% 3%;display:flex;justify-content:space-between;align-items:center;}
+  .dnl{font-size:clamp(6.5px,0.72vw,9.5px);color:var(--slate);}
+  .dnv{font-family:'DM Mono',monospace;font-weight:700;font-size:clamp(11px,1.3vw,18px);}
+  .dpts{list-style:none;flex:1;display:flex;flex-direction:column;justify-content:space-evenly;}
+  .dpt{display:flex;gap:2.5%;align-items:flex-start;padding:1.5% 0;border-bottom:1px solid rgba(13,27,62,0.06);font-size:clamp(6.5px,0.73vw,9.5px);line-height:1.4;}
+  .dpt:last-child{border-bottom:none;}
+  .db{flex-shrink:0;font-size:clamp(7px,0.8vw,10px);}
+  .vd{position:absolute;bottom:2.5%;left:50%;transform:translateX(-50%);background:var(--navy);color:var(--white);border-radius:3px;padding:1.2% 4%;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(13,27,62,0.3);white-space:nowrap;}
+  .vi{color:var(--gold2);font-size:clamp(10px,1.2vw,16px);}
+  .vm{font-size:clamp(7px,0.82vw,11px);font-weight:700;letter-spacing:0.04em;}
+  .vs{font-size:clamp(6px,0.68vw,9px);color:var(--slate);}
+
+  /* SLIDE 5 */
+  .s5b{position:absolute;top:13%;left:2.5%;right:2.5%;bottom:5%;display:grid;grid-template-columns:repeat(3,1fr);gap:2%;padding:1.5% 0;}
+  .ac{background:var(--white);border-radius:4px;padding:3.5% 4%;box-shadow:0 2px 12px rgba(13,27,62,0.08);border-top:3px solid var(--gold);display:flex;flex-direction:column;gap:2%;}
+  .acr{border-top-color:var(--red);}
+  .acb{border-top-color:var(--teal);}
+  .acg{border-top-color:var(--green);}
+  .ach{display:inline-block;font-size:clamp(5.5px,0.62vw,8px);font-weight:700;padding:2px 6px;border-radius:2px;margin-bottom:2%;}
+  .chr{background:rgba(192,57,43,0.1);color:var(--red);}
+  .chb{background:rgba(14,102,115,0.1);color:var(--teal);}
+  .chg{background:rgba(26,122,74,0.1);color:var(--green);}
+  .an{font-family:'Bebas Neue',sans-serif;font-size:clamp(18px,2.2vw,32px);line-height:1;}
+  .att{font-size:clamp(8px,0.9vw,12px);font-weight:700;color:var(--navy);line-height:1.35;}
+  .ab{font-size:clamp(6.5px,0.72vw,9.5px);color:var(--slate);line-height:1.5;flex:1;}
+  .afx{font-size:clamp(6.5px,0.73vw,9.5px);font-weight:700;margin-top:auto;padding-top:2%;border-top:1px solid var(--light);}
+</style>
+</head>
+<body>
+<div class="sc">
+
+<!-- SLIDE 1 -->
+<div class="slide" style="background:var(--white);">
+  <div class="sh"><div class="hbar"></div><div class="ht">福岡・八女 太陽光売電事業 ─ 概要サマリー</div><div class="hb">FUKUOKA SOLAR PV — BUSINESS OVERVIEW</div></div>
+  <div class="s1b">
+    <div class="kc" style="border-top-color:var(--solar);">
+      <div class="kl">年間売電収益<span class="src">損益計算書</span></div>
+      <div class="kv" style="color:var(--solar);">7,330</div>
+      <div class="ku">万円 / 年（FIT単価 38円/kWh）</div>
+      <div class="ks">R7上期（6ヶ月）実績：3,665万 × 2<br>年間発電量：約193万kWh<br>全社売上の約18.5%を占める単一収入源</div>
+    </div>
+    <div class="kc" style="border-top-color:var(--navy);">
+      <div class="kl">FIT残存期間<span class="src">返済予定表</span></div>
+      <div style="display:flex;align-items:flex-end;gap:3%;"><div class="kv">11.4</div><div style="font-size:clamp(9px,1.1vw,15px);font-weight:700;color:var(--navy);padding-bottom:3%;">年</div></div>
+      <div class="ku">FIT満了：2037年8月（2026年3月時点）</div>
+      <div class="ks">FIT単価38円 → 満了後は市場価格（8〜12円）へ<br>収益は満了後、約▲70〜80%減の見込み<br>出口戦略の策定が中期計画の最重要課題</div>
+    </div>
+    <div class="kc" style="border-top-color:var(--red);">
+      <div class="kl">借入残債<span class="src">返済予定表</span></div>
+      <div class="kv" style="color:var(--red);">4.85億</div>
+      <div class="ku">円（2026年3月時点）</div>
+      <div class="ks">融資実行：2017年9月 / 金利1.4%（固定）<br>完済予定：2037年8月（FIT満了と同月）<br>FIT収益でローンを完済する設計が2037年に完結</div>
+    </div>
+    <div class="kc" style="border-top-color:var(--amber);">
+      <div class="kl">年間元利返済額<span class="src">返済予定表</span></div>
+      <div class="kv" style="color:var(--amber);">4,250</div>
+      <div class="ku">万円 / 年（月354.2万 × 12ヶ月）</div>
+      <div class="ks">売電収益7,330万に対する返済比率：58%<br>返済後ネットCF（費用控除後）：約2,430万/年<br>安定したキャッシュ創出力を維持</div>
+    </div>
+    <div class="kc" style="border-top-color:var(--red);">
+      <div class="kl">火災保険料（現状）</div>
+      <div class="kv" style="color:var(--red);">500</div>
+      <div class="ku">万円 / 年（数年前比で増加）</div>
+      <div class="ks">粗利益率：91.2%（保険・管理費控除後）<br>保険急騰により粗利益率が悪化傾向<br>ブローカー活用で▲100〜200万/年の削減余地あり</div>
+    </div>
+    <div class="kc" style="border-top-color:var(--teal);">
+      <div class="kl">FIT後（2038年〜）収益見通し</div>
+      <div class="kv" style="color:var(--teal);font-size:clamp(18px,2.4vw,34px);">要出口戦略</div>
+      <div class="ku">FIT終了後は売電単価が市場価格に移行</div>
+      <div class="ks">市場価格8〜12円/kWhなら年収益：約1,500〜2,200万<br>ローンは完済済 → 固定費のみで黒字継続可能<br>売却 or 継続のNPV比較を2028年までに策定</div>
+    </div>
+  </div>
+  <div class="sp">01 / 04</div><div class="sl">SANKAI — FUKUOKA SOLAR PV ANALYSIS</div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" style="background:var(--white);">
+  <div class="sh"><div class="hbar"></div><div class="ht">FIT残存期間・ローン返済スケジュール ─ 連動構造の把握</div><div class="hb">FIT REMAINING / LOAN SCHEDULE</div></div>
+  <div class="s3b">
+    <div class="tlp">
+      <div class="tlb">
+        <div class="tlt">■ FIT売電期間（認定2017年 / 単価38円/kWh / 20年間：〜2037年8月）</div>
+        <div class="tlo">
+          <div class="tlf" style="width:43%;background:linear-gradient(90deg,rgba(245,158,11,0.35),rgba(252,211,77,0.35));border-radius:3px 0 0 3px;"></div>
+          <div class="tlr" style="left:43%;width:57%;background:linear-gradient(90deg,var(--solar),var(--solar2));border-radius:0 3px 3px 0;"></div>
+          <div class="tltd" style="left:43%;"></div><div class="tltg" style="left:44%;">現在 2026.3</div>
+          <div class="tli" style="left:2%;">経過 約8.5年</div>
+          <div class="tli" style="left:50%;">残存 約11.4年</div>
+        </div>
+        <div class="tle"><span>2017年9月（認定開始）</span><span style="color:var(--red);">▶ 現在</span><span>2037年8月（満了）</span></div>
+      </div>
+      <div class="tlb">
+        <div class="tlt">■ ローン返済期間（融資約8.5億 / 金利1.4%固定 / 240回：〜2037年8月）</div>
+        <div class="tlo">
+          <div class="tlf" style="width:43%;background:linear-gradient(90deg,var(--green),#28A868);opacity:0.75;border-radius:3px 0 0 3px;"></div>
+          <div class="tlr" style="left:43%;width:57%;background:linear-gradient(90deg,#2A4A8C,var(--navy));border-radius:0 3px 3px 0;"></div>
+          <div class="tltd" style="left:43%;"></div>
+          <div class="tli" style="left:2%;">返済済 約4,000万</div>
+          <div class="tli" style="left:47%;">残債 約4.85億</div>
+        </div>
+        <div class="tle"><span>2017年9月（融資実行）</span><span style="color:var(--red);">▶ 現在</span><span>2037年8月（完済）</span></div>
+        <div class="tleg" style="margin-top:2%;">
+          <div class="tll"><div class="tld" style="background:var(--solar);"></div>FIT有効</div>
+          <div class="tll"><div class="tld" style="background:var(--navy);"></div>ローン残債</div>
+          <div class="tll"><div class="tld" style="background:var(--green);"></div>返済済み</div>
+          <div class="tll"><div class="tld" style="background:var(--red);width:4px;"></div>現在（2026年3月）</div>
+        </div>
+      </div>
+      <div class="kb">
+        <div class="kt">🔑 FITとローンの連動構造（最重要認識）</div>
+        <div class="kx">FIT満了（2037年8月）とローン完済（2037年8月）が<strong>同月に集中</strong>。「FIT高単価38円の収益でローンを完済する」設計が2037年に完結する。この転換点を迎える前に、<strong>2028年中に売却／継続運用のNPV比較判断</strong>を完了させることが中期経営計画上の必須アクション。FIT残存年数が多いほど売却価格は高く、判断の先送りは機会損失につながる。</div>
+      </div>
+    </div>
+    <div class="ld2">
+      <div class="ldt">ローン詳細（返済予定表より）</div>
+      <div class="ldg">
+        <div class="ldi"><div class="ldil">融資金額</div><div class="ldiv">約8.5億円</div></div>
+        <div class="ldi"><div class="ldil">金利（固定）</div><div class="ldiv">1.4%</div></div>
+        <div class="ldi"><div class="ldil">返済方法</div><div class="ldiv" style="font-size:clamp(8px,0.9vw,13px);">元利均等・月払</div></div>
+        <div class="ldi"><div class="ldil">返済回数</div><div class="ldiv">240回</div></div>
+        <div class="ldi"><div class="ldil">月次返済額</div><div class="ldiv" style="color:var(--amber);">354.2万円</div></div>
+        <div class="ldi"><div class="ldil">完済予定</div><div class="ldiv" style="color:var(--green);font-size:clamp(8px,0.9vw,13px);">2037年8月</div></div>
+      </div>
+      <div class="dw">
+        <div class="dl">返済進捗（元金ベース概算）</div>
+        <div class="dtr">
+          <div class="dd" style="width:43%;"></div>
+          <div class="dr" style="left:43%;width:57%;"></div>
+          <div class="din" style="left:1%;">済 約4,000万</div>
+          <div class="din" style="left:44%;">残 約4.85億（57%）</div>
+        </div>
+        <div class="dn">※融資約8.5億のうち元金約4,000万を返済済み（推計）</div>
+      </div>
+      <div class="cb">
+        <div class="cx">
+          <strong>📌 FIT残存11.4年の累積収益見込（税前）</strong><br>
+          売電収益：7,330万 × 11.4年 ≒ <strong style="color:var(--teal);">8.35億円</strong><br>
+          元利返済：4,250万 × 11.4年 ≒ <strong style="color:var(--red);">4.84億円</strong><br>
+          費用（保険等）：650万 × 11.4年 ≒ <strong style="color:var(--red);">0.74億円</strong><br>
+          差引ネットCF累計：<strong style="color:var(--green);">約2.77億円</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sp">02 / 04</div><div class="sl">SANKAI — FUKUOKA SOLAR PV ANALYSIS</div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" style="background:var(--light);">
+  <div class="sh"><div class="hbar"></div><div class="ht">保有継続 vs 売却検討 ─ 経営判断マトリクス</div><div class="hb">HOLD vs. SELL — DECISION MATRIX</div></div>
+  <div class="s4b">
+    <div class="dp dph">
+      <div class="dh"><div class="di">🏗️</div><div class="dtl g">【A案】保有継続</div></div>
+      <div class="dnpv"><div class="dnl">FIT残存11.4年 累積ネットCF（税前概算）</div><div class="dnv" style="color:var(--green);">＋2.77億円</div></div>
+      <ul class="dpts">
+        <li class="dpt"><span class="db" style="color:var(--green);">✓</span><span><strong>安定CF：</strong>FIT単価38円が2037年まで保証。年2,430万のネットCFは予測精度が高く、沖縄・札幌の修繕費積立に活用できる。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--green);">✓</span><span><strong>空室・退去リスクゼロ：</strong>太陽光は賃貸と異なり退去・修繕リスクがない。天候依存はあるが実績発電量に基づく予測精度は高い。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--green);">✓</span><span><strong>ローン完済後の資産化：</strong>2037年以降はローン負担がなくなる。市場売電8〜12円でも年1,500〜2,200万の収益継続が可能。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--amber);">△</span><span><strong>課題①：保険料：</strong>現行500万/年が粗利益率（91.2%）を圧迫。ブローカー活用で▲100〜200万/年の削減が急務。3年累積最大600万節減。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--amber);">△</span><span><strong>課題②：FIT後リスク：</strong>2037年以降は収益が▲70〜80%減。2028年までにPPA・自家消費・継続・売却のNPV比較シナリオを設計すること。</span></li>
+      </ul>
+    </div>
+    <div class="dp dps">
+      <div class="dh"><div class="di">💴</div><div class="dtl r">【B案】売却検討</div></div>
+      <div class="dnpv"><div class="dnl">売却手取り（残債4.85億控除後）</div><div class="dnv" style="color:var(--red);">要市場査定</div></div>
+      <ul class="dpts">
+        <li class="dpt"><span class="db" style="color:var(--red);">!</span><span><strong>残債4.85億が前提条件：</strong>売却価格が残債4.85億を上回らないと手残りゼロ。FIT付き太陽光の市場価格はFIT残存年数に比例して下落するため早期査定が不可欠。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--amber);">△</span><span><strong>売却が合理的な条件：</strong>① 残債4.85億超の売却価格 ② 売却益を沖縄・札幌の高利回り案件に再投資できる場合のみ経済合理性あり。条件なき売却は年7,330万収益源の喪失。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--amber);">△</span><span><strong>最適売却タイミング：</strong>FIT残存年数が多いほど高値。<strong>残存5〜7年時（2030〜2032年頃）</strong>に売却するシナリオが最も高値を取れる可能性が高い。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--red);">!</span><span><strong>全社収益への影響：</strong>福岡売電は全社売上の18.5%。売却後に年7,330万の収益源が消失。代替収益源なしでは全社CF計画が大きく狂う。</span></li>
+        <li class="dpt"><span class="db" style="color:var(--amber);">△</span><span><strong>現時点の結論：</strong>市場査定なしの売却判断は不合理。まず<strong>FIT付き太陽光専門業者への査定依頼</strong>を実施し、保有NPV（2.77億）と比較することが先決。</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="vd">
+    <span class="vi">🎯</span>
+    <div>
+      <div class="vm">現時点の推奨：保有継続 ＋ 火災保険最適化（即実行）＋ FIT後出口戦略の策定（2028年まで）</div>
+      <div class="vs">売却検討は「FIT付き太陽光専門業者への市場査定」実施後、保有NPV（2.77億）と定量比較したうえで判断する</div>
+    </div>
+  </div>
+  <div class="sp">03 / 04</div><div class="sl">SANKAI — FUKUOKA SOLAR PV ANALYSIS</div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide" style="background:var(--white);">
+  <div class="sh"><div class="hbar"></div><div class="ht">福岡 太陽光事業 ─ 3つの経営アクション</div><div class="hb">ACTION PLAN 2026–2028</div></div>
+  <div class="s5b">
+    <div class="ac acr">
+      <div class="ach chr">即実行 2026年上期</div>
+      <div class="an" style="color:var(--red);">01</div>
+      <div class="att">火災保険の見直し<br>─ ブローカー一括見積依頼</div>
+      <div class="ab">現行500万/年の火災保険を損害保険ブローカー経由で複数社に同時見積もり依頼。FIT設備向け専門ブローカーへの相談が最短ルート。<br><br>見直しのポイント：<br>・再調達価格をFIT残存期間に合わせた金額へ適正化<br>・時価評価型 → 実損払い型への切替も検討<br>・補償過剰部分（オーバーインシュアランス）の解消<br><br>見積取得のみなら費用ゼロ・リスクなし。即着手可能。</div>
+      <div class="afx" style="color:var(--red);">期待効果：▲100〜200万/年（3年計：最大▲600万）<br>粗利益率：91.2% → 93〜94%へ改善</div>
+    </div>
+    <div class="ac acb">
+      <div class="ach chb">2026年中に着手</div>
+      <div class="an" style="color:var(--teal);">02</div>
+      <div class="att">FIT付き太陽光専門業者への<br>売却価格査定依頼</div>
+      <div class="ab">保有継続を前提としつつ、現時点での市場売却価格を定量把握する。査定により「保有NPV 2.77億」との比較が可能になり、経営判断の根拠が整う。<br><br>確認すべき内容：<br>・FIT残存11.4年付きの現在市場価格<br>・残債4.85億控除後の手取り額<br>・最適売却タイミング（残存5〜7年時点の試算）<br><br>査定は無料。保有継続の意思決定の根拠にもなる。</div>
+      <div class="afx" style="color:var(--teal);">目的：「保有 vs 売却」の定量比較根拠を確立<br>判断期限：2026年末までに査定取得・方針確定</div>
+    </div>
+    <div class="ac acg">
+      <div class="ach chg">2027〜2028年 策定</div>
+      <div class="an" style="color:var(--green);">03</div>
+      <div class="att">FIT終了後（2037年〜）<br>出口戦略シナリオの設計</div>
+      <div class="ab">FIT満了2037年8月に向けた3シナリオのNPV比較を早期設計し、経営判断の精度を最大化する。<br><br>【シナリオA】残存5〜7年時（2030〜2032年）に売却<br>→ FIT価値を最大化した高値売却。売却益を次の投資に活用。<br><br>【シナリオB】FIT後も市場売電・PPAで継続運用<br>→ ローン完済後は年1,500〜2,200万の収益継続。設備更新コストの事前試算が必要。<br><br>【シナリオC】FIT満了直前（2035〜2036年）に売却<br>→ 設備残存価値での売却。最低価格になるリスクあり。</div>
+      <div class="afx" style="color:var(--green);">目的：場当たり的な出口判断から脱却し計画的判断を実現<br>策定期限：中計期間内（2028年まで）にシナリオ設計完了</div>
+    </div>
+  </div>
+  <div class="sp">04 / 04</div><div class="sl">SANKAI — FUKUOKA SOLAR PV ANALYSIS</div>
+</div>
+
+</div>
+</body>
+</html>

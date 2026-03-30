@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中期経営計画 — フレームワーク</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f6f2;
+    --bg-tertiary: #f0efe9;
+    --text-primary: #1a1a18;
+    --text-secondary: #5f5e5a;
+    --text-tertiary: #888780;
+    --border-tertiary: rgba(0,0,0,0.12);
+    --border-secondary: rgba(0,0,0,0.22);
+    --bg-warning: #fffbeb;
+    --border-warning: #f59e0b;
+    --text-warning: #92400e;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1c1c1a;
+      --bg-secondary: #252522;
+      --bg-tertiary: #2e2e2b;
+      --text-primary: #e8e6df;
+      --text-secondary: #a09e97;
+      --text-tertiary: #6b6966;
+      --border-tertiary: rgba(255,255,255,0.1);
+      --border-secondary: rgba(255,255,255,0.18);
+      --bg-warning: #2d2410;
+      --border-warning: #b45309;
+      --text-warning: #fcd34d;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Yu Gothic UI", "Segoe UI", sans-serif;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    padding: 32px 16px;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+  }
+
+  .layer-header {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-tertiary);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 20px 0 8px;
+  }
+
+  /* ─── カード（単体） ─── */
+  .section-card {
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: var(--bg-primary);
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 0 14px;
+    align-items: start;
+    cursor: default;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+
+  /* ─── グループカード（A/B 2枚横並び） ─── */
+  .section-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .section-card-half {
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    background: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: box-shadow 0.15s, border-color 0.15s;
+  }
+
+  /* ─── リンク付きカードのホバー ─── */
+  a.section-card,
+  a.section-card-half {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a.section-card:hover,
+  a.section-card-half:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    border-color: var(--border-secondary);
+  }
+
+  a.section-card:hover .section-title,
+  a.section-card-half:hover .section-title {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* ─── 未リンクカード（準備中） ─── */
+  .section-card.pending,
+  .section-card-half.pending {
+    opacity: 0.55;
+    cursor: default;
+  }
+
+  .pending-tag {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    border: 0.5px solid var(--border-tertiary);
+    border-radius: 20px;
+    padding: 2px 8px;
+    align-self: start;
+    white-space: nowrap;
+  }
+
+  /* ─── バッジ類 ─── */
+  .num-badge {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .base-num  { background: #EEEDFE; color: #3C3489; }
+  .dir-num   { background: #E1F5EE; color: #085041; }
+  .strat-num { background: #FAEEDA; color: #633806; }
+  .exec-num  { background: #FAECE7; color: #712B13; }
+
+  .num-badge-half {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .layer-pill {
+    font-size: 11px; font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    white-space: nowrap;
+    align-self: start;
+    margin-top: 2px;
+  }
+
+  .base-pill  { background: #EEEDFE; color: #3C3489; }
+  .dir-pill   { background: #E1F5EE; color: #085041; }
+  .strat-pill { background: #FAEEDA; color: #633806; }
+  .exec-pill  { background: #FAECE7; color: #712B13; }
+
+  .section-title {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-primary);
+    margin: 0 0 2px;
+  }
+
+  .section-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin: 0 0 6px;
+  }
+
+  .section-points {
+    margin: 0; padding-left: 14px;
+  }
+
+  .section-points li {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  /* half カード内の要素 */
+  .half-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .half-label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+  }
+
+  .half-pill {
+    font-size: 10px; font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+  }
+
+  .arrow-line {
+    width: 1px; height: 12px;
+    background: var(--border-secondary);
+    margin: 0 0 10px 18px;
+  }
+
+  /* グループの中の矢印（縦） */
+  .group-arrow {
+    width: 1px; height: 10px;
+    background: var(--border-secondary);
+    margin: 0 0 10px 18px;
+  }
+
+  .link-icon {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    align-self: start;
+    margin-top: 3px;
+  }
+
+  a.section-card:hover .link-icon,
+  a.section-card-half:hover .link-icon {
+    color: var(--text-secondary);
+  }
+
+  .warn-box {
+    border: 0.5px solid var(--border-warning);
+    background: var(--bg-warning);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text-warning);
+    margin-top: 16px;
+    line-height: 1.6;
+  }
+
+  .footer {
+    margin-top: 28px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+
+  @media (max-width: 480px) {
+    .section-group {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>中期経営計画 — フレームワーク</h1>
+  <p class="subtitle">有限会社三海 ／ 2026–2028　｜　項目をクリックすると詳細スライドへ移動します</p>
+
+  <!-- ══════════════════════════════════════ -->
+  <!--  序章                                  -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="layer-header">序章 — 会社紹介（Prologue）</div>
+
+  <!-- 0. 会社説明 -->
+  <a href="company_profile_intro_7.html" class="section-card">
+    <div class="num-badge" style="background:#F0F0F0;color:#444;">0</div>
+    <div>
+      <p class="section-title">会社説明</p>
+      <p class="section-sub">有限会社三海 ／ 設立背景・事業概要・代表自己紹介</p>
+      <ul class="section-points">
+        <li>会社設立の経緯と事業の全体像</li>
+        <li>代表取締役 自己紹介</li>
+        <li>本発表の目的と構成のご説明</li>
+      </ul>
+    </div>
+    <span class="layer-pill" style="background:#F0F0F0;color:#444;">序章</span>
+  </a>
+
+  <div class="arrow-line"></div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!--  Layer 1 — 基盤                        -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="layer-header">Layer 1 — 基盤（Why &amp; Where we stand）</div>
+
+  <!-- 1. 経営理念 -->
+  <a href="sankai_philosophy_v8.html" class="section-card">
+    <div class="num-badge base-num">1</div>
+    <div>
+      <p class="section-title">経営理念</p>
+      <p class="section-sub">ミッション・ビジョン・行動指針（バリュー）</p>
+      <ul class="section-points">
+        <li>なぜ三海が存在するか（ミッション）</li>
+        <li>2035年に目指す姿（ビジョン）</li>
+        <li>判断に迷ったときに戻る4つの原則（バリュー）</li>
+      </ul>
+    </div>
+    <span class="layer-pill base-pill">基盤</span>
+  </a>
+
+  <div class="arrow-line"></div>
+
+  <!-- 2. 財務分析 & 事業ポートフォリオ -->
+  <a href="三海_財務分析スライド_2022-2025H1.html" class="section-card">
+    <div class="num-badge base-num">2</div>
+    <div>
+      <p class="section-title">財務分析 &amp; 事業ポートフォリオ</p>
+      <p class="section-sub">2022–2025H1 財務推移・収益構造・資産全体像</p>
+      <ul class="section-points">
+        <li>売上・利益・自己資本比率の推移</li>
+        <li>物件別収益貢献度とポートフォリオ構成</li>
+        <li>有利子負債残高と返済スケジュール</li>
+      </ul>
+    </div>
+    <span class="layer-pill base-pill">基盤</span>
+  </a>
+
+  <!-- ══════════════════════════════════════ -->
+  <!--  Layer 2 — 方向性                      -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="layer-header">Layer 2 — 方向性（Where we operate）</div>
+
+  <!-- 3A / 3B — 沖縄 -->
+  <div class="section-group">
+    <a href="jigyobunya_slide_okinawa.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half base-num">3A</div>
+        <span class="half-label">沖縄</span>
+        <span class="half-pill base-pill">事業分野の定義</span>
+      </div>
+      <p class="section-title">事業分野の定義「沖縄」</p>
+      <p class="section-sub">物件概要・収益構造・3年後の目指す姿</p>
+      <ul class="section-points">
+        <li>保有物件一覧・稼働率・月次収益</li>
+        <li>賃料改定余地と収益最大化方針</li>
+        <li>民泊転換（北谷）の検討状況</li>
+      </ul>
+    </a>
+    <a href="okinawa_swot_competitive_slide.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half dir-num">3B</div>
+        <span class="half-label">沖縄</span>
+        <span class="half-pill dir-pill">SWOT分析</span>
+      </div>
+      <p class="section-title">沖縄のSWOT分析</p>
+      <p class="section-sub">市場環境・競合・クロスSWOT戦略</p>
+      <ul class="section-points">
+        <li>強み・弱み・機会・脅威の構造化</li>
+        <li>競合ポジショニングと差別化軸</li>
+        <li>SO / ST / WO / WT 交差戦略</li>
+      </ul>
+    </a>
+  </div>
+
+  <div class="arrow-line"></div>
+
+  <!-- 4A / 4B — 札幌 -->
+  <div class="section-group">
+    <a href="jigyobunya_slide_sapporo.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half base-num">4A</div>
+        <span class="half-label">札幌</span>
+        <span class="half-pill base-pill">事業分野の定義</span>
+      </div>
+      <p class="section-title">事業分野の定義「札幌」</p>
+      <p class="section-sub">物件概要・収益構造・3年後の目指す姿</p>
+      <ul class="section-points">
+        <li>主要7物件 + フォレスト15・8 概要</li>
+        <li>二条GCビルの収益構造と集中リスク</li>
+        <li>管理受託（波平氏・小渡家）の位置づけ</li>
+      </ul>
+    </a>
+    <a href="札幌_SWOT市場分析スライド.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half dir-num">4B</div>
+        <span class="half-label">札幌</span>
+        <span class="half-pill dir-pill">SWOT分析</span>
+      </div>
+      <p class="section-title">札幌のSWOT分析</p>
+      <p class="section-sub">市場環境・競合・クロスSWOT戦略</p>
+      <ul class="section-points">
+        <li>札幌家賃上昇トレンドと北海道新幹線効果</li>
+        <li>競合分析（築古・新築・フルリノベ）</li>
+        <li>駅近立地優位性の戦略的活用方針</li>
+      </ul>
+    </a>
+  </div>
+
+  <!-- ══════════════════════════════════════ -->
+  <!--  Layer 3 — 戦略                        -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="layer-header">Layer 3 — 戦略（How we expand）</div>
+
+  <!-- 5. 福岡 -->
+  <a href="fukuoka_solar_v8.html" class="section-card">
+    <div class="num-badge strat-num">5</div>
+    <div>
+      <p class="section-title">福岡の事業説明</p>
+      <p class="section-sub">太陽光売電事業 ／ 収益分析・投資回収シミュレーション</p>
+      <ul class="section-points">
+        <li>FIT単価・発電量・年間売電収益の実績</li>
+        <li>投資回収期間・NPV・IRR 試算</li>
+        <li>中期計画における位置づけと継続方針</li>
+      </ul>
+    </div>
+    <span class="layer-pill strat-pill">戦略</span>
+  </a>
+
+  <div class="arrow-line"></div>
+
+  <!-- 6. 群馬 -->
+  <a href="hiroki_mansion_analysisfinal.html" class="section-card">
+    <div class="num-badge strat-num">6</div>
+    <div>
+      <p class="section-title">群馬の事業説明</p>
+      <p class="section-sub">広木マンション ／ 収支分析・売却 vs 保有継続・出口戦略</p>
+      <ul class="section-points">
+        <li>物件概要・現状収支（月次・年次）</li>
+        <li>2シナリオ比較：売却 vs 保有継続（NPV・修繕費4,700万）</li>
+        <li>3年間収支予測・リスク整理と経営判断フレーム</li>
+      </ul>
+    </div>
+    <span class="layer-pill strat-pill">戦略</span>
+  </a>
+
+  <!-- ══════════════════════════════════════ -->
+  <!--  Layer 4 — 実行                        -->
+  <!-- ══════════════════════════════════════ -->
+  <div class="layer-header">Layer 4 — 実行（What we invest &amp; do）</div>
+
+  <!-- 7. 修繕投資計画 -->
+  <div class="section-group">
+    <a href="修繕計画スライド_2026-2028_v5.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half exec-num">7A</div>
+        <span class="half-label">修繕</span>
+        <span class="half-pill exec-pill">修繕投資計画</span>
+      </div>
+      <p class="section-title">修繕投資計画 2026–2028</p>
+      <p class="section-sub">年度別修繕費・優先順位・資金計画</p>
+      <ul class="section-points">
+        <li>Year1〜3 修繕費総額と月別キャッシュ影響</li>
+        <li>緊急度スコアによる優先順位付け</li>
+        <li>修繕後の賃料改定効果（収益増試算）</li>
+      </ul>
+    </a>
+    <a href="固定費回収_収益モデル比較スライド_v10_1.html" class="section-card-half">
+      <div class="half-header">
+        <div class="num-badge-half exec-num">7B</div>
+        <span class="half-label">収益</span>
+        <span class="half-pill exec-pill">新規事業モデル</span>
+      </div>
+      <p class="section-title">固定費回収 &amp; 収益モデルシミュレーション</p>
+      <p class="section-sub">新規事業・複合収益モデルの比較検討</p>
+      <ul class="section-points">
+        <li>賃貸・テナント・民泊の収益モデル比較</li>
+        <li>固定費回収ラインと損益分岐シミュレーション</li>
+        <li>最適ポートフォリオ構成の提案</li>
+      </ul>
+    </a>
+  </div>
+
+  <div class="arrow-line"></div>
+
+  <!-- 8. 行動計画 -->
+  <a href="行動計画スライド_2026-2028_三海_9.html" class="section-card">
+    <div class="num-badge exec-num">8</div>
+    <div>
+      <p class="section-title">経営目標実現のための行動計画</p>
+      <p class="section-sub">個人単位・法人単位 ／ 年度別 KPI・意思決定基準</p>
+      <ul class="section-points">
+        <li>法人：Year1〜3 の優先アクションと判断基準</li>
+        <li>個人（代表・母）：役割別ロードマップ</li>
+        <li>「場当たり経営からの脱却」を示す6つの判断原則</li>
+      </ul>
+    </div>
+    <span class="layer-pill exec-pill">実行</span>
+  </a>
+
+  <div class="warn-box">
+    📌 項目7は修繕投資計画（7A）と固定費回収・収益モデル（7B）の2スライド構成です。両スライドを合わせて発表することで、投資根拠と収益回収の論拠が一体化します。
+  </div>
+
+  <p class="footer">有限会社三海 中期経営計画フレームワーク — 2026年3月版</p>
+
+</div>
+</body>
+</html>

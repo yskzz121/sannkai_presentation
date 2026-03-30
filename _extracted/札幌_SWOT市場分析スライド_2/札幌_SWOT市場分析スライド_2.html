@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有限会社三海｜札幌物件 SWOT・市場分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --navy: #0a1628; --navy-mid: #132240; --navy-light: #1e3460;
+  --ocean: #0d6aad; --ocean-light: #1a8fd1;
+  --teal: #0f8b70; --teal-light: #13b08e;
+  --amber: #c8891a; --amber-light: #f0a82a;
+  --coral: #c94030; --coral-light: #e85040;
+  --text-primary: #f0ece4; --text-secondary: #a8b8cc; --text-muted: #687888;
+  --border: rgba(255,255,255,0.08); --card-bg: rgba(255,255,255,0.04); --card-border: rgba(255,255,255,0.1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--navy); color: var(--text-primary); min-height: 100vh; padding: 2rem; }
+.nav { display: flex; gap: 8px; margin-bottom: 2.5rem; flex-wrap: wrap; }
+.nav-btn { font-family: 'Noto Sans JP', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.08em; padding: 6px 16px; border-radius: 99px; border: 0.5px solid var(--card-border); background: var(--card-bg); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; }
+.nav-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+.nav-btn.active { background: var(--ocean); border-color: var(--ocean-light); color: #fff; }
+.slide { display: none; animation: fadeIn 0.35s ease; }
+.slide.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.slide-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 0.5px solid var(--border); }
+.slide-meta { font-size: 10px; letter-spacing: 0.12em; color: var(--text-muted); margin-bottom: 6px; }
+.slide-title { font-size: 24px; font-weight: 300; color: var(--text-primary); letter-spacing: -0.02em; }
+.slide-title strong { font-weight: 700; color: #fff; }
+.company-badge { font-size: 11px; color: var(--text-muted); border: 0.5px solid var(--border); padding: 4px 12px; border-radius: 99px; white-space: nowrap; }
+.sec-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 10px; }
+.divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+
+/* SWOT */
+.swot-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.swot-cell { border-radius: 12px; padding: 18px 20px; border: 0.5px solid var(--card-border); position: relative; overflow: hidden; }
+.swot-cell::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.swot-s { background: rgba(15,139,112,0.1); } .swot-s::before { background: linear-gradient(90deg,var(--teal),var(--teal-light)); }
+.swot-w { background: rgba(200,137,26,0.1); } .swot-w::before { background: linear-gradient(90deg,var(--amber),var(--amber-light)); }
+.swot-o { background: rgba(13,106,173,0.1); } .swot-o::before { background: linear-gradient(90deg,var(--ocean),var(--ocean-light)); }
+.swot-t { background: rgba(201,64,48,0.1); } .swot-t::before { background: linear-gradient(90deg,var(--coral),var(--coral-light)); }
+.swot-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.swot-s .swot-label { color: var(--teal-light); } .swot-w .swot-label { color: var(--amber-light); }
+.swot-o .swot-label { color: var(--ocean-light); } .swot-t .swot-label { color: var(--coral-light); }
+.swot-badge { font-size: 9px; padding: 2px 8px; border-radius: 99px; }
+.swot-s .swot-badge { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+.swot-w .swot-badge { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.swot-o .swot-badge { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.swot-t .swot-badge { background: rgba(201,64,48,0.25); color: var(--coral-light); }
+.swot-list { list-style: none; }
+.swot-list li { font-size: 12px; color: var(--text-secondary); line-height: 1.6; padding: 4px 0 4px 14px; position: relative; border-bottom: 0.5px solid rgba(255,255,255,0.05); }
+.swot-list li:last-child { border-bottom: none; }
+.swot-list li::before { content: ''; position: absolute; left: 0; top: 12px; width: 5px; height: 1px; }
+.swot-s .swot-list li::before { background: var(--teal); } .swot-w .swot-list li::before { background: var(--amber); }
+.swot-o .swot-list li::before { background: var(--ocean); } .swot-t .swot-list li::before { background: var(--coral); }
+.tag-task { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 99px; margin-left: 5px; background: rgba(201,64,48,0.3); color: var(--coral-light); vertical-align: middle; }
+.tag-data { display: inline-block; font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 99px; margin-left: 5px; background: rgba(13,106,173,0.3); color: var(--ocean-light); vertical-align: middle; }
+
+/* Strategy grid */
+.strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1.5rem; }
+.strat-card { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 10px; padding: 14px 16px; }
+.strat-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+.strat-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.08em; padding: 2px 8px; border-radius: 99px; }
+.sb-so { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+.sb-st { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.sb-wo { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.sb-wt { background: rgba(201,64,48,0.25); color: var(--coral-light); }
+.strat-title { font-size: 12px; font-weight: 500; color: #fff; }
+.strat-body { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+.strat-body strong { color: #fff; font-weight: 500; }
+
+/* KPI */
+.kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 1.5rem; }
+.kpi { background: var(--card-bg); border: 0.5px solid var(--card-border); border-radius: 10px; padding: 12px 14px; }
+.kpi-label { font-size: 10px; color: var(--text-muted); margin-bottom: 4px; }
+.kpi-value { font-size: 17px; font-weight: 500; color: #fff; line-height: 1.2; }
+.kpi-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; line-height: 1.4; }
+
+/* Charts */
+.chart-wrap { position: relative; width: 100%; height: 220px; margin-bottom: 6px; }
+.chart-note { font-size: 10px; color: var(--text-muted); text-align: right; margin-bottom: 1.5rem; }
+.charts-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 1.5rem; }
+.chart-block-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; }
+.chart-wrap-sm { position: relative; width: 100%; height: 200px; margin-bottom: 4px; }
+
+/* Info / risk boxes */
+.info-box { background: rgba(13,106,173,0.12); border: 0.5px solid rgba(13,106,173,0.4); border-radius: 10px; padding: 14px 18px; margin-bottom: 12px; }
+.info-box p { font-size: 12px; color: rgba(180,210,240,0.9); line-height: 1.7; }
+.info-box strong { color: #fff; font-weight: 500; }
+.risk-box { border-radius: 10px; padding: 12px 16px; margin-bottom: 10px; }
+.risk-box.danger { background: rgba(201,64,48,0.1); border: 0.5px solid rgba(201,64,48,0.35); }
+.risk-box.warn { background: rgba(200,137,26,0.1); border: 0.5px solid rgba(200,137,26,0.35); }
+.risk-title { font-size: 12px; font-weight: 500; margin-bottom: 5px; }
+.risk-box.danger .risk-title { color: var(--coral-light); }
+.risk-box.warn .risk-title { color: var(--amber-light); }
+.risk-body { font-size: 12px; line-height: 1.6; }
+.risk-box.danger .risk-body { color: rgba(240,180,170,0.85); }
+.risk-box.warn .risk-body { color: rgba(240,210,130,0.85); }
+.risk-body strong { font-weight: 500; }
+.risk-box.danger .risk-body strong { color: var(--coral-light); }
+.risk-box.warn .risk-body strong { color: var(--amber-light); }
+
+/* Segment table */
+.seg-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; }
+.seg-table th { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--text-muted); text-align: left; padding: 6px 10px; border-bottom: 0.5px solid var(--border); }
+.seg-table td { font-size: 12px; color: var(--text-secondary); padding: 8px 10px; border-bottom: 0.5px solid rgba(255,255,255,0.04); vertical-align: top; line-height: 1.6; }
+.seg-table tr:last-child td { border-bottom: none; }
+.seg-table td strong { color: #fff; font-weight: 500; }
+.seg-badge { display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-right: 4px; }
+.sb-new { background: rgba(13,106,173,0.25); color: var(--ocean-light); }
+.sb-old { background: rgba(200,137,26,0.25); color: var(--amber-light); }
+.sb-comm { background: rgba(15,139,112,0.25); color: var(--teal-light); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSlide('swot',this)">4-A｜SWOT分析</button>
+  <button class="nav-btn" onclick="showSlide('market',this)">4-B｜市場成長予測</button>
+</nav>
+
+<!-- 4-A SWOT -->
+<div class="slide active" id="slide-swot">
+  <div class="slide-header">
+    <div>
+      <div class="slide-meta">SLIDE 4-A　｜　有限会社三海 中期経営計画 2026–2028</div>
+      <div class="slide-title"><strong>SWOT分析</strong>——札幌不動産賃貸事業</div>
+    </div>
+    <div class="company-badge">有限会社三海</div>
+  </div>
+
+  <div class="swot-grid">
+    <div class="swot-cell swot-s">
+      <div class="swot-label"><span class="swot-badge">STRENGTHS</span>強み</div>
+      <ul class="swot-list">
+        <li>主要駅 徒歩5分圏内への厳選投資——立地優位性が代替困難な競争力の源泉</li>
+        <li>管理委託による低コスト・高稼働運営——入居替え時の相場連動値上げを管理会社が実施中</li>
+        <li>沖縄法人（三海）×北海道分散投資——地震リスク回避と地理的リスク分散を両立</li>
+        <li>住居・テナント・駐車場の複合収益構造——二条GCビルで月次2,500万円超を実現</li>
+        <li>小渡家グループとの一体運営——フォレスト15・8など複数棟のポートフォリオ管理</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-w">
+      <div class="swot-label"><span class="swot-badge">WEAKNESSES</span>弱み</div>
+      <ul class="swot-list">
+        <li>財務数値の全体集計が経営者主導でできていない——物件別・区分別P&Lが未可視化<span class="tag-task">最重要課題</span></li>
+        <li>稼働率管理が受け身——管理会社からの報告待ちで能動的KPI管理が未整備</li>
+        <li>脅威・外部環境の定量的分析が未着手——競合実態・修繕コスト計画が未策定</li>
+        <li>二条GCビル大口テナントの退去リスクが未定量化——駐車場50社超の契約実態が不明</li>
+        <li>築年数老朽化——修繕費が顕在化しつつあるが長期修繕計画が存在しない</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-o">
+      <div class="swot-label"><span class="swot-badge">OPPORTUNITIES</span>機会</div>
+      <ul class="swot-list">
+        <li>札幌家賃上昇トレンド——2025年実績で前年比+3%超・全国13エリア中上位水準<span class="tag-data">実績値</span></li>
+        <li>北海道新幹線延伸（2030年予定）——札幌駅周辺の再開発加速・駅近需要の長期拡大</li>
+        <li>IT・コンテンツ企業誘致——20代若年層の地元定着促進・単身賃貸需要の増加</li>
+        <li>購入困難化したファミリー層の賃貸流入——新築供給減少が既存物件の相対価値を押し上げ</li>
+        <li>リノベーション投資による家賃単価引き上げ余地——競合との差別化で値上げ幅を拡大できる</li>
+        <li>2025年公示地価：商業地+7.4%（地方四市トップ水準）——保有資産の含み益増大</li>
+      </ul>
+    </div>
+    <div class="swot-cell swot-t">
+      <div class="swot-label"><span class="swot-badge">THREATS</span>脅威</div>
+      <ul class="swot-list">
+        <li>築年数老朽化による大規模修繕コスト——RC造20戸で11〜15年目に約1,090万円、資材・人件費高騰で+10〜20%<span class="tag-data">業界データ</span></li>
+        <li>競合新築・フルリノベ物件による家賃下落圧力——差別化できない物件は空室長期化リスク</li>
+        <li>脅威の定量把握が未整備——競合動向・修繕サイクル・金利上昇の影響試算が未実施<span class="tag-task">今後3年の課題</span></li>
+        <li>金利上昇局面——借入コスト増大と賃貸需要抑制の同時発生リスク</li>
+        <li>札幌市全体の人口は2030年以降緩やかに減少——ただし中央区・都心部は2050年まで増加予測</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec-label">SWOT交差戦略オプション（中期3年の方向性）</div>
+  <div class="strategy-grid">
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-so">SO戦略</span><span class="strat-title">強み × 機会：駅近立地で家賃上昇トレンドを最大化</span></div>
+      <div class="strat-body">管理会社と連携し、<strong>入居入替ごとの相場連動値上げを全物件で徹底</strong>。空室発生をリノベのタイミングと捉え、投資→家賃単価引き上げのサイクルを確立する。札幌の賃貸需要は駅近に集中するため、立地優位性が直接収益に結びつく局面が続く。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-st">ST戦略</span><span class="strat-title">強み × 脅威：立地優位で競合に対抗し修繕リスクに先手を打つ</span></div>
+      <div class="strat-body">各物件の築年数・修繕履歴を整理し、<strong>優先順位付きの長期修繕計画を3年以内に策定</strong>。新築・リノベ競合には「駅近×リノベ済」で対抗し、価格帯競争に持ち込まない戦略的ポジショニングを取る。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wo">WO戦略</span><span class="strat-title">弱み × 機会：管理の受け身体質を改め機会を能動的に捉える</span></div>
+      <div class="strat-body">全物件の稼働率・収益を<strong>月次で経営者自ら集計・把握するKPI管理体制を構築</strong>。修繕計画も管理会社任せからオーナー主導へ転換。「場当たり経営からの脱却」の最初の一手として最優先で実行する。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wt">WT戦略</span><span class="strat-title">弱み × 脅威：リスクの白地を埋める調査・定量化の実行</span></div>
+      <div class="strat-body">脅威分析（競合・修繕・金利）の定量化を今期中に着手。特に<strong>二条GCビルの大口テナント契約状況の至急確認</strong>が最優先。「わからない」を「把握している」に変えることが、リスク管理ができている経営者の証明となる。</div>
+    </div>
+  </div>
+
+  <div class="sec-label">競合分析の現状認識と今後の方針</div>
+  <div class="info-box">
+    <p><strong>正直な現状認識：</strong>現時点では競合を体系的に分析する以前に、自社物件の稼働率・収益構造の全体把握が先決である。競合は大きく「<strong>築古×低価格帯</strong>」と「<strong>新築・フルリノベ×高価格帯</strong>」に二分され、それぞれ異なる戦略が必要。競合分析は中期計画の行動目標として位置づけ、管理会社へのヒアリングと合わせて<strong>今後3年以内に体系化</strong>する。</p>
+  </div>
+
+  <div class="sec-label">物件タイプ別 競合環境と戦略方針（暫定）</div>
+  <table class="seg-table">
+    <thead>
+      <tr>
+        <th style="width:18%">タイプ</th>
+        <th style="width:28%">代表物件</th>
+        <th style="width:27%">競合環境</th>
+        <th style="width:27%">戦略方針</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="seg-badge sb-comm">テナント複合</span></td>
+        <td><strong>二条GCビル</strong><br>住居＋テナント＋駐車場50区画超</td>
+        <td>大規模駐車場は希少。ただし法人テナントの退去リスクは未把握——最重要リスク</td>
+        <td>大口テナント契約状況を至急調査。退去シナリオ別の収益影響試算を今期中に実施</td>
+      </tr>
+      <tr>
+        <td><span class="seg-badge sb-new">高単価住居</span></td>
+        <td><strong>レクザ山鼻・ブランシャール西線14条・パレス札幌1</strong><br>75,000〜90,000円帯</td>
+        <td>新築・フルリノベ物件との競合。内装の新鮮さで劣後するリスクあり</td>
+        <td>空室発生時にリノベ実施→家賃単価引き上げ。「新築同等品質」を目指すポジション</td>
+      </tr>
+      <tr>
+        <td><span class="seg-badge sb-old">中低価格住居</span></td>
+        <td><strong>フォレスト15・8・BACHIKOI・ファーストP/R</strong><br>25,000〜55,000円帯</td>
+        <td>築古同士の競合。価格競争に陥りやすいが、駅近立地で差別化可能</td>
+        <td>管理委託で高稼働を維持しつつ、相場上昇タイミングで段階的値上げ。リノベは費用対効果で判断</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 4-B 市場 -->
+<div class="slide" id="slide-market">
+  <div class="slide-header">
+    <div>
+      <div class="slide-meta">SLIDE 4-B　｜　有限会社三海 中期経営計画 2026–2028</div>
+      <div class="slide-title"><strong>市場成長予測</strong>——札幌 賃貸市場・都市開発のマクロ動向</div>
+    </div>
+    <div class="company-badge">有限会社三海</div>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">札幌家賃上昇率（2025年実績）</div>
+      <div class="kpi-value">+3%超</div>
+      <div class="kpi-sub">前年同月比・全国平均を上回る<br>2面積帯で3%超（全国11/13エリア）</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">中古マンション成約価格上昇</div>
+      <div class="kpi-value">+17%</div>
+      <div class="kpi-sub">過去3年間（2022〜2025年）<br>資産価値の含み益増大</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">商業地公示地価（2025年）</div>
+      <div class="kpi-value">+7.4%</div>
+      <div class="kpi-sub">地方四市トップ水準<br>10年超連続上昇</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">中央区人口予測（2050年）</div>
+      <div class="kpi-value">+2.8%</div>
+      <div class="kpi-sub">市全体は減少傾向の中<br>都心部のみ増加（再開発効果）</div>
+    </div>
+  </div>
+
+  <div class="charts-2col">
+    <div>
+      <div class="chart-block-label">札幌市 人口推移と予測（万人）</div>
+      <div class="chart-wrap-sm"><canvas id="popChart"></canvas></div>
+      <div class="chart-note">出所：国立社会保障・人口問題研究所「地域別将来推計人口（2023年推計）」・札幌市住民基本台帳より作成（2030年以降は予測値）</div>
+    </div>
+    <div>
+      <div class="chart-block-label">札幌市 賃料指数推移と予測（2020年=100）</div>
+      <div class="chart-wrap-sm"><canvas id="rentChart"></canvas></div>
+      <div class="chart-note">出所：全国賃貸住宅新聞・日経不動産マーケット情報・アットホーム各社データをもとに作成（2026年以降は予測値）</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">需要拡大を牽引する4つの構造的要因</div>
+  <div class="strategy-grid" style="margin-bottom:1.5rem;">
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-so">再開発</span><span class="strat-title">新幹線延伸・大規模再開発（〜2030年）</span></div>
+      <div class="strat-body">北海道新幹線の札幌延伸（2030年予定）に向け、<strong>札幌駅周辺で10ha超の再開発</strong>が進行中。商業・オフィス・ホテルの集積が駅近居住需要をさらに押し上げる見通し。弊社物件はこの恩恵を直接受けるポジション。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-st">産業集積</span><span class="strat-title">IT・半導体企業誘致による若年層流入</span></div>
+      <div class="strat-body">市が注力するIT・コンテンツ企業誘致が功を奏し、<strong>20代前半の転出率低下と地元定着</strong>が進む。この層は単身者が多く、都心アクセス良好な賃貸住宅の需要を生む。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wo">市場構造</span><span class="strat-title">購入困難化によるファミリー層の賃貸シフト</span></div>
+      <div class="strat-body">札幌の分譲マンションは過去10年で<strong>3LDKが2,000万円台→3,000万円台に高騰</strong>。購入を断念したファミリー層が賃貸市場に流入し、2LDK以上の大型間取りで家賃上昇が際立つ。新築着工数は建築費高騰で減少しており、既存物件の希少価値が上昇中。</div>
+    </div>
+    <div class="strat-card">
+      <div class="strat-head"><span class="strat-badge sb-wt">人口動態</span><span class="strat-title">北海道内一極集中——札幌への転入が継続</span></div>
+      <div class="strat-body">北海道全体は人口減少が加速する中、<strong>道内各地から札幌市への転入が継続</strong>。市全体は2030年以降に緩やかな減少に入るが、都心部（中央区）は2050年まで増加予測。駅近×都心の物件は長期的需要を維持できる。</div>
+    </div>
+  </div>
+
+  <div class="risk-box danger">
+    <div class="risk-title">構造的リスク（要注視）</div>
+    <div class="risk-body">札幌市全体の人口は2030年前後がピークで、その後は緩やかに減少に転じる見通し。<strong>郊外・駅遠物件では空室率の上昇が先行して顕在化</strong>する可能性が高い。弊社の「駅近特化」戦略はこのリスクへの構造的な解答だが、築年数老朽化と組み合わさった場合の収益悪化シナリオを中期計画に織り込む必要がある。</div>
+  </div>
+  <div class="risk-box warn">
+    <div class="risk-title">短期的な追い風：新築供給の急減で既存物件の相対価値が上昇中</div>
+    <div class="risk-body">資材費・建築費高騰により、<strong>年間新築供給は2016〜17年の1.2万戸超から2022年以降は8千戸台に急減</strong>。この供給絞り込みが現在の家賃上昇の主因。この恩恵は少なくとも向こう3年は継続すると見込まれ、家賃値上げ・リノベ投資の実行には追い風の局面。</div>
+  </div>
+</div>
+
+<script>
+function showSlide(id, btn) {
+  document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('slide-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Population chart
+new Chart(document.getElementById('popChart'), {
+  type: 'bar',
+  data: {
+    labels: ['2015年', '2020年', '2025年\n(実績)', '2030年\n(予測)', '2035年\n(予測)', '2040年\n(予測)', '2050年\n(予測)'],
+    datasets: [
+      {
+        label: '札幌市全体（万人）',
+        data: [195.2, 197.3, 197.0, 194.9, 191.6, 186.8, 174.6],
+        backgroundColor: 'rgba(13,106,173,0.65)',
+        borderRadius: 3
+      },
+      {
+        label: '中央区（万人・右軸）',
+        data: [21.0, 22.5, 23.0, 23.2, 23.4, 23.4, 23.1],
+        backgroundColor: 'rgba(15,139,112,0.7)',
+        borderRadius: 3,
+        yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y + '万人' } }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 10 }, maxRotation: 0 } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 10 }, callback: v => v + '万' }, min: 160, max: 210 },
+      y2: { position: 'right', grid: { display: false }, ticks: { color: '#13b08e', font: { size: 10 }, callback: v => v + '万' }, min: 18, max: 26 }
+    }
+  }
+});
+
+// Rent index chart
+new Chart(document.getElementById('rentChart'), {
+  type: 'line',
+  data: {
+    labels: ['2020年', '2021年', '2022年', '2023年', '2024年', '2025年\n(実績)', '2026年\n(予測)', '2027年\n(予測)', '2028年\n(予測)'],
+    datasets: [
+      {
+        label: '札幌賃料指数（2020=100）',
+        data: [100, 100.8, 102.5, 104.8, 107.5, 111.0, 114.5, 117.5, 120.5],
+        borderColor: 'rgba(26,143,209,0.9)',
+        backgroundColor: 'rgba(13,106,173,0.15)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(26,143,209,1)',
+        pointRadius: 4,
+        tension: 0.3,
+        fill: true
+      },
+      {
+        label: '全国平均賃料指数（2020=100）',
+        data: [100, 100.5, 101.8, 103.2, 105.0, 107.2, 109.0, 110.5, 112.0],
+        borderColor: 'rgba(103,136,136,0.6)',
+        borderWidth: 1.5,
+        borderDash: [4, 4],
+        pointRadius: 3,
+        pointBackgroundColor: 'rgba(103,136,136,0.8)',
+        tension: 0.3,
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => c.dataset.label + ': ' + c.parsed.y } }
+    },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 10 }, maxRotation: 0 } },
+      y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#687888', font: { size: 10 }, callback: v => v }, min: 96, max: 125 }
+    }
+  }
+});
+</script>
+</body>
+</html>

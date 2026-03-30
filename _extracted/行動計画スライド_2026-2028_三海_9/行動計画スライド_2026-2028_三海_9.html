@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>経営目標実現のための行動計画 2026–2028｜有限会社 三海</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy:  #0D1B3E;
+    --blue:  #1A3A7C;
+    --gold:  #C8952A;
+    --gold2: #E8B84B;
+    --cream: #F5F0E8;
+    --red:   #C0392B;
+    --green: #1A7A4A;
+    --teal:  #0E6673;
+    --slate: #8A9BB5;
+    --white: #FFFFFF;
+    --light: #EDF1F8;
+    --amber: #D97706;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--cream); color:var(--navy); }
+
+  .slide-container { max-width:1280px; margin:0 auto; padding:20px; display:flex; flex-direction:column; gap:24px; }
+
+  .slide {
+    width:100%; aspect-ratio:16/9;
+    position:relative; overflow:hidden;
+    border-radius:4px;
+    box-shadow:0 8px 40px rgba(13,27,62,0.25);
+  }
+
+  .slide-header {
+    position:absolute; top:0; left:0; right:0; height:13%;
+    background:var(--navy);
+    display:flex; align-items:center; padding:0 4%; gap:14px;
+  }
+  .hbar  { width:4px; height:55%; background:var(--gold); border-radius:2px; }
+  .htitle{ font-size:clamp(12px,1.75vw,22px); font-weight:700; color:var(--white); letter-spacing:0.04em; }
+  .hbadge{ margin-left:auto; font-size:clamp(7px,0.85vw,11px); color:var(--gold2); letter-spacing:0.12em; font-weight:500; }
+  .slide-page { position:absolute; bottom:2%; right:4%; font-size:clamp(7px,0.75vw,9px); font-family:'DM Mono',monospace; color:var(--slate); }
+  .slide-label{ position:absolute; bottom:2%; left:4%;  font-size:clamp(7px,0.75vw,9px); color:var(--slate); letter-spacing:0.1em; font-family:'DM Mono',monospace; }
+
+  /* ══ COVER ══ */
+  .cover-left-bar { position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--gold); }
+  .cover-grid {
+    position:absolute; inset:0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),
+                      linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px);
+    background-size:60px 60px;
+  }
+  .cover-content { position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; padding:6% 8%; }
+  .cover-eyebrow { font-size:clamp(9px,1vw,13px); letter-spacing:0.35em; color:var(--gold2); text-transform:uppercase; margin-bottom:1.5%; font-weight:500; }
+  .cover-title   { font-size:clamp(26px,4vw,54px); font-weight:900; color:var(--white); line-height:1.15; margin-bottom:1.5%; }
+  .cover-title em{ color:var(--gold2); font-style:normal; }
+  .cover-sub     { font-size:clamp(10px,1.2vw,15px); color:var(--slate); margin-bottom:4%; letter-spacing:0.04em; }
+  .cover-kpi-row { display:flex; gap:2.5%; margin-top:1%; }
+  .cover-kpi     { background:rgba(255,255,255,0.06); border:1px solid rgba(200,149,42,0.3); border-radius:4px; padding:2% 3%; }
+  .ck-label { font-size:clamp(7px,0.78vw,10px); color:var(--slate); letter-spacing:0.08em; margin-bottom:4px; }
+  .ck-value { font-family:'DM Mono',monospace; font-size:clamp(13px,1.9vw,24px); font-weight:500; color:var(--gold2); }
+  .ck-unit  { font-size:0.6em; color:var(--slate); margin-left:2px; }
+
+  /* ══ SLIDE 2: 構造概観 ══ */
+  .overview-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+  .ov-col { display:flex; flex-direction:column; gap:2%; }
+  .ov-col-label {
+    background:var(--navy); color:var(--gold2);
+    font-size:clamp(8px,0.95vw,12px); font-weight:700; letter-spacing:0.1em;
+    padding:2.5% 4%; border-radius:4px 4px 0 0;
+    display:flex; align-items:center; gap:8px;
+    flex-shrink:0;
+  }
+  .ov-col-label span { font-size:clamp(6px,0.72vw,9px); color:var(--slate); font-weight:400; margin-left:auto; }
+  .phase-block {
+    flex:1; border-radius:0 0 4px 4px;
+    border:1px solid rgba(13,27,62,0.1);
+    padding:3% 4%;
+    display:flex; flex-direction:column; gap:3%;
+  }
+  .ph-tag {
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:clamp(7px,0.82vw,10px); font-weight:700; letter-spacing:0.06em;
+    padding:1.5% 3%; border-radius:3px; width:fit-content; margin-bottom:1%;
+  }
+  .ph-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .tag-red  { background:rgba(192,57,43,0.1); color:var(--red); }
+  .tag-amber{ background:rgba(200,149,42,0.12); color:#9A6A00; }
+  .tag-green{ background:rgba(26,122,74,0.1); color:var(--green); }
+  .ph-item {
+    font-size:clamp(7.5px,0.88vw,11px); color:#333; line-height:1.6;
+    padding-left:3%; border-left:2px solid rgba(13,27,62,0.12);
+    margin-bottom:1.5%;
+  }
+  .ph-item strong { color:var(--navy); font-weight:700; }
+  .kpi-stripe {
+    background:var(--navy); border-radius:4px;
+    padding:2.5% 4%;
+    display:grid; grid-template-columns:repeat(4,1fr); gap:2%;
+    flex-shrink:0;
+  }
+  .ks-item { text-align:center; }
+  .ks-val  { font-family:'DM Mono',monospace; font-size:clamp(11px,1.5vw,19px); font-weight:500; color:var(--gold2); }
+  .ks-lbl  { font-size:clamp(5.5px,0.65vw,8px); color:var(--slate); margin-top:2px; line-height:1.4; }
+
+  /* ══ SLIDE 3: 法人行動計画 ══ */
+  .corp-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr 1fr; gap:2%;
+  }
+  .year-col {
+    display:flex; flex-direction:column; gap:2%;
+  }
+  .year-head {
+    border-radius:4px; padding:3% 4%;
+    display:flex; flex-direction:column; gap:2%;
+    flex-shrink:0;
+  }
+  .yh26 { background:rgba(192,57,43,0.12); border:1px solid rgba(192,57,43,0.4); }
+  .yh27 { background:rgba(200,149,42,0.1);  border:1px solid rgba(200,149,42,0.4); }
+  .yh28 { background:rgba(26,122,74,0.1);   border:1px solid rgba(26,122,74,0.4); }
+  .yh-yr  { font-family:'Bebas Neue',sans-serif; font-size:clamp(22px,3.2vw,46px); line-height:1; }
+  .yr26 .yh-yr, .yh26 .yh-yr { color:#FF9999; }
+  .yr27 .yh-yr, .yh27 .yh-yr { color:var(--gold2); }
+  .yr28 .yh-yr, .yh28 .yh-yr { color:#5DE89A; }
+  .yh-sub { font-size:clamp(6px,0.72vw,9px); color:var(--slate); letter-spacing:0.08em; }
+  .yh-badge {
+    font-size:clamp(6px,0.7vw,8.5px); font-weight:700; letter-spacing:0.06em;
+    padding:1% 6%; border-radius:2px; width:fit-content;
+  }
+  .badge-r { background:rgba(192,57,43,0.2); color:#FF7777; }
+  .badge-a { background:rgba(200,149,42,0.2); color:var(--gold2); }
+  .badge-g { background:rgba(26,122,74,0.2);  color:#5DE89A; }
+
+  .action-card {
+    flex:1; background:var(--white); border-radius:4px;
+    border:1px solid rgba(13,27,62,0.08);
+    padding:3.5% 4%; display:flex; flex-direction:column; gap:4%;
+    overflow:hidden;
+  }
+  .ac-section { display:flex; flex-direction:column; gap:2%; margin-bottom:2%; }
+  .ac-cat {
+    font-size:clamp(5.5px,0.65vw,8px); font-weight:700; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--slate);
+    border-bottom:1px solid rgba(13,27,62,0.06); padding-bottom:2%;
+    margin-bottom:1%;
+  }
+  .ac-item {
+    display:flex; align-items:flex-start; gap:5px;
+    font-size:clamp(7px,0.82vw,10.5px); color:#333; line-height:1.55;
+  }
+  .ac-bullet {
+    width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:4px;
+  }
+  .blt-r { background:var(--red); }
+  .blt-a { background:var(--amber); }
+  .blt-g { background:var(--green); }
+  .blt-b { background:var(--blue); }
+  .ac-item strong { color:var(--navy); font-weight:700; }
+
+  .cost-tag {
+    margin-top:auto; border-top:1px solid rgba(13,27,62,0.07);
+    padding-top:3%;
+    font-family:'DM Mono',monospace;
+    font-size:clamp(7.5px,0.88vw,11px); font-weight:500;
+  }
+  .ct-r { color:var(--red); }
+  .ct-a { color:var(--amber); }
+  .ct-g { color:var(--green); }
+
+  /* ══ SLIDE 4: 個人行動計画 ══ */
+  .person-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+  .person-col { display:flex; flex-direction:column; gap:2%; }
+  .person-header {
+    background:var(--navy); border-radius:4px; padding:3% 4%;
+    display:flex; align-items:center; gap:10px; flex-shrink:0;
+  }
+  .ph-icon {
+    width:clamp(24px,3vw,40px); height:clamp(24px,3vw,40px);
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:clamp(11px,1.5vw,18px); flex-shrink:0;
+  }
+  .icon-you { background:rgba(200,149,42,0.25); }
+  .icon-mom { background:rgba(26,122,74,0.25); }
+  .ph-name  { font-size:clamp(10px,1.3vw,17px); font-weight:700; color:var(--white); }
+  .ph-role  { font-size:clamp(6px,0.72vw,9px); color:var(--slate); margin-top:2px; }
+
+  .person-card {
+    flex:1; background:var(--white); border-radius:4px;
+    border:1px solid rgba(13,27,62,0.08);
+    padding:3.5% 4%;
+    display:flex; flex-direction:column; gap:3%;
+    overflow:hidden;
+  }
+  .yr-tag {
+    font-size:clamp(6.5px,0.75vw,9.5px); font-weight:700; letter-spacing:0.08em;
+    padding:1% 4%; border-radius:2px; width:fit-content;
+    margin-bottom:1%;
+  }
+  .yt26 { background:rgba(192,57,43,0.1); color:var(--red); }
+  .yt27 { background:rgba(200,149,42,0.12); color:#9A6A00; }
+  .yt28 { background:rgba(26,122,74,0.1); color:var(--green); }
+
+  .p-item {
+    display:flex; align-items:flex-start; gap:5px;
+    font-size:clamp(7px,0.82vw,10.5px); color:#333; line-height:1.55;
+  }
+  .p-item strong { color:var(--navy); font-weight:700; }
+
+  /* ══ SLIDE 5: ロードマップ ══ */
+  .rm-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:4%;
+    display:flex; flex-direction:column;
+  }
+  .rm-row {
+    display:grid; grid-template-columns:20% 1fr 1fr 1fr 1fr 1fr;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    flex:1;
+  }
+  .rm-row.rm-hd { flex:0 0 9%; border-bottom:2px solid rgba(200,149,42,0.3); }
+  .rm-hd-cell {
+    font-family:'DM Mono',monospace; font-size:clamp(8px,1vw,13px);
+    color:var(--gold2); font-weight:500; display:flex; align-items:center;
+    justify-content:center; padding:0 1%; border-left:1px solid rgba(255,255,255,0.07);
+  }
+  .rm-hd-cell:first-child { border-left:none; color:var(--slate); font-size:clamp(6px,0.7vw,9px); justify-content:flex-start; }
+  .rm-lbl {
+    font-size:clamp(7px,0.82vw,10px); color:var(--white); font-weight:600;
+    padding:0 3%; display:flex; flex-direction:column; justify-content:center;
+    border-right:1px solid rgba(255,255,255,0.08); gap:2px;
+  }
+  .rm-lbl span { font-size:clamp(5.5px,0.62vw,7.5px); color:var(--slate); font-weight:400; }
+  .rm-cell {
+    padding:1.5%; display:flex; align-items:center; justify-content:center;
+    border-left:1px solid rgba(255,255,255,0.05);
+  }
+  .rm-bar {
+    width:92%; border-radius:3px; padding:3px 6px;
+    font-size:clamp(5.5px,0.68vw,8.5px); text-align:center;
+    font-weight:600; letter-spacing:0.03em; line-height:1.3;
+  }
+  .br  { background:rgba(192,57,43,0.7); color:#FFAAAA; }
+  .bo  { background:rgba(217,119,6,0.6);  color:#FFD080; }
+  .bb  { background:rgba(26,58,124,0.7);  color:#99BBFF; }
+  .bg  { background:rgba(26,122,74,0.7);  color:#80FFBB; }
+  .bgy { background:rgba(138,155,181,0.2); color:var(--slate); }
+  .bau { background:rgba(200,149,42,0.5);  color:var(--gold2); }
+  .rm-phase-row {
+    display:grid; grid-template-columns:20% 1fr 1fr 1fr;
+    gap:0.5%; margin-top:1%; flex:0 0 10%;
+    align-items:center;
+  }
+  .ph { border-radius:3px; padding:2% 3%; text-align:center; }
+  .ph-label { font-size:clamp(6.5px,0.78vw,10px); font-weight:700; letter-spacing:0.1em; text-transform:uppercase; }
+  .ph-sub   { font-size:clamp(5.5px,0.65vw,8px); color:var(--slate); margin-top:2px; }
+  .ph1 { background:rgba(192,57,43,0.2); border:1px solid rgba(192,57,43,0.4); }
+  .ph2 { background:rgba(200,149,42,0.15); border:1px solid rgba(200,149,42,0.3); }
+  .ph3 { background:rgba(26,122,74,0.15); border:1px solid rgba(26,122,74,0.3); }
+
+  /* ══ SLIDE 6: 判断基準 ══ */
+  .criteria-body {
+    position:absolute; top:13%; left:3%; right:3%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+  .cr-col { display:flex; flex-direction:column; gap:2%; }
+  .cr-title {
+    font-size:clamp(8px,0.95vw,12px); font-weight:700; letter-spacing:0.06em;
+    color:var(--gold2); border-bottom:1px solid rgba(200,149,42,0.3);
+    padding-bottom:2%; margin-bottom:1%;
+  }
+  .criterion {
+    background:rgba(255,255,255,0.04); border-radius:4px;
+    border:1px solid rgba(255,255,255,0.1);
+    padding:3% 4%; display:flex; flex-direction:column; gap:3%;
+    flex:1;
+  }
+  .cr-num {
+    font-family:'Bebas Neue',sans-serif; font-size:clamp(18px,2.5vw,36px);
+    line-height:1; opacity:0.3; color:var(--white);
+  }
+  .cr-head { font-size:clamp(8.5px,1vw,13px); font-weight:700; color:var(--white); line-height:1.3; }
+  .cr-body { font-size:clamp(7px,0.82vw,10.5px); color:rgba(255,255,255,0.75); line-height:1.65; flex:1; }
+  .cr-metric {
+    border-top:1px solid rgba(255,255,255,0.1); padding-top:3%;
+    font-family:'DM Mono',monospace;
+    font-size:clamp(8px,0.95vw,12px); font-weight:500; color:var(--gold2);
+  }
+</style>
+</head>
+<body>
+<div class="slide-container">
+
+<!-- ════ SLIDE 1: カバー ════ -->
+<div class="slide" style="background:var(--navy);">
+  <div class="cover-left-bar"></div>
+  <div class="cover-grid"></div>
+  <div class="cover-content">
+    <div class="cover-eyebrow">有限会社 三海 ／ 中期経営計画 2026–2028</div>
+    <div class="cover-title">経営目標実現のための<br><em>行動計画</em></div>
+  </div>
+  <div style="position:absolute;right:5%;bottom:5%;font-family:'Bebas Neue',sans-serif;font-size:min(18vw,200px);color:rgba(255,255,255,0.05);line-height:1;user-select:none;">2028</div>
+  <div class="slide-page">01 / 04</div>
+  <div class="slide-label">SANKAI — ACTION PLAN 2026–2028</div>
+</div>
+
+<!-- ════ SLIDE 3: 法人行動計画 詳細 ════ -->
+<div class="slide" style="background:var(--cream);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">法人行動計画｜年度別 優先アクション（2026–2028）</div>
+    <div class="hbadge">意思決定基準の確立 — 「判断できる経営体制」へ</div>
+  </div>
+  <div class="corp-body">
+
+    <!-- 2026 -->
+    <div class="year-col">
+      <div class="year-head yh26">
+        <div class="yh-yr">2026</div>
+        <div class="yh-sub">YEAR 1 ／ リスク除去・基盤構築</div>
+        <div class="yh-badge badge-r">修繕費 最大1.2億+α</div>
+      </div>
+      <div class="action-card">
+        <div class="ac-section">
+          <div class="ac-cat">最優先（上期確定必須）</div>
+          <div class="ac-item"><div class="ac-bullet blt-r"></div><div><strong>群馬物件：保有 or 売却判断</strong>　残債確認→修繕内訳精査→管理会社変更可否→損害賠償請求の法的確認。NPV比較で決定</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-r"></div><div><strong>アスベスト除去（沖縄6棟）着手</strong>　全室調査→検出室から順次施工。160万×約20室=年3,200万を予算確保</div></div>
+        </div>
+        <div class="ac-section">
+          <div class="ac-cat">管理基盤の構築</div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>修繕投資判断基準の文書化</strong>　緊急度・築年数・収益影響のスコアリングシート作成</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>月次CF予測表の運用開始</strong>　確定修繕費9,920万を月別スケジュールに落とし込む</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>太陽光保険（福岡）見直し</strong>　保険ブローカー経由で複数社見積。目標▲300〜400万/年</div></div>
+        </div>
+        <div class="ac-section">
+          <div class="ac-cat">施工管理</div>
+          <div class="ac-item"><div class="ac-bullet blt-a"></div><div><strong>アルピナハイム外壁修繕</strong>　1,560万。春先に業者契約完了し施工枠を確保</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-a"></div><div><strong>ドレン管修繕（札幌）</strong>　確定160万+α。見積進行中・追加工事リスクを早期把握</div></div>
+        </div>
+        <div class="cost-tag ct-r">確定修繕費 9,920万　変動費見込 2,400万+α</div>
+      </div>
+    </div>
+
+    <!-- 2027 -->
+    <div class="year-col">
+      <div class="year-head yh27">
+        <div class="yh-yr">2027</div>
+        <div class="yh-sub">YEAR 2 ／ 収束フェーズ・収益改善</div>
+        <div class="yh-badge badge-a">修繕費 7,200万+α</div>
+      </div>
+      <div class="action-card">
+        <div class="ac-section">
+          <div class="ac-cat">収益改善（最重要）</div>
+          <div class="ac-item"><div class="ac-bullet blt-g"></div><div><strong>賃料改定交渉の本格化（沖縄）</strong>　修繕完了室から順次22万→25万へ改定。完了室が増えるほど年収増が積み上がる構造</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-g"></div><div><strong>退去抑制施策の実行</strong>　長期入居インセンティブ・退去前査定基準の標準化で退去室数削減。年間数百万〜1,000万超の修繕費圧縮余地</div></div>
+        </div>
+        <div class="ac-section">
+          <div class="ac-cat">修繕の継続実行</div>
+          <div class="ac-item"><div class="ac-bullet blt-a"></div><div><strong>アスベスト除去継続（沖縄）</strong>　残室の除去を継続。3,200万/年の予算維持</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-a"></div><div><strong>OP2 外壁修繕（沖縄）</strong>　確定1,300万。2026年中に業者選定完了→2027年施工</div></div>
+        </div>
+        <div class="ac-section">
+          <div class="ac-cat">財務管理</div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>自己資本比率の四半期レビュー</strong>　有利子負債と修繕投資のバランスを定期確認。融資余力の把握</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>SP2外壁修繕の見積確定</strong>　2028年施工に向け業者選定・金額確定</div></div>
+        </div>
+        <div class="cost-tag ct-a">確定修繕費 4,800万　変動費見込 2,400万+α　賃料改定効果が収益下支え開始</div>
+      </div>
+    </div>
+
+    <!-- 2028 -->
+    <div class="year-col">
+      <div class="year-head yh28">
+        <div class="yh-yr">2028</div>
+        <div class="yh-sub">YEAR 3 ／ 安定・拡大準備</div>
+        <div class="yh-badge badge-g">修繕費 6,400万+α　修繕峠越え</div>
+      </div>
+      <div class="action-card">
+        <div class="ac-section">
+          <div class="ac-cat">収益拡大（最終仕上げ）</div>
+          <div class="ac-item"><div class="ac-bullet blt-g"></div><div><strong>賃料改定の全室展開完了</strong>　全室25万達成で年間最大+3,996万の収益増。2026年比で財務体質が大幅改善</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-g"></div><div><strong>民泊転換の条件評価（北谷）</strong>　1〜3室で旅館業許可取得→12ヶ月実測→採算確認（1泊3万・稼働率65%以上）→全室展開判断</div></div>
+        </div>
+        <div class="ac-section">
+          <div class="ac-cat">次フェーズの準備</div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>新規物件取得基準を策定・文書化</strong>　自己資本比率25%超・有利子負債20億割れを条件に、取得基準（利回り・エリア・築年数）を整備</div></div>
+          <div class="ac-item"><div class="ac-bullet blt-b"></div><div><strong>取得候補物件のスクリーニング体制</strong>　税務・財務アドバイザーとの連携強化。2029年取得に備えた情報収集網の構築</div></div>
+        </div>
+        <div class="cost-tag ct-g">確定修繕費 4,000万　修繕峠越え — 新規取得余力の回復　自己資本比率 25%超を目標</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-page" style="color:#8A9BB5;">02 / 04</div>
+  <div class="slide-label" style="color:#8A9BB5;">SANKAI — CORPORATE ACTION PLAN</div>
+</div>
+
+<!-- ════ SLIDE 4: 個人行動計画 ════ -->
+<div class="slide" style="background:var(--white);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">個人行動計画｜代表（経営者）と母（バックオフィス）の役割別ロードマップ</div>
+    <div class="hbadge">2名体制の強みを活かす — 属人リスクの排除と能力開発の両立</div>
+  </div>
+  <div class="person-body">
+
+    <!-- 代表 -->
+    <div class="person-col">
+      <div class="person-header">
+        <div class="ph-icon icon-you">👤</div>
+        <div>
+          <div class="ph-name">代表（あなた）</div>
+          <div class="ph-role">経営全般 ／ 意思決定・交渉・戦略立案・現場判断</div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div>
+          <div class="yr-tag yt26">2026年 ／ Year 1 — 判断軸の言語化</div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>支出判断の「可否基準」を文書化</strong>　場当たり経営脱却の核心。「このケースは支出する/しない」の判断ロジックを明文化。支出基準なき判断は経営ではなく対応でしかない</div></div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>不動産財務・融資知識の体系的学習</strong>　月2冊/セミナー参加。財務諸表を読む→説明できる水準が目標</div></div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>群馬・太陽光など難易度の高い交渉を直接主導</strong>　「経験のなさ」を自覚した上で、この1年を集中実践の場と位置付ける</div></div>
+        </div>
+        <div>
+          <div class="yr-tag yt27">2027年 ／ Year 2 — 外部連携・交渉力強化</div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>同規模オーナー経営者との情報交換</strong>　本発表の場を起点に、修繕・融資・管理会社選定のリアルな情報を収集。孤立経営からの脱却</div></div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>管理会社との交渉力強化</strong>　相見積もり体制の整備。「言われた通りに発注」からの脱却</div></div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>賃料改定交渉を自ら主導</strong>　22万→25万の改定交渉。テナントとの関係維持と収益改善を両立する交渉術の習得</div></div>
+        </div>
+        <div>
+          <div class="yr-tag yt28">2028年 ／ Year 3 — 次フェーズへの準備</div>
+          <div class="p-item"><div class="ac-bullet blt-g" style="margin-top:4px;"></div><div><strong>資産取得交渉・デューデリジェンスの実務経験</strong>　物件取得基準を自ら設計し、候補物件の精査を実践。「買うかどうかを自分で判断できる」水準へ</div></div>
+          <div class="p-item"><div class="ac-bullet blt-g" style="margin-top:4px;"></div><div><strong>財務諸表を自ら読み・外部に説明できる水準</strong>　銀行・投資家への説明能力が新規融資の条件となる</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 母 -->
+    <div class="person-col">
+      <div class="person-header">
+        <div class="ph-icon icon-mom">👩</div>
+        <div>
+          <div class="ph-name">母（バックオフィス担当）</div>
+          <div class="ph-role">内勤全般 ／ 事務処理・書類管理・入退去対応・月次集計</div>
+        </div>
+      </div>
+      <div class="person-card">
+        <div>
+          <div class="yr-tag yt26">2026年 ／ Year 1 — マニュアル化を即着手（並行で進める）</div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>業務マニュアル化を2026年から開始</strong>　※Year 2ではなく初年度から並行着手。母が不在になった場合の事業継続リスクは「今すぐ」対処すべきリスク</div></div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>入退去対応フローの文書化</strong>　退去通知→査定→修繕手配→次募集の一連フローを標準化</div></div>
+          <div class="p-item"><div class="ac-bullet blt-r" style="margin-top:4px;"></div><div><strong>月次収支集計の型を固める</strong>　AI（Claude/Gemini）活用で集計業務を効率化。代表が確認しやすいフォーマットに統一</div></div>
+        </div>
+        <div>
+          <div class="yr-tag yt27">2027年 ／ Year 2 — AI活用の深化・工数削減</div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>月次報告書の自動化</strong>　生成AIを活用し、入力→集計→フォーマット出力の半自動化を実現。作業工数を半減させる</div></div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>修繕履歴データベースの構築</strong>　室番号×修繕内容×費用×日付の一元管理。判断基準スコアの算出に活用</div></div>
+          <div class="p-item"><div class="ac-bullet blt-a" style="margin-top:4px;"></div><div><strong>週次定例レポートの型化</strong>　代表との情報共有を構造化。「何が起きているか」を毎週30分で把握できる体制</div></div>
+        </div>
+        <div>
+          <div class="yr-tag yt28">2028年 ／ Year 3 — システム完成・次世代体制へ</div>
+          <div class="p-item"><div class="ac-bullet blt-g" style="margin-top:4px;"></div><div><strong>入退去・修繕・収支の一元管理システム完成</strong>　外部委託・新規採用があっても引き継げる体制。属人性ゼロの事務基盤</div></div>
+          <div class="p-item"><div class="ac-bullet blt-g" style="margin-top:4px;"></div><div><strong>民泊転換試験運営のサポート体制整備</strong>　北谷物件1〜3室の予約管理・清掃手配・収支記録の実務フローを新たに設計</div></div>
+          <div class="p-item"><div class="ac-bullet blt-g" style="margin-top:4px;"></div><div><strong>次フェーズ（物件取得）への事務対応準備</strong>　デューデリ書類・銀行対応書類の整理・提出業務の標準化</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-page" style="color:#8A9BB5;">03 / 04</div>
+  <div class="slide-label" style="color:#8A9BB5;">SANKAI — PERSONAL ACTION PLAN</div>
+</div>
+
+<!-- ════ SLIDE 6: 判断基準と指針 ════ -->
+<div class="slide" style="background:var(--navy);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">経営判断の4原則｜「場当たり」から「計画基準」への転換</div>
+    <div class="hbadge">本計画の核心 — 判断できる経営者になるための具体的指針</div>
+  </div>
+  <div class="criteria-body">
+    <div class="cr-col">
+      <div class="cr-title">法人単位の判断基準</div>
+
+      <div class="criterion">
+        <div class="cr-num">01</div>
+        <div class="cr-head">修繕支出の可否は「スコア」で判定する</div>
+        <div class="cr-body">緊急度（法令・安全・収益影響）×築年数×空室リスクを数値化したスコアシートを2026年上期中に完成させる。「気になるから修繕」ではなく「スコアが閾値を超えたから修繕」へ。これが場当たり脱却の第一歩。</div>
+        <div class="cr-metric">目標：2026年Q2末までに判断基準シート完成・運用開始</div>
+      </div>
+
+      <div class="criterion">
+        <div class="cr-num">02</div>
+        <div class="cr-head">月次キャッシュフローは「予測→実績→差異分析」で回す</div>
+        <div class="cr-body">確定修繕費（9,920万/2026年）を月別に落とし込み、毎月の実績と比較する。差異が生じた理由を記録し、次月の予測精度を上げる。「資金繰りに困ってから考える」から「3ヶ月先を先読みする」経営へ。</div>
+        <div class="cr-metric">目標：月次CF予測→実績突合を12ヶ月継続運用</div>
+      </div>
+
+      <div class="criterion">
+        <div class="cr-num">03</div>
+        <div class="cr-head">群馬物件の判断は「NPV比較」で感情を排除する</div>
+        <div class="cr-body">保有継続（修繕費4,700万を投じた上での将来収益）vs 売却（修繕費ゼロ・残債整理）の正味現在価値を計算して比較する。「もったいない」「先代が買った物件だから」という感情ではなく、数字で判断することが計画経営の証明。</div>
+        <div class="cr-metric">目標：2026年上期中にNPV試算完了・判断確定</div>
+      </div>
+    </div>
+
+    <div class="cr-col">
+      <div class="cr-title">個人単位の判断基準</div>
+
+      <div class="criterion">
+        <div class="cr-num">04</div>
+        <div class="cr-head">「経験がない」は理由にしない。記録して次の判断に使う</div>
+        <div class="cr-body">交渉・修繕発注・融資交渉など、初めての判断は必ずメモを残す。何を根拠に、どう判断したかを記録し、3ヶ月後・1年後に振り返る。これが「場当たり」を計画的判断に変える唯一の方法。失敗した判断の記録こそが最大の学習資産。</div>
+        <div class="cr-metric">目標：判断ログを月次で記録・半期レビューを習慣化</div>
+      </div>
+
+      <div class="criterion">
+        <div class="cr-num">05</div>
+        <div class="cr-head">母への依存を「仕組み」に置き換える（Year 1から着手）</div>
+        <div class="cr-body">母が1ヶ月不在でも事業が回る状態を2026年中に実現する。マニュアル化は「いつかやる」ではなく Year 1の必須タスク。事業継続性は経営者の責任であり、属人化リスクの放置は経営判断の怠慢と認識する。</div>
+        <div class="cr-metric">目標：主要業務マニュアルを2026年末までに完成</div>
+      </div>
+
+      <div class="criterion">
+        <div class="cr-num">06</div>
+        <div class="cr-head">先輩経営者との対話を「情報取得」ではなく「仮説検証」に使う</div>
+        <div class="cr-body">本発表の場を含め、同規模オーナーとの情報交換は「聞いてメモする」ではなく、「自分の仮説（例：北谷物件は民泊転換すべきか）を持って意見をもらう」形式に変える。仮説なき情報収集は時間の浪費。</div>
+        <div class="cr-metric">目標：各交流の場に「検証したい仮説」を1つ持参する</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-page">04 / 04</div>
+  <div class="slide-label">SANKAI — DECISION PRINCIPLES</div>
+</div>
+
+</div>
+</body>
+</html>

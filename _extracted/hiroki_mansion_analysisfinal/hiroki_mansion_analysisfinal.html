@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>広木マンション 収支分析・出口戦略検討</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f1419;
+    --ink-mid: #2c3e50;
+    --ink-soft: #5a6a7a;
+    --paper: #f7f4ef;
+    --paper-mid: #ede9e2;
+    --paper-dark: #ddd8cf;
+    --accent-red: #c0392b;
+    --accent-amber: #d35400;
+    --accent-green: #1a7a4a;
+    --accent-blue: #1a5276;
+    --accent-gold: #b7860b;
+    --rule: #c8bfb0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #2a2a2a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 32px;
+  }
+
+  .slide {
+    width: 960px;
+    background: var(--paper);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    page-break-after: always;
+  }
+
+  /* ===== SLIDE 1: COVER ===== */
+  .slide-cover {
+    height: 540px;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 72px;
+  }
+
+  .slide-cover::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 8px,
+      rgba(255,255,255,0.025) 8px,
+      rgba(255,255,255,0.025) 9px
+    );
+  }
+
+  .cover-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent-amber);
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .cover-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  .cover-subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+  }
+
+  .cover-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cover-meta-item .label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,0.35);
+    text-transform: uppercase;
+  }
+
+  .cover-meta-item .value {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  .cover-alert {
+    position: absolute;
+    top: 48px; right: 72px;
+    background: var(--accent-red);
+    color: white;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  /* ===== SLIDE HEADER ===== */
+  .slide-header {
+    padding: 36px 60px 28px;
+    border-bottom: 2px solid var(--ink);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .slide-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .slide-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .slide-badge {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border: 1.5px solid;
+    text-transform: uppercase;
+  }
+
+  .badge-warning { border-color: var(--accent-red); color: var(--accent-red); }
+  .badge-neutral { border-color: var(--ink-soft); color: var(--ink-soft); }
+  .badge-positive { border-color: var(--accent-green); color: var(--accent-green); }
+
+  .slide-body { padding: 36px 60px 44px; }
+
+  /* ===== PROPERTY OVERVIEW ===== */
+  .property-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .prop-block {
+    background: var(--paper-mid);
+    padding: 20px 24px;
+  }
+
+  .prop-block-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .prop-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--rule);
+    gap: 12px;
+  }
+
+  .prop-row:last-child { border-bottom: none; }
+
+  .prop-label {
+    font-size: 12px;
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  .prop-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    text-align: right;
+  }
+
+  .prop-value.alert { color: var(--accent-red); font-weight: 700; }
+  .prop-value.amber { color: var(--accent-amber); font-weight: 700; }
+
+  /* ===== OCCUPANCY VISUAL ===== */
+  .occupancy-section {
+    margin-bottom: 28px;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .floor-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .floor-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .floor-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    width: 32px;
+    flex-shrink: 0;
+  }
+
+  .room-cells {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+  }
+
+  .room-cell {
+    width: 36px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .room-occupied { background: var(--ink); color: white; }
+  .room-vacant { background: var(--paper-dark); color: var(--ink-soft); border: 1px dashed var(--rule); }
+  .room-tenant { background: var(--accent-amber); color: white; }
+
+  .floor-note {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-left: auto;
+  }
+
+  /* ===== KEY METRICS ===== */
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .metric-card {
+    background: var(--paper-mid);
+    padding: 18px 16px;
+    text-align: center;
+    position: relative;
+  }
+
+  .metric-card.highlight {
+    background: var(--ink);
+  }
+
+  .metric-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .metric-card.highlight .metric-label { color: rgba(255,255,255,0.5); }
+
+  .metric-value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .metric-card.highlight .metric-value { color: white; }
+
+  .metric-value.alert { color: var(--accent-red); }
+  .metric-value.amber { color: var(--accent-amber); }
+  .metric-value.green { color: var(--accent-green); }
+
+  .metric-unit {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 4px;
+  }
+
+  .metric-card.highlight .metric-unit { color: rgba(255,255,255,0.4); }
+
+  /* ===== CASHFLOW TABLE ===== */
+  .cf-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .cf-table thead tr {
+    background: var(--ink);
+    color: white;
+  }
+
+  .cf-table th {
+    padding: 10px 16px;
+    font-weight: 500;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-align: right;
+  }
+
+  .cf-table th:first-child { text-align: left; }
+
+  .cf-table td {
+    padding: 9px 16px;
+    text-align: right;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-mid);
+  }
+
+  .cf-table td:first-child {
+    text-align: left;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .cf-table tr:nth-child(even) td { background: var(--paper-mid); }
+
+  .cf-table .subtotal td {
+    background: var(--paper-dark) !important;
+    font-weight: 600;
+    color: var(--ink);
+    border-top: 1.5px solid var(--ink-soft);
+    border-bottom: 1.5px solid var(--ink-soft);
+  }
+
+  .cf-table .total-row td {
+    background: var(--ink-mid) !important;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .cf-table .alert-row td {
+    background: rgba(192, 57, 43, 0.08) !important;
+  }
+
+  .negative { color: var(--accent-red) !important; }
+  .positive { color: var(--accent-green) !important; }
+  .amber-text { color: var(--accent-amber) !important; }
+
+  /* ===== SCENARIO TABLE ===== */
+  .scenario-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+
+  .scenario-box {
+    border: 2px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .scenario-box.recommended {
+    border-color: var(--accent-green);
+  }
+
+  .scenario-head {
+    padding: 14px 20px;
+    background: var(--paper-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .scenario-box.recommended .scenario-head {
+    background: var(--accent-green);
+    color: white;
+  }
+
+  .scenario-name {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .scenario-box.recommended .scenario-name { color: white; }
+
+  .scenario-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+
+  .scenario-body { padding: 18px 20px; }
+
+  .scenario-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+    border-bottom: 1px dotted var(--rule);
+    font-size: 12px;
+  }
+
+  .scenario-row:last-child { border-bottom: none; }
+
+  .scenario-total {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .scenario-total-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .scenario-total-value {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 12px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: var(--rule);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+    padding-bottom: 4px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -26px; top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--ink-soft);
+    border: 2px solid var(--paper);
+  }
+
+  .timeline-item.critical::before { background: var(--accent-red); }
+  .timeline-item.decision::before { background: var(--accent-amber); }
+  .timeline-item.target::before { background: var(--accent-green); }
+
+  .timeline-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+
+  .timeline-item.critical .timeline-date { color: var(--accent-red); }
+  .timeline-item.decision .timeline-date { color: var(--accent-amber); }
+  .timeline-item.target .timeline-date { color: var(--accent-green); }
+
+  .timeline-content {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .timeline-sub {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 3px;
+  }
+
+  /* ===== RISK MATRIX ===== */
+  .risk-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  .risk-item {
+    padding: 14px 16px;
+    border-left: 4px solid;
+  }
+
+  .risk-item.high { border-color: var(--accent-red); background: rgba(192,57,43,0.05); }
+  .risk-item.mid { border-color: var(--accent-amber); background: rgba(211,84,0,0.05); }
+  .risk-item.low { border-color: var(--accent-green); background: rgba(26,122,74,0.05); }
+
+  .risk-level {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .risk-item.high .risk-level { color: var(--accent-red); }
+  .risk-item.mid .risk-level { color: var(--accent-amber); }
+  .risk-item.low .risk-level { color: var(--accent-green); }
+
+  .risk-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .risk-desc { font-size: 11px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* ===== CHART: SELL TIMING ===== */
+  .chart-container {
+    position: relative;
+    height: 200px;
+    margin-bottom: 12px;
+  }
+
+  .bar-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 12px;
+    height: 180px;
+    padding: 0 8px;
+    border-bottom: 2px solid var(--ink);
+    border-left: 2px solid var(--ink);
+  }
+
+  .bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .bar-value-label {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .bar {
+    width: 100%;
+    transition: height 0.3s;
+    position: relative;
+  }
+
+  .bar-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-soft);
+    margin-top: 8px;
+    letter-spacing: 1px;
+  }
+
+  /* ===== FOOTNOTE ===== */
+  .slide-footer {
+    padding: 16px 60px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .slide-footer-note {
+    font-size: 10px;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .slide-footer-brand {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-soft);
+    letter-spacing: 1px;
+  }
+
+  /* ===== DECISION BOX ===== */
+  .decision-box {
+    border: 2.5px solid var(--ink);
+    padding: 20px 28px;
+    margin-top: 24px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+
+  .decision-icon {
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+
+  .decision-title {
+    font-family: 'Noto Serif JP', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .decision-text {
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.7;
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 24px 0;
+  }
+
+  /* ===== TWO COL ===== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .col-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .assumption-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .assumption-list li {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-mid);
+    line-height: 1.5;
+  }
+
+  .assumption-list li::before {
+    content: '—';
+    color: var(--ink-soft);
+    flex-shrink: 0;
+  }
+
+  /* 前提注記 */
+  .assumption-note {
+    font-size: 10px;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--paper-mid);
+    border-left: 3px solid var(--rule);
+    line-height: 1.7;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ========== SLIDE 1: COVER ========== -->
+<div class="slide slide-cover">
+  <div class="cover-alert">⚠ CONFIDENTIAL</div>
+  <div class="cover-label">有限会社 三海 ｜ 経営分析資料 2026</div>
+  <div class="cover-title">広木マンション<br>収支分析・出口戦略検討</div>
+  <div class="cover-subtitle">群馬県伊勢崎市今泉町2丁目332 ｜ 中期経営計画 2026–2028 付属資料</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <span class="label">作成日</span>
+      <span class="value">2026年3月</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">物件区分</span>
+      <span class="value">RC造 6階建 / 群馬エリア</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">戦略区分</span>
+      <span class="value">出口検討フェーズ</span>
+    </div>
+    <div class="cover-meta-item">
+      <span class="label">判断期限</span>
+      <span class="value">2027年3月（目安）</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 2: PROPERTY OVERVIEW ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">SLIDE 01</div>
+      <div class="slide-title">物件概要と現状</div>
+    </div>
+    <div class="slide-badge badge-warning">稼働率 要注意</div>
+  </div>
+  <div class="slide-body">
+
+    <div class="property-grid">
+      <div class="prop-block">
+        <div class="prop-block-title">基本スペック</div>
+        <div class="prop-row"><span class="prop-label">所在地</span><span class="prop-value">群馬県伊勢崎市今泉町2丁目332</span></div>
+        <div class="prop-row"><span class="prop-label">構造</span><span class="prop-value">鉄筋コンクリート造 6階建</span></div>
+        <div class="prop-row"><span class="prop-label">建築年月</span><span class="prop-value">昭和57年3月（築44年）</span></div>
+        <div class="prop-row"><span class="prop-label">総区画数</span><span class="prop-value">住居 25室 ＋ テナント 3区画</span></div>
+        <div class="prop-row"><span class="prop-label">住居間取り</span><span class="prop-value">3LDK（月額 7万円/室）</span></div>
+        <div class="prop-row"><span class="prop-label">管理会社</span><span class="prop-value">武蔵コミュニティ（管理費5%）</span></div>
+      </div>
+      <div class="prop-block">
+        <div class="prop-block-title">財務状況</div>
+        <div class="prop-row"><span class="prop-label">取得融資額</span><span class="prop-value">7,000万円</span></div>
+        <div class="prop-row"><span class="prop-label">融資残高（2026年3月）</span><span class="prop-value amber">約4,650万円</span></div>
+        <div class="prop-row"><span class="prop-label">金利（固定選択）</span><span class="prop-value">1.95%</span></div>
+        <div class="prop-row"><span class="prop-label">月次返済</span><span class="prop-value">389,000円</span></div>
+        <div class="prop-row"><span class="prop-label">返済完了予定</span><span class="prop-value">令和16年6月（R16.06）</span></div>
+        <div class="prop-row"><span class="prop-label">年間売上（2024年実績）</span><span class="prop-value">1,055万円</span></div>
+      </div>
+    </div>
+
+    <div class="section-label">現在の入居状況（フロア別）</div>
+    <div class="floor-grid">
+      <div class="floor-row">
+        <div class="floor-label">1F</div>
+        <div class="room-cells">
+          <div class="room-cell room-tenant">T-1</div>
+          <div class="room-cell room-tenant">T-2</div>
+          <div class="room-cell room-tenant">T-3</div>
+        </div>
+        <div class="floor-note">テナント3区画 稼働中</div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label">2F</div>
+        <div class="room-cells">
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+        </div>
+        <div class="floor-note">2/5室</div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label">3F</div>
+        <div class="room-cells">
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+        </div>
+        <div class="floor-note">3/5室</div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label">4F</div>
+        <div class="room-cells">
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+        </div>
+        <div class="floor-note">2/5室</div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label">5F</div>
+        <div class="room-cells">
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+        </div>
+        <div class="floor-note">2/5室</div>
+      </div>
+      <div class="floor-row">
+        <div class="floor-label">6F</div>
+        <div class="room-cells">
+          <div class="room-cell room-occupied">入居</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+          <div class="room-cell room-vacant">空室</div>
+        </div>
+        <div class="floor-note">1/5室</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-footer">
+    <div class="slide-footer-note">※入居室数は経営者ヒアリングによる（2026年3月時点）。フロア別配置は推計。</div>
+    <div class="slide-footer-brand">有限会社 三海</div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 3: CURRENT CASHFLOW ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">SLIDE 02</div>
+      <div class="slide-title">現状収支（月次・年次）</div>
+    </div>
+    <div class="slide-badge badge-neutral">2025年実績ベース</div>
+  </div>
+  <div class="slide-body">
+
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">月次収入（実績）</div>
+        <div class="metric-value">94.1<span style="font-size:14px">万</span></div>
+        <div class="metric-unit">2025年上半期月次平均</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">月次CF（概算）</div>
+        <div class="metric-value green">33.5<span style="font-size:14px">万</span></div>
+        <div class="metric-unit">返済・経費控除後</div>
+      </div>
+      <div class="metric-card highlight">
+        <div class="metric-label">住居稼働率</div>
+        <div class="metric-value alert" style="color:#ff6b6b">40%</div>
+        <div class="metric-unit" style="color:rgba(255,255,255,0.4)">10室 / 25室</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">機会損失（月次）</div>
+        <div class="metric-value amber">81<span style="font-size:14px">万</span></div>
+        <div class="metric-unit">満室比較（15室×7万）</div>
+      </div>
+    </div>
+
+    <table class="cf-table">
+      <thead>
+        <tr>
+          <th>項目</th>
+          <th>月次</th>
+          <th>年次（試算）</th>
+          <th>備考</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>住居家賃収入</td>
+          <td>700,000</td>
+          <td>8,400,000</td>
+          <td>10室 × 70,000円</td>
+        </tr>
+        <tr>
+          <td>テナント収入（推算）</td>
+          <td>240,947</td>
+          <td>2,891,364</td>
+          <td>1F 3区画</td>
+        </tr>
+        <tr class="subtotal">
+          <td>収入計</td>
+          <td>940,947</td>
+          <td>11,291,364</td>
+          <td>2024年実績: 1,055万円</td>
+        </tr>
+        <tr class="alert-row">
+          <td>ローン返済</td>
+          <td class="negative">△389,000</td>
+          <td class="negative">△4,668,000</td>
+          <td>元利均等・1.95%固定</td>
+        </tr>
+        <tr>
+          <td>管理費（5%）</td>
+          <td class="negative">△47,047</td>
+          <td class="negative">△564,568</td>
+          <td>武蔵コミュニティ</td>
+        </tr>
+        <tr>
+          <td>固定資産税（月割）</td>
+          <td class="negative">△100,000</td>
+          <td class="negative">△1,200,000</td>
+          <td>※確認要・保守試算</td>
+        </tr>
+        <tr>
+          <td>修繕費・保険等</td>
+          <td class="negative">△70,000</td>
+          <td class="negative">△840,000</td>
+          <td>最小限（大規模修繕なし）</td>
+        </tr>
+        <tr class="total-row">
+          <td>月次キャッシュフロー</td>
+          <td class="positive" style="color:#7dffb3">334,900</td>
+          <td class="positive" style="color:#7dffb3">4,018,796</td>
+          <td>税引前・減価償却前</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="assumption-note">
+      ⚠ 留意事項：固定資産税は試算値。実際の課税明細で確認が必要。収入は稼働率改善なし・家賃変動なしを前提とした保守試算。
+    </div>
+
+  </div>
+  <div class="slide-footer">
+    <div class="slide-footer-note">※売上データは残高試算表2024年・財務報告書（令和7年6月期）より抽出</div>
+    <div class="slide-footer-brand">有限会社 三海</div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 5: RISK & DECISION ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">SLIDE 04</div>
+      <div class="slide-title">リスク整理と経営判断フレーム</div>
+
+    </div>
+    <div class="slide-badge badge-warning">要判断事項</div>
+  </div>
+  <div class="slide-body">
+
+    <div class="section-label" style="margin-bottom:14px">リスク項目（重要度別）</div>
+    <div class="risk-grid" style="margin-bottom:28px">
+      <div class="risk-item high">
+        <div class="risk-level">High Risk</div>
+        <div class="risk-title">修繕判断の先延ばし</div>
+        <div class="risk-desc">4,750万円の大規模修繕を未決定のまま放置すると、物件劣化が進み売却価格が下落。「やらない」なら早期に決定・公示が必要。</div>
+      </div>
+      <div class="risk-item high">
+        <div class="risk-level">High Risk</div>
+        <div class="risk-title">稼働率40%の継続</div>
+        <div class="risk-desc">群馬・伊勢崎という非主力エリアで40%稼働は改善困難。管理会社任せでは自然改善は見込めない。売却前提なら許容できるが戦略的管理が必要。</div>
+      </div>
+      <div class="risk-item mid">
+        <div class="risk-level">Mid Risk</div>
+        <div class="risk-title">売却価格の下振れ</div>
+        <div class="risk-desc">築44年・稼働率40%という条件は買い手を選ぶ。キャップレート12%適用なら約1,500万円の価格下落。複数業者査定で相場観を確認すること。</div>
+      </div>
+      <div class="risk-item mid">
+        <div class="risk-level">Mid Risk</div>
+        <div class="risk-title">テナント退去リスク</div>
+        <div class="risk-desc">1階テナント収入（推算24万円/月）が売上の約26%を占める。テナント退去は年間収支に直接影響し、売却価格評価にも波及する。</div>
+      </div>
+      <div class="risk-item mid">
+        <div class="risk-level">Mid Risk</div>
+        <div class="risk-title">譲渡所得税の負担</div>
+        <div class="risk-desc">法人による不動産売却益は法人税の対象。7,000万円超の手残りが見込まれる場合、税引後CFが大幅に変わる可能性あり。税理士確認が必須。</div>
+      </div>
+      <div class="risk-item low">
+        <div class="risk-level">Low Risk</div>
+        <div class="risk-title">金利変動</div>
+        <div class="risk-desc">固定選択のためR16年6月まで金利変動リスクは低い。ただし売却が完済後まで延びた場合は変動金利への切替リスクが発生する。</div>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-bottom:14px">経営者が今後12ヶ月で実行すべきアクション</div>
+    <div class="timeline">
+      <div class="timeline-item critical">
+        <div class="timeline-date">2026年6月まで</div>
+        <div class="timeline-content">修繕4,750万円の「実施しない」を正式決定</div>
+        <div class="timeline-sub">決定を引き延ばすこと自体がリスク。「やらない」なら早期に建物管理方針を固める。</div>
+      </div>
+      <div class="timeline-item decision">
+        <div class="timeline-date">2026年9月まで</div>
+        <div class="timeline-content">売却査定の取得（2〜3社）</div>
+        <div class="timeline-sub">伊勢崎市内の実績業者に賃借人付き売却での査定を依頼。相場価格を客観的に把握する。</div>
+      </div>
+      <div class="timeline-item decision">
+        <div class="timeline-date">2026年12月まで</div>
+        <div class="timeline-content">税理士と譲渡所得税シミュレーション</div>
+        <div class="timeline-sub">売却益に対する法人税負担を確認。売却タイミング（期末・期首）で税負担が変わる場合あり。</div>
+      </div>
+      <div class="timeline-item target">
+        <div class="timeline-date">2027年上半期</div>
+        <div class="timeline-content">売却実行（目標タイミング）</div>
+        <div class="timeline-sub">査定・税務試算を踏まえ、売却価格・条件合意→契約→決済。得た資金の再投資先を事前に検討。</div>
+      </div>
+    </div>
+
+    <div class="decision-box" style="margin-top:28px">
+      <div class="decision-icon">📌</div>
+      <div>
+        <div class="decision-title">中期経営計画における本物件の戦略的位置づけ</div>
+        <div class="decision-text">
+          本物件は群馬県に単独立地し、三海の主力エリア（札幌・沖縄）との経営的シナジーがない。<br>
+          稼働率40%・築44年という現状を踏まえ、<strong>2027年中の売却と回収資金（約7,050万円）による有利子負債の圧縮</strong>を中計に明記する。<br><br>
+          これにより、①財務体質の改善（負債比率の低下）、②経営管理リソースの主力エリア集中、③将来の再投資余力の確保、という三つの経営効果を同時に実現する。<br>
+          売却は「損切り」ではなく、<strong>保有資産を戦略的に組み替えることで収益基盤を強化する意思決定</strong>として位置づける。
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-footer">
+    <div class="slide-footer-note">※アクションスケジュールは目安。査定・税務結果により変更可。</div>
+    <div class="slide-footer-brand">有限会社 三海</div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 4: TWO SCENARIOS ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">SLIDE 05</div>
+      <div class="slide-title">2シナリオ比較 ― 売却 vs 保有継続</div>
+    </div>
+    <div class="slide-badge badge-warning">意思決定資料</div>
+  </div>
+  <div class="slide-body">
+
+    <div class="scenario-wrapper">
+      <!-- 売却シナリオ -->
+      <div class="scenario-box recommended">
+        <div class="scenario-head">
+          <div class="scenario-name">シナリオA：2027年中に売却</div>
+          <div class="scenario-tag" style="border-color:white;color:white">心証方向</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">売却想定価格（CR10%）</span>
+            <span style="font-weight:600">約1億1,000万円</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">仲介手数料等（3.3%）</span>
+            <span class="negative">△約363万円</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">ローン返済（2027年末）</span>
+            <span class="negative">△約4,271万円</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">保有中CF（1年分）</span>
+            <span class="positive">＋約402万円</span>
+          </div>
+          <div class="scenario-total">
+            <div class="scenario-total-label">★ 総合手残り（税引前）</div>
+            <div class="scenario-total-value positive">約7,050万円</div>
+          </div>
+          <div style="margin-top:12px;font-size:11px;color:var(--ink-soft);line-height:1.6">
+            ✓ 大規模修繕4,750万円が不要になる<br>
+            ✓ 群馬管理コストから解放される<br>
+            ✓ 回収資金を主力エリア（札幌・沖縄）へ再投資可能
+          </div>
+        </div>
+      </div>
+
+      <!-- 保有継続シナリオ -->
+      <div class="scenario-box">
+        <div class="scenario-head">
+          <div class="scenario-name">シナリオB：3年間保有継続</div>
+          <div class="scenario-tag" style="border-color:var(--ink-soft);color:var(--ink-soft)">参考比較</div>
+        </div>
+        <div class="scenario-body">
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">3年間累積CF</span>
+            <span class="positive">＋約1,206万円</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">2029年末融資残高</span>
+            <span class="negative">△約3,489万円</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">2029年売却想定（CR10%）</span>
+            <span>約1億1,000万円※</span>
+          </div>
+          <div class="scenario-row">
+            <span style="color:var(--ink-soft);font-size:12px">仲介手数料等</span>
+            <span class="negative">△約363万円</span>
+          </div>
+          <div class="scenario-total">
+            <div class="scenario-total-label">★ 総合手残り（税引前）</div>
+            <div class="scenario-total-value" style="color:var(--accent-amber)">約8,635万円</div>
+          </div>
+          <div style="margin-top:12px;font-size:11px;color:var(--accent-red);line-height:1.6">
+            ⚠ 修繕4,750万円を実施した場合は赤字転落<br>
+            ⚠ 稼働率改善なければ建物価値は下落方向<br>
+            ⚠ 築47年での買い手は限定的（価格下振れリスク）
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--paper-dark);padding:16px 20px;display:flex;gap:20px;align-items:flex-start">
+      <div style="font-size:22px;flex-shrink:0">🔍</div>
+      <div>
+        <div style="font-family:'Noto Serif JP',serif;font-weight:700;font-size:14px;margin-bottom:6px;color:var(--ink)">判断の核心：差額の意味</div>
+        <div style="font-size:12px;color:var(--ink-mid);line-height:1.8">
+          3年待つことで手残りが約<strong>1,585万円</strong>増える。一方、修繕4,750万円を実施すれば<strong>シナリオBは成立しない</strong>（手残りが大幅に減少）。<br>
+          「修繕せずに売却する」方針であれば、早期売却（シナリオA）で得た資金を<strong>主力エリア（札幌・沖縄）の収益物件へ再投資</strong>する方が、三海全体のポートフォリオ最適化に資する。
+        </div>
+      </div>
+    </div>
+
+    <div class="assumption-note" style="margin-top:16px">
+      ※売却価格はキャップレート10%での試算。築年数・稼働率・市況により8〜12%で変動。下限（CR12%）では約8,800万円（手残り約4,200万円）。<br>
+      ※譲渡所得税・取得費用の償却は別途試算が必要。税理士確認を推奨。
+    </div>
+
+  </div>
+  <div class="slide-footer">
+    <div class="slide-footer-note">キャップレート：収益還元法における利回り前提。群馬県・伊勢崎市の築古RC物件は10〜12%が一般的とされる。</div>
+    <div class="slide-footer-brand">有限会社 三海</div>
+  </div>
+</div>
+
+<!-- ========== SLIDE 6: 3-YEAR FORECAST ========== -->
+<div class="slide">
+  <div class="slide-header">
+    <div>
+      <div class="slide-num">SLIDE 05</div>
+      <div class="slide-title">3年間 収支予測（売却前提・修繕なし）</div>
+    </div>
+    <div class="slide-badge badge-positive">シナリオA 詳細</div>
+  </div>
+  <div class="slide-body">
+
+    <table class="cf-table" style="margin-bottom:24px">
+      <thead>
+        <tr>
+          <th style="text-align:left">項目</th>
+          <th>2026年（現状）</th>
+          <th>2027年（売却準備）</th>
+          <th>2028年（売却実行想定）</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>年間収入</td>
+          <td>11,291,000</td>
+          <td>11,291,000</td>
+          <td>売却年のため参考値</td>
+        </tr>
+        <tr>
+          <td>管理費（5%）</td>
+          <td class="negative">△564,568</td>
+          <td class="negative">△564,568</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>ローン返済（年間）</td>
+          <td class="negative">△4,668,000</td>
+          <td class="negative">△4,668,000</td>
+          <td>完済（売却時）</td>
+        </tr>
+        <tr>
+          <td>固定資産税等</td>
+          <td class="negative">△1,200,000</td>
+          <td class="negative">△1,200,000</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>修繕費・保険</td>
+          <td class="negative">△840,000</td>
+          <td class="negative">△840,000</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>利息支払（年間）</td>
+          <td class="negative">△885,353</td>
+          <td class="negative">△810,927</td>
+          <td>—</td>
+        </tr>
+        <tr class="subtotal">
+          <td>年次CF（税引前）</td>
+          <td>4,019,000</td>
+          <td>4,019,000</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>期末ローン残高</td>
+          <td class="amber-text">42,710,000</td>
+          <td class="amber-text">38,840,000</td>
+          <td>— （完済）</td>
+        </tr>
+        <tr>
+          <td colspan="2">　</td>
+          <td style="text-align:center;padding:14px;background:rgba(26,122,74,0.08)">
+            <span style="font-family:'Noto Serif JP',serif;font-size:13px;font-weight:700;color:var(--accent-green)">↓ 2027年中に売却実行</span>
+          </td>
+          <td></td>
+        </tr>
+        <tr class="total-row">
+          <td>売却時 総合手残り（試算）</td>
+          <td>—</td>
+          <td class="positive" style="color:#7dffb3;font-size:16px">約 7,050万円</td>
+          <td class="positive" style="color:#7dffb3;font-size:16px">約 7,838万円</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="two-col">
+      <div>
+        <div class="col-label">売却実行のための前提条件</div>
+        <ul class="assumption-list">
+          <li>2026年内に売却方針を正式決定</li>
+          <li>売却査定を複数業者から取得（伊勢崎市内の実績業者）</li>
+          <li>現入居者への対応方針を確認（賃借人付き売却 or 立退交渉）</li>
+          <li>税理士と譲渡所得税・法人税の試算を実施</li>
+          <li>修繕4,750万円は「実施しない」を正式決定</li>
+        </ul>
+      </div>
+      <div>
+        <div class="col-label">保有継続リスク（モニタリング指標）</div>
+        <ul class="assumption-list">
+          <li>稼働率が現状40%以下に低下した場合 → 即座に売却検討へ移行</li>
+          <li>テナント退去が発生した場合 → 収入構造が変化するため再試算</li>
+          <li>伊勢崎市の賃貸市場需給変化（人口動向）</li>
+          <li>金利変動（固定選択のため短期的影響なし）</li>
+          <li>建物劣化による突発修繕の発生リスク</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+  <div class="slide-footer">
+    <div class="slide-footer-note">※売却価格はキャップレート10%で試算。実際の売却価格は査定結果により変動。</div>
+    <div class="slide-footer-brand">有限会社 三海</div>
+  </div>
+</div>
+
+</body>
+</html>

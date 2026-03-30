@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>固定費回収・収益モデル比較｜有限会社 三海</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Bebas+Neue&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy:   #0D1B3E;
+    --blue:   #1A3A7C;
+    --gold:   #C8952A;
+    --gold2:  #E8B84B;
+    --cream:  #F5F0E8;
+    --red:    #C0392B;
+    --green:  #1A7A4A;
+    --teal:   #0E6673;
+    --slate:  #8A9BB5;
+    --white:  #FFFFFF;
+    --light:  #EDF1F8;
+    --amber:  #D97706;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans JP',sans-serif; background:var(--cream); color:var(--navy); }
+
+  .slide-container { max-width:1280px; margin:0 auto; padding:20px; display:flex; flex-direction:column; gap:24px; }
+
+  .slide {
+    width:100%; aspect-ratio:16/9;
+    position:relative; overflow:hidden;
+    border-radius:4px;
+    box-shadow:0 8px 40px rgba(13,27,62,0.25);
+  }
+
+  /* Header */
+  .slide-header {
+    position:absolute; top:0; left:0; right:0; height:13%;
+    background:var(--navy);
+    display:flex; align-items:center; padding:0 4%; gap:14px;
+  }
+  .hbar { width:4px; height:55%; background:var(--gold); border-radius:2px; }
+  .htitle { font-size:clamp(12px,1.8vw,22px); font-weight:700; color:var(--white); letter-spacing:0.05em; }
+  .hbadge { margin-left:auto; font-size:clamp(7px,0.85vw,11px); color:var(--gold2); letter-spacing:0.15em; font-weight:500; }
+  .slide-page { position:absolute; bottom:2%; right:4%; font-size:clamp(7px,0.75vw,9px); font-family:'DM Mono',monospace; color:var(--slate); }
+  .slide-label { position:absolute; bottom:2%; left:4%; font-size:clamp(7px,0.75vw,9px); color:var(--slate); letter-spacing:0.1em; font-family:'DM Mono',monospace; }
+
+  /* ====== SLIDE 1: 損益計算書実績 ====== */
+  .pl-body {
+    position:absolute; top:13%; left:2.5%; right:2.5%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+
+  .pl-left {
+    display:flex; flex-direction:column; gap:2%;
+  }
+
+  .pl-table-wrap {
+    flex:1;
+    overflow:hidden;
+  }
+
+  .pl-table {
+    width:100%; border-collapse:collapse;
+    font-size:clamp(7px,0.85vw,11px);
+  }
+
+  .pl-table th {
+    background:var(--navy); color:var(--white);
+    padding:2% 3%; text-align:right; font-weight:600;
+    border:1px solid rgba(255,255,255,0.1);
+    font-family:'DM Mono',monospace; font-size:clamp(6px,0.75vw,10px);
+  }
+  .pl-table th:first-child { text-align:left; }
+  .pl-table th.year-col { background:var(--blue); }
+
+  .pl-table td {
+    padding:1.8% 3%; border:1px solid rgba(13,27,62,0.07);
+    text-align:right; vertical-align:middle;
+    font-family:'DM Mono',monospace; font-size:clamp(7px,0.85vw,11px);
+  }
+  .pl-table td:first-child {
+    text-align:left; font-family:'Noto Sans JP',sans-serif;
+    font-size:clamp(7px,0.82vw,10px); font-weight:500;
+    color:var(--navy);
+  }
+  .pl-table tr:nth-child(even) td { background:var(--light); }
+
+  .pl-table tr.section-header td {
+    background:rgba(200,149,42,0.1) !important;
+    color:var(--gold); font-weight:700; font-size:clamp(6px,0.7vw,9px);
+    letter-spacing:0.1em; padding:1% 3%;
+    border-color:rgba(200,149,42,0.2);
+  }
+
+  .pl-table tr.row-profit td {
+    background:rgba(26,122,74,0.08) !important;
+    font-weight:700; color:var(--green);
+    border-color:rgba(26,122,74,0.2);
+  }
+  .pl-table tr.row-profit td:first-child { color:var(--green); font-weight:700; }
+
+  .pl-table tr.row-ebit td {
+    background:rgba(26,58,124,0.07) !important;
+    font-weight:700; color:var(--blue);
+  }
+
+  .pl-table tr.row-net td {
+    background:rgba(26,122,74,0.15) !important;
+    font-weight:700; color:var(--green);
+    border-top:2px solid rgba(26,122,74,0.4);
+  }
+
+  .pl-table tr.row-repair td {
+    background:rgba(192,57,43,0.06) !important;
+    color:var(--red); font-weight:600;
+  }
+
+  .pl-right {
+    display:flex; flex-direction:column; gap:2%;
+  }
+
+  .kpi-grid {
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+
+  .kpi-card {
+    background:var(--navy);
+    border-radius:4px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:3%;
+  }
+
+  .kpi-label {
+    font-size:clamp(6px,0.7vw,9px); color:var(--slate);
+    letter-spacing:0.1em; text-transform:uppercase;
+  }
+  .kpi-value {
+    font-family:'DM Mono',monospace;
+    font-size:clamp(14px,2.2vw,28px); font-weight:500;
+    color:var(--gold2); line-height:1;
+  }
+  .kpi-sub {
+    font-size:clamp(6px,0.65vw,8px); color:var(--slate);
+  }
+
+  .kpi-card.alert { background:rgba(192,57,43,0.12); border:1px solid rgba(192,57,43,0.3); }
+  .kpi-card.alert .kpi-value { color:#FF9999; }
+  .kpi-card.good { background:rgba(26,122,74,0.1); border:1px solid rgba(26,122,74,0.3); }
+  .kpi-card.good .kpi-value { color:#5DE89A; }
+
+  .trend-box {
+    background:var(--light); border-radius:4px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:6%;
+    flex:1;
+  }
+
+  .trend-title {
+    font-size:clamp(8px,0.9vw,11px); font-weight:700; color:var(--navy);
+    letter-spacing:0.05em; border-bottom:1px solid rgba(13,27,62,0.1); padding-bottom:4%;
+  }
+
+  .trend-row {
+    display:flex; flex-direction:column; gap:3px;
+  }
+
+  .trend-row-header {
+    display:flex; justify-content:space-between;
+    font-size:clamp(7px,0.78vw,10px);
+  }
+
+  .trend-row-label { color:var(--navy); font-weight:600; }
+  .trend-row-value { font-family:'DM Mono',monospace; font-weight:500; }
+
+  .trend-bar-track {
+    height:8px; background:rgba(13,27,62,0.08); border-radius:2px; overflow:hidden;
+  }
+
+  .trend-bar-fill { height:100%; border-radius:2px; }
+
+  /* ====== SLIDE 2: 固定費回収分析 ====== */
+  .recovery-body {
+    position:absolute; top:13%; left:2.5%; right:2.5%; bottom:5%;
+    display:grid; grid-template-columns:1.1fr 1fr; gap:2%;
+  }
+
+  .recovery-left {
+    display:flex; flex-direction:column; gap:2%;
+  }
+
+  .property-recovery-table {
+    width:100%; border-collapse:collapse;
+    font-size:clamp(7px,0.82vw,10px); flex:1;
+  }
+
+  .property-recovery-table th {
+    background:var(--navy); color:var(--white);
+    padding:2.5% 2%; text-align:center; font-weight:600;
+    border:1px solid rgba(255,255,255,0.1);
+    font-size:clamp(6px,0.72vw,9px);
+  }
+  .property-recovery-table th:first-child { text-align:left; padding-left:3%; width:28%; }
+
+  .property-recovery-table td {
+    padding:2% 2%; text-align:center;
+    border:1px solid rgba(13,27,62,0.07); vertical-align:middle;
+  }
+  .property-recovery-table td:first-child {
+    text-align:left; padding-left:3%; font-weight:600; color:var(--navy);
+  }
+  .property-recovery-table tr:nth-child(even) td { background:var(--light); }
+
+  .recovery-years {
+    font-family:'DM Mono',monospace; font-weight:600;
+    font-size:clamp(9px,1.1vw,14px);
+  }
+  .ry-ok { color:var(--green); }
+  .ry-warn { color:var(--amber); }
+  .ry-bad { color:var(--red); }
+
+  .area-badge {
+    display:inline-block; padding:1px 6px; border-radius:2px;
+    font-size:clamp(5px,0.6vw,7px); font-weight:700; letter-spacing:0.08em;
+    vertical-align:middle; margin-left:4px;
+  }
+  .ab-ok { background:rgba(26,122,74,0.1); color:var(--green); }
+  .ab-mid { background:rgba(217,119,6,0.1); color:var(--amber); }
+  .ab-bad { background:rgba(192,57,43,0.1); color:var(--red); }
+
+  .insight-box {
+    background:var(--navy); border-radius:4px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:6%;
+  }
+  .insight-title {
+    font-size:clamp(8px,0.9vw,11px); font-weight:700; color:var(--gold2);
+    letter-spacing:0.08em;
+  }
+  .insight-item {
+    display:flex; align-items:flex-start; gap:8px;
+    font-size:clamp(7px,0.8vw,10px); color:rgba(255,255,255,0.8); line-height:1.5;
+  }
+  .insight-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+
+  .recovery-right {
+    display:flex; flex-direction:column; gap:2%;
+  }
+
+  .summary-kpi-row {
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+
+  .mini-kpi {
+    background:var(--light); border-radius:4px; padding:5% 6%;
+    border-left:3px solid var(--gold);
+  }
+  .mini-kpi-label { font-size:clamp(6px,0.7vw,9px); color:var(--slate); margin-bottom:4%; }
+  .mini-kpi-value { font-family:'DM Mono',monospace; font-size:clamp(11px,1.5vw,20px); font-weight:600; color:var(--navy); }
+  .mini-kpi-sub { font-size:clamp(6px,0.65vw,8px); color:var(--slate); margin-top:3%; }
+
+  /* Donut placeholder */
+  .donut-wrap {
+    flex:1; background:var(--light); border-radius:4px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:5%;
+  }
+  .donut-title { font-size:clamp(8px,0.9vw,11px); font-weight:700; color:var(--navy); }
+
+  .revenue-breakdown {
+    display:flex; flex-direction:column; gap:5%; flex:1; justify-content:center;
+  }
+
+  .rev-item {
+    display:flex; flex-direction:column; gap:3px;
+  }
+  .rev-item-header {
+    display:flex; justify-content:space-between; align-items:baseline;
+  }
+  .rev-item-name { font-size:clamp(7px,0.8vw,10px); font-weight:600; color:var(--navy); }
+  .rev-item-pct { font-family:'DM Mono',monospace; font-size:clamp(9px,1.1vw,14px); font-weight:500; }
+  .rev-item-detail { font-size:clamp(6px,0.7vw,9px); color:var(--slate); }
+  .rev-bar-track { height:10px; background:rgba(13,27,62,0.08); border-radius:2px; overflow:hidden; }
+  .rev-bar-fill { height:100%; border-radius:2px; }
+
+  /* ====== SLIDE 3: 民泊 損益分岐点 ====== */
+  .minpaku-body {
+    position:absolute; top:13%; left:2.5%; right:2.5%; bottom:5%;
+    display:grid; grid-template-columns:1.2fr 1fr; gap:2%;
+  }
+
+  .bep-left { display:flex; flex-direction:column; gap:2%; }
+  .bep-right { display:flex; flex-direction:column; gap:2%; }
+
+  .current-box {
+    background:var(--navy); border-radius:4px; padding:4% 5%;
+    display:flex; flex-direction:column; gap:5%;
+  }
+  .current-label { font-size:clamp(7px,0.8vw,10px); color:var(--slate); letter-spacing:0.1em; }
+  .current-value {
+    font-family:'DM Mono',monospace; font-size:clamp(18px,2.8vw,36px);
+    font-weight:500; color:var(--gold2); line-height:1;
+  }
+  .current-sub { font-size:clamp(7px,0.8vw,10px); color:var(--slate); }
+
+  .bep-matrix-wrap {
+    flex:1; overflow:hidden; background:var(--white); border-radius:4px;
+    border:1px solid rgba(13,27,62,0.1);
+  }
+
+  .bep-matrix {
+    width:100%; height:100%; border-collapse:collapse;
+    font-size:clamp(6px,0.75vw,9px);
+  }
+
+  .bep-matrix th {
+    background:var(--navy); color:var(--white);
+    padding:3% 2%; text-align:center; border:1px solid rgba(255,255,255,0.1);
+    font-family:'DM Mono',monospace; font-size:clamp(7px,0.82vw,10px);
+  }
+  .bep-matrix th:first-child { background:var(--blue); text-align:left; padding-left:3%; width:20%; }
+
+  .bep-matrix td {
+    padding:2.5% 2%; text-align:center;
+    border:1px solid rgba(13,27,62,0.07); vertical-align:middle;
+    font-family:'DM Mono',monospace; font-size:clamp(7px,0.85vw,11px);
+  }
+  .bep-matrix td:first-child {
+    text-align:left; padding-left:3%; font-family:'Noto Sans JP',sans-serif;
+    font-weight:600; color:var(--navy); font-size:clamp(7px,0.8vw,10px);
+  }
+  .bep-matrix tr:nth-child(even) td { background:var(--light); }
+
+  .bep-feasible { background:rgba(192,57,43,0.12) !important; color:var(--red); font-weight:700; }
+  .bep-marginal { background:rgba(217,119,6,0.1) !important; color:var(--amber); font-weight:600; }
+  .bep-ok { background:rgba(26,122,74,0.12) !important; color:var(--green); font-weight:700; }
+
+  .bep-matrix tr.row-minpaku-law td { border-top:2px solid rgba(26,58,124,0.3); }
+
+  .conclusion-box {
+    background:var(--navy); border-radius:4px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:6%;
+  }
+  .conc-title {
+    font-size:clamp(9px,1vw,13px); font-weight:700; color:var(--gold2);
+    border-bottom:1px solid rgba(200,149,42,0.3); padding-bottom:5%;
+  }
+  .conc-item {
+    display:flex; align-items:flex-start; gap:8px;
+    font-size:clamp(7px,0.82vw,10px); color:rgba(255,255,255,0.85); line-height:1.6;
+  }
+  .ci-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; margin-top:3px; }
+
+  /* ====== SLIDE 4: DECISION FRAME ====== */
+  .decision-body {
+    position:absolute; top:13%; left:2.5%; right:2.5%; bottom:5%;
+    display:grid; grid-template-columns:1fr 1fr; gap:2%;
+  }
+
+  .scenario-card {
+    border-radius:6px; padding:5% 6%;
+    display:flex; flex-direction:column; gap:5%;
+    border:1px solid rgba(13,27,62,0.1);
+  }
+  .scenario-card.sc-current { background:#F0F7FF; border-color:rgba(26,58,124,0.2); }
+  .scenario-card.sc-minpaku { background:#FEF9F8; border-color:rgba(192,57,43,0.15); }
+
+  .sc-header {
+    display:flex; align-items:center; gap:10px;
+    border-bottom:1px solid rgba(13,27,62,0.08); padding-bottom:5%;
+  }
+  .sc-icon {
+    width:clamp(24px,3vw,40px); height:clamp(24px,3vw,40px);
+    border-radius:4px; display:flex; align-items:center; justify-content:center;
+    font-size:clamp(14px,1.8vw,22px);
+    flex-shrink:0;
+  }
+  .sc-current .sc-icon { background:rgba(26,58,124,0.1); }
+  .sc-minpaku .sc-icon { background:rgba(192,57,43,0.1); }
+
+  .sc-title {
+    font-size:clamp(10px,1.2vw,15px); font-weight:700; color:var(--navy);
+  }
+  .sc-subtitle { font-size:clamp(7px,0.78vw,10px); color:var(--slate); }
+
+  .sc-row {
+    display:grid; grid-template-columns:1fr 1fr; gap:3%;
+  }
+
+  .sc-metric {
+    background:rgba(13,27,62,0.04); border-radius:3px; padding:4% 5%;
+  }
+  .sc-metric-label { font-size:clamp(6px,0.68vw,8px); color:var(--slate); margin-bottom:4%; letter-spacing:0.05em; }
+  .sc-metric-value {
+    font-family:'DM Mono',monospace;
+    font-size:clamp(10px,1.4vw,18px); font-weight:600; color:var(--navy);
+  }
+  .sc-metric-value.good { color:var(--green); }
+  .sc-metric-value.neutral { color:var(--amber); }
+  .sc-metric-value.bad { color:var(--red); }
+
+  .sc-pros-cons {
+    flex:1; display:flex; flex-direction:column; gap:4%;
+  }
+  .sc-pros-cons-label {
+    font-size:clamp(6px,0.7vw,9px); font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--slate);
+  }
+  .sc-list-item {
+    display:flex; align-items:flex-start; gap:6px;
+    font-size:clamp(7px,0.8vw,10px); color:#333; line-height:1.5;
+  }
+  .sc-bullet { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:4px; }
+  .bullet-green { background:var(--green); }
+  .bullet-red { background:var(--red); }
+  .bullet-slate { background:var(--slate); }
+
+  .decision-trigger {
+    position:absolute; bottom:5%; left:2.5%; right:2.5%;
+    background:var(--navy); border-radius:4px; padding:2.5% 4%;
+    display:flex; align-items:center; gap:3%;
+  }
+  .dt-label {
+    font-size:clamp(7px,0.82vw,10px); color:var(--gold2); font-weight:700;
+    letter-spacing:0.1em; white-space:nowrap;
+  }
+  .dt-conditions {
+    display:flex; gap:2%; flex:1;
+  }
+  .dt-cond {
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+    border-radius:3px; padding:2% 3%;
+    font-size:clamp(6px,0.72vw,9px); color:rgba(255,255,255,0.8);
+    flex:1;
+  }
+  .dt-cond strong {
+    display:block; color:var(--gold2); font-size:clamp(7px,0.85vw,11px); margin-bottom:3px;
+  }
+
+</style>
+</head>
+<body>
+<div class="slide-container">
+
+  <!-- ====== SLIDE 1: 損益計算書実績 ====== -->
+  <div class="slide" style="background:var(--white);">
+    <div class="slide-header">
+      <div class="hbar"></div>
+      <div class="htitle">損益計算書 実績｜2022–2025上半期</div>
+      <div class="hbadge">財務報告書より実数値</div>
+    </div>
+    <div class="pl-body">
+      <!-- 左：PLテーブル -->
+      <div class="pl-left">
+        <div class="pl-table-wrap">
+          <table class="pl-table">
+            <thead>
+              <tr>
+                <th>科目</th>
+                <th class="year-col">2022年</th>
+                <th class="year-col">2023年</th>
+                <th class="year-col">2024年</th>
+                <th class="year-col">2025上期</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="section-header"><td colspan="5">▶ 売上</td></tr>
+              <tr class="row-profit">
+                <td>売上高</td>
+                <td>39,776万</td><td>39,001万</td><td>38,991万</td><td>20,048万</td>
+              </tr>
+              <tr class="section-header"><td colspan="5">▶ 主要費用</td></tr>
+              <tr>
+                <td>役員報酬</td>
+                <td>926万</td><td>816万</td><td>816万</td><td>408万</td>
+              </tr>
+              <tr class="row-repair">
+                <td>⚠ 修繕費</td>
+                <td>3,617万</td><td>6,477万</td><td>6,270万</td><td>2,028万</td>
+              </tr>
+              <tr>
+                <td>租税公課</td>
+                <td>2,595万</td><td>2,318万</td><td>2,133万</td><td>1,060万</td>
+              </tr>
+              <tr>
+                <td>減価償却費</td>
+                <td>11,804万</td><td>11,562万</td><td>11,082万</td><td>5,487万</td>
+              </tr>
+              <tr>
+                <td>管理・手数料</td>
+                <td>2,387万</td><td>2,128万</td><td>2,245万</td><td>1,213万</td>
+              </tr>
+              <tr>
+                <td>水道光熱費</td>
+                <td>1,394万</td><td>1,482万</td><td>1,410万</td><td>762万</td>
+              </tr>
+              <tr>
+                <td>保険料</td>
+                <td>384万</td><td>440万</td><td>515万</td><td>119万</td>
+              </tr>
+              <tr class="section-header"><td colspan="5">▶ 利益</td></tr>
+              <tr class="row-ebit">
+                <td>営業利益</td>
+                <td>15,315万</td><td>12,643万</td><td>13,292万</td><td>8,284万</td>
+              </tr>
+              <tr>
+                <td style="padding-left:6%;color:var(--slate);font-size:clamp(6px,0.7vw,9px);">（支払利息）</td>
+                <td style="color:var(--slate);">△4,103万</td>
+                <td style="color:var(--slate);">△3,876万</td>
+                <td style="color:var(--slate);">△3,654万</td>
+                <td style="color:var(--slate);">△1,753万</td>
+              </tr>
+              <tr>
+                <td>経常利益</td>
+                <td>10,723万</td><td>8,020万</td><td>9,192万</td><td>6,492万</td>
+              </tr>
+              <tr class="row-net">
+                <td>当期純利益</td>
+                <td>7,596万</td><td>5,880万</td><td>6,716万</td><td>4,362万</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 右：KPI + トレンド -->
+      <div class="pl-right">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">営業利益率（2024）</div>
+            <div class="kpi-value">34.1<span style="font-size:0.6em;color:var(--slate);">%</span></div>
+            <div class="kpi-sub">2025上期は 41.3%（過去最高）</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">自己資本比率（2024年末）</div>
+            <div class="kpi-value">22.4<span style="font-size:0.6em;color:var(--slate);">%</span></div>
+            <div class="kpi-sub">2022年 18.0% → 改善傾向</div>
+          </div>
+          <div class="kpi-card alert">
+            <div class="kpi-label">修繕費（2023→2024）</div>
+            <div class="kpi-value">6,270<span style="font-size:0.5em;">万円</span></div>
+            <div class="kpi-sub">2022年比 +73%・高水準継続</div>
+          </div>
+          <div class="kpi-card good">
+            <div class="kpi-label">純利益（2024年）</div>
+            <div class="kpi-value">6,716<span style="font-size:0.5em;">万円</span></div>
+            <div class="kpi-sub">前年比 +14.2%・回復傾向</div>
+          </div>
+        </div>
+        <div class="trend-box" style="flex:1;">
+          <div class="trend-title">利益率トレンド（実績）</div>
+          <div class="trend-row">
+            <div class="trend-row-header">
+              <span class="trend-row-label">営業利益率</span>
+              <span class="trend-row-value" style="color:var(--blue);">38.5% → 32.4% → 34.1% → 41.3%</span>
+            </div>
+            <div class="trend-bar-track"><div class="trend-bar-fill" style="width:85%;background:var(--blue);"></div></div>
+          </div>
+          <div class="trend-row">
+            <div class="trend-row-header">
+              <span class="trend-row-label">経常利益率</span>
+              <span class="trend-row-value" style="color:var(--teal);">27.0% → 20.6% → 23.6% → 32.4%</span>
+            </div>
+            <div class="trend-bar-track"><div class="trend-bar-fill" style="width:65%;background:var(--teal);"></div></div>
+          </div>
+          <div class="trend-row">
+            <div class="trend-row-header">
+              <span class="trend-row-label">純利益率</span>
+              <span class="trend-row-value" style="color:var(--green);">19.1% → 15.1% → 17.2% → 21.8%</span>
+            </div>
+            <div class="trend-bar-track"><div class="trend-bar-fill" style="width:54%;background:var(--green);"></div></div>
+          </div>
+          <div class="trend-row">
+            <div class="trend-row-header">
+              <span class="trend-row-label">修繕費 / 売上</span>
+              <span class="trend-row-value" style="color:var(--red);">9.1% → 16.6% → 16.1% → 10.1%</span>
+            </div>
+            <div class="trend-bar-track"><div class="trend-bar-fill" style="width:41%;background:var(--red);"></div></div>
+          </div>
+          <div style="margin-top:auto;padding-top:4%;border-top:1px solid rgba(13,27,62,0.08);">
+            <div style="font-size:clamp(6px,0.7vw,9px);color:var(--slate);line-height:1.6;">
+              ⚠ 修繕費は2026-2027年にさらに増加予定（アスベスト除去・外壁修繕）。<br>
+              利益率の維持には修繕費の計画的コントロールが最重要課題。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-page" style="color:#8A9BB5;">01 / 06</div>
+    <div class="slide-label" style="color:#8A9BB5;">SANKAI — PL ACTUAL DATA</div>
+  </div>
+
+  <!-- ====== SLIDE 2: 固定費回収分析 ====== -->
+  <div class="slide" style="background:var(--white);">
+    <div class="slide-header">
+      <div class="hbar"></div>
+      <div class="htitle">修繕固定費 3年合計｜エリア別収益での回収見込み</div>
+      <div class="hbadge">2024年財務報告書 実数値ベース｜修繕計画v5準拠</div>
+    </div>
+    <div class="recovery-body">
+      <div class="recovery-left">
+        <table class="property-recovery-table">
+          <thead>
+            <tr>
+              <th>エリア / 物件</th>
+              <th>2024年収益</th>
+              <th>3年確定修繕費</th>
+              <th>変動費上限</th>
+              <th>回収年数<br>（確定のみ）</th>
+              <th>判定</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>沖縄 6棟<span class="area-badge ab-mid">米軍賃貸</span></td>
+              <td>13,159万/年</td>
+              <td>21,700万</td>
+              <td>3,000万</td>
+              <td class="recovery-years ry-warn">1.8年</td>
+              <td><span class="area-badge ab-bad">修繕負荷最大</span></td>
+            </tr>
+            <tr>
+              <td>沖縄 売電</td>
+              <td>840万/年</td>
+              <td>—</td>
+              <td>—</td>
+              <td class="recovery-years ry-ok">—</td>
+              <td><span class="area-badge ab-ok">安定</span></td>
+            </tr>
+            <tr>
+              <td>札幌 15棟<span class="area-badge ab-ok">日本人賃貸</span></td>
+              <td>17,900万/年</td>
+              <td>1,720万</td>
+              <td>—</td>
+              <td class="recovery-years ry-ok">0.1年</td>
+              <td><span class="area-badge ab-ok">良好</span></td>
+            </tr>
+            <tr>
+              <td>福岡 太陽光</td>
+              <td>7,380万/年</td>
+              <td>1,500万</td>
+              <td>—</td>
+              <td class="recovery-years ry-ok">0.2年</td>
+              <td><span class="area-badge ab-ok">良好</span></td>
+            </tr>
+            <tr>
+              <td>群馬 1棟<span class="area-badge ab-bad">要判断</span></td>
+              <td>1,302万/年</td>
+              <td>4,700万（保有時）</td>
+              <td>—</td>
+              <td class="recovery-years ry-bad">3.6年</td>
+              <td><span class="area-badge ab-bad">要NPV比較</span></td>
+            </tr>
+            <tr style="background:rgba(13,27,62,0.04)!important;">
+              <td style="font-weight:700;">全社 合計</td>
+              <td style="font-weight:700;font-family:'DM Mono',monospace;">38,991万/年</td>
+              <td style="font-weight:700;font-family:'DM Mono',monospace;color:var(--red);">29,620万</td>
+              <td style="font-weight:700;font-family:'DM Mono',monospace;color:var(--amber);">3,000万</td>
+              <td class="recovery-years ry-warn">0.5年</td>
+              <td><span class="area-badge ab-mid">管理要</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="insight-box">
+          <div class="insight-title">📌 数値から読み取れる経営課題</div>
+          <div class="insight-item">
+            <div class="insight-dot" style="background:var(--red);"></div>
+            <div>群馬物件は年収1,302万に対し修繕費4,700万（PBP3.6年）。退去時修繕（床・浴槽）は沖縄の確定費に組み入れ済み。群馬は保有継続NPV vs 売却の比較が最重要。</div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-dot" style="background:var(--amber);"></div>
+            <div>沖縄の退去時床修繕は確定費3,600万/年に変更（v5修繕計画）。浴槽交換は変動上限1,000万/年。</div>
+          </div>
+          <div class="insight-item">
+            <div class="insight-dot" style="background:var(--green);"></div>
+            <div>札幌・福岡は修繕費対収益比が低く、安定収益源。この2エリアが2026-2027年のキャッシュを支える。</div>
+          </div>
+        </div>
+      </div>
+      <div class="recovery-right">
+        <div class="summary-kpi-row">
+          <div class="mini-kpi">
+            <div class="mini-kpi-label">3年確定修繕費 合計</div>
+            <div class="mini-kpi-value">29,620万</div>
+            <div class="mini-kpi-sub">群馬保有継続時。売却なら▲4,700万（v5修繕計画準拠）</div>
+          </div>
+          <div class="mini-kpi" style="border-left-color:var(--amber);">
+            <div class="mini-kpi-label">変動費3年上限 合計</div>
+            <div class="mini-kpi-value">20,600万</div>
+            <div class="mini-kpi-sub">退去室数により大幅変動</div>
+          </div>
+          <div class="mini-kpi" style="border-left-color:var(--red);">
+            <div class="mini-kpi-label">3年最大修繕費総計</div>
+            <div class="mini-kpi-value" style="color:var(--red);">32,620万</div>
+            <div class="mini-kpi-sub">≒年間売上と同規模。計画的管理が必須</div>
+          </div>
+          <div class="mini-kpi" style="border-left-color:var(--green);">
+            <div class="mini-kpi-label">3年間 営業利益合計（目安）</div>
+            <div class="mini-kpi-value" style="color:var(--green);">39,876万</div>
+            <div class="mini-kpi-sub">2024年実績×3年。修繕費で全額消費するリスク</div>
+          </div>
+        </div>
+        <div class="donut-wrap">
+          <div class="donut-title">2024年 収益構成（エリア別）</div>
+          <div class="revenue-breakdown">
+            <div class="rev-item">
+              <div class="rev-item-header">
+                <span class="rev-item-name">沖縄（米軍賃貸＋売電）</span>
+                <span class="rev-item-pct" style="color:var(--blue);">35.9%</span>
+              </div>
+              <div class="rev-item-detail">13,159万（賃貸）＋840万（売電）＝14,000万</div>
+              <div class="rev-bar-track"><div class="rev-bar-fill" style="width:36%;background:var(--blue);"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-item-header">
+                <span class="rev-item-name">札幌（日本人賃貸）</span>
+                <span class="rev-item-pct" style="color:var(--teal);">45.9%</span>
+              </div>
+              <div class="rev-item-detail">17,900万（二条GCビル含む15棟）</div>
+              <div class="rev-bar-track"><div class="rev-bar-fill" style="width:46%;background:var(--teal);"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-item-header">
+                <span class="rev-item-name">福岡（太陽光売電）</span>
+                <span class="rev-item-pct" style="color:var(--gold);">18.9%</span>
+              </div>
+              <div class="rev-item-detail">7,380万（八女FIT・2028年まで継続）</div>
+              <div class="rev-bar-track"><div class="rev-bar-fill" style="width:19%;background:var(--gold);"></div></div>
+            </div>
+            <div class="rev-item">
+              <div class="rev-item-header">
+                <span class="rev-item-name">群馬</span>
+                <span class="rev-item-pct" style="color:var(--slate);">0.8%</span>
+              </div>
+              <div class="rev-item-detail">1,302万（2024年財務実績・逆算値）</div>
+              <div class="rev-bar-track"><div class="rev-bar-fill" style="width:1%;background:var(--slate);"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-page" style="color:#8A9BB5;">02 / 06</div>
+    <div class="slide-label" style="color:#8A9BB5;">SANKAI — RECOVERY ANALYSIS</div>
+  </div>
+
+  <!-- ====== SLIDE 3: 民泊シミュレーション（北谷宮城海岸 2LDK） ====== -->
+  <div class="slide" style="background:var(--white);">
+    <div class="slide-header">
+      <div class="hbar"></div>
+      <div class="htitle">民泊転換シミュレーション｜北谷町宮城海岸 2LDK 80㎡ 海沿い物件</div>
+      <div class="hbadge">旅館業許可取得・365日営業前提　現状：米軍賃貸 22万/月（264万/年）</div>
+    </div>
+
+    <!-- メインコンテンツ：2カラム構成 -->
+    <div style="position:absolute;top:13%;left:2%;right:2%;bottom:5%;
+                display:grid;grid-template-columns:1.1fr 1fr;gap:1.5%;">
+
+      <!-- 左カラム -->
+      <div style="display:flex;flex-direction:column;gap:1.5%;overflow:hidden;">
+
+        <!-- 物件スペック帯 -->
+        <div style="background:var(--navy);border-radius:4px;padding:2% 3%;
+                    display:grid;grid-template-columns:repeat(4,1fr);gap:2%;flex-shrink:0;">
+          <div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">広さ・間取り</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.7vw,22px);font-weight:500;color:var(--gold2);">80㎡</div>
+            <div style="font-size:clamp(5.5px,0.62vw,7.5px);color:var(--slate);">2LDK</div>
+          </div>
+          <div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">立地</div>
+            <div style="font-size:clamp(9px,1.1vw,14px);font-weight:600;color:var(--white);line-height:1.3;">宮城海岸<br>海沿い</div>
+          </div>
+          <div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">設備</div>
+            <div style="font-size:clamp(7.5px,0.88vw,11px);font-weight:600;color:var(--white);line-height:1.4;">UB・キッチン<br>冷蔵庫・洗乾機</div>
+          </div>
+          <div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">北谷市場相場</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,17px);font-weight:500;color:var(--gold2);">4.7〜5.1万</div>
+            <div style="font-size:clamp(5.5px,0.62vw,7.5px);color:var(--slate);">民泊 平日/週末</div>
+          </div>
+        </div>
+
+        <!-- 損益分岐点（賃貸と同等になる最低1泊料金）-->
+        <div style="background:#FEF3F2;border:1px solid rgba(192,57,43,0.2);border-radius:4px;
+                    padding:2% 3%;flex-shrink:0;">
+          <div style="font-size:clamp(7px,0.82vw,10px);font-weight:700;color:var(--red);
+                      letter-spacing:0.06em;margin-bottom:3%;">
+            📍 賃貸と同等の収入を得るために必要な最低1泊料金
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5%;">
+            <div style="text-align:center;background:rgba(192,57,43,0.08);border-radius:3px;padding:2%;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">お客さん55%の場合</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,17px);font-weight:700;color:var(--red);">3.1万円</div>
+            </div>
+            <div style="text-align:center;background:rgba(192,57,43,0.08);border-radius:3px;padding:2%;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">お客さん65%の場合</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,17px);font-weight:700;color:var(--red);">2.8万円</div>
+            </div>
+            <div style="text-align:center;background:rgba(192,57,43,0.08);border-radius:3px;padding:2%;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">お客さん70%の場合</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,17px);font-weight:700;color:var(--red);">2.7万円</div>
+            </div>
+            <div style="text-align:center;background:rgba(200,149,42,0.12);border-radius:3px;padding:2%;border:1px solid rgba(200,149,42,0.3);">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--gold);">北谷市場相場</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,17px);font-weight:700;color:var(--gold);">4.7万円</div>
+            </div>
+          </div>
+          <div style="margin-top:2%;font-size:clamp(6px,0.72vw,9px);color:var(--navy);">
+            ▶ <strong>1泊3万円・65%稼働で損益分岐点超え</strong>。北谷市場の実勢相場（平日4.7万）は損益分岐点を大幅に上回っている。
+          </div>
+        </div>
+
+        <!-- シミュレーション表 -->
+        <div style="flex:1;overflow:hidden;min-height:0;">
+          <table style="width:100%;border-collapse:collapse;font-size:clamp(6px,0.75vw,9.5px);">
+            <thead>
+              <tr>
+                <th style="background:var(--navy);color:var(--white);padding:1.8% 2%;text-align:left;
+                           border:1px solid rgba(255,255,255,0.1);width:24%;font-size:clamp(6px,0.7vw,8.5px);">シナリオ</th>
+                <th style="background:var(--navy);color:var(--white);padding:1.8% 1.5%;text-align:center;
+                           border:1px solid rgba(255,255,255,0.1);">1泊<br>料金</th>
+                <th style="background:var(--navy);color:var(--white);padding:1.8% 1.5%;text-align:center;
+                           border:1px solid rgba(255,255,255,0.1);">お客さんの<br>入り具合</th>
+                <th style="background:var(--navy);color:var(--white);padding:1.8% 1.5%;text-align:center;
+                           border:1px solid rgba(255,255,255,0.1);">年間<br>手取り</th>
+                <th style="background:var(--navy);color:var(--white);padding:1.8% 1.5%;text-align:center;
+                           border:1px solid rgba(255,255,255,0.1);">賃貸比較<br>(264万/年)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:rgba(138,155,181,0.08);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(13,27,62,0.07);font-weight:600;color:#666;">北谷市場平均</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;color:#666;">2万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);color:#666;">55%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">110万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;color:var(--red);">−58% ✗</td>
+              </tr>
+              <tr style="background:rgba(192,57,43,0.04);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(13,27,62,0.07);font-weight:600;color:var(--navy);">慎重シナリオ</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;">3万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);">55%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">246万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;color:var(--red);">−7% ✗</td>
+              </tr>
+              <tr style="background:rgba(26,122,74,0.07);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(13,27,62,0.07);font-weight:700;color:var(--green);">✓ 標準（損益分岐）</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">3万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-weight:700;color:var(--green);">65%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">291万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">+10% ✓</td>
+              </tr>
+              <tr style="background:rgba(26,122,74,0.12);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(13,27,62,0.07);font-weight:700;color:var(--green);">✓ 好調</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">4万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-weight:700;color:var(--green);">65%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">451万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:700;color:var(--green);">+71% ✓</td>
+              </tr>
+              <tr style="background:rgba(200,149,42,0.1);border:1px solid rgba(200,149,42,0.25);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(200,149,42,0.2);font-weight:700;color:#8A6000;">★ 市場並み</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.2);font-family:'DM Mono',monospace;font-weight:700;color:#8A6000;">5万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.2);font-weight:700;color:#8A6000;">70%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.2);font-family:'DM Mono',monospace;font-weight:700;color:#8A6000;">658万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.2);font-family:'DM Mono',monospace;font-weight:700;color:#8A6000;">+149% ✓</td>
+              </tr>
+              <tr style="background:rgba(200,149,42,0.16);">
+                <td style="padding:1.5% 2%;border:1px solid rgba(200,149,42,0.25);font-weight:700;color:#7A5000;">★★ 強気上限</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.25);font-family:'DM Mono',monospace;font-weight:700;color:#7A5000;">6万円</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.25);font-weight:700;color:#7A5000;">65%</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.25);font-family:'DM Mono',monospace;font-weight:700;color:#7A5000;">771万</td>
+                <td style="text-align:center;padding:1.5%;border:1px solid rgba(200,149,42,0.25);font-family:'DM Mono',monospace;font-weight:700;color:#7A5000;">+192% ✓</td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 計算根拠 -->
+        <div style="background:rgba(13,27,62,0.04);border-radius:3px;padding:2% 3%;margin-top:1.5%;">
+          <div style="font-size:clamp(7px,0.85vw,10.5px);font-weight:700;color:var(--navy);margin-bottom:2%;">📐 291万・658万の計算根拠（1室あたり・年間）</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:2%;font-size:clamp(6.5px,0.78vw,9.5px);">
+            <div style="background:rgba(26,122,74,0.06);border-radius:3px;padding:2.5% 3%;border-left:3px solid var(--green);">
+              <div style="font-weight:700;color:var(--green);margin-bottom:3%;">標準：3万円/泊・65%稼働 → 291万/室/年</div>
+              <div style="color:#444;line-height:1.6;">
+                年間稼働: 365日×65%＝<strong>237泊</strong><br>
+                売上: 3万×237泊＝<strong>712万円</strong><br>
+                手数料控除: 712万×67.5%＝<strong>480万円</strong><br>
+                清掃費: 8,000円×237泊＝<strong>△190万円</strong><br>
+                <strong style="color:var(--green);">手取り: 291万円/室/年</strong>
+              </div>
+            </div>
+            <div style="background:rgba(200,149,42,0.08);border-radius:3px;padding:2.5% 3%;border-left:3px solid var(--gold);">
+              <div style="font-weight:700;color:#8A6000;margin-bottom:3%;">市場並み：5万円/泊・70%稼働 → 658万/室/年</div>
+              <div style="color:#444;line-height:1.6;">
+                年間稼働: 365日×70%＝<strong>255泊</strong><br>
+                売上: 5万×255泊＝<strong>1,277万円</strong><br>
+                手数料控除: 1,277万×67.5%＝<strong>862万円</strong><br>
+                清掃費: 8,000円×255泊＝<strong>△204万円</strong><br>
+                <strong style="color:#8A6000;">手取り: 658万円/室/年</strong>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:2%;font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);">
+            コスト構造：予約サイト手数料15%＋管理運営代行17.5%＝合計32.5%控除、清掃費8,000円/泊（80㎡2LDK）
+          </div>
+        </div>
+
+        <!-- 24室全体収益 -->
+        <div style="background:var(--navy);border-radius:3px;padding:2% 3%;margin-top:1.5%;">
+          <div style="font-size:clamp(7px,0.85vw,10.5px);font-weight:700;color:var(--gold2);margin-bottom:3%;">🏢 24室すべてを民泊転換した場合の年間収益</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2%;">
+            <div style="text-align:center;background:rgba(255,255,255,0.06);border-radius:3px;padding:3%;">
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">現状（米軍賃貸 22万×12ヶ月×24室）</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.6vw,20px);font-weight:600;color:var(--white);">6,336万円</div>
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">安定・固定収入</div>
+            </div>
+            <div style="text-align:center;background:rgba(26,122,74,0.15);border-radius:3px;padding:3%;border:1px solid rgba(26,122,74,0.3);">
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">民泊（3万/泊・65%稼働）291万×24室</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.6vw,20px);font-weight:600;color:#5DE89A;">6,975万円</div>
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:#5DE89A;">賃貸比 +639万（+10%）</div>
+            </div>
+            <div style="text-align:center;background:rgba(200,149,42,0.2);border-radius:3px;padding:3%;border:1px solid rgba(200,149,42,0.4);">
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">民泊（5万/泊・70%稼働）658万×24室</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.6vw,20px);font-weight:600;color:var(--gold2);">15,790万円</div>
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--gold2);">賃貸比 +9,454万（+149%）</div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+      </div><!-- /左カラム -->
+
+      <!-- 右カラム -->
+      <div style="display:flex;flex-direction:column;gap:1.5%;overflow:hidden;">
+
+        <!-- 市場根拠 -->
+        <div style="background:var(--navy);border-radius:4px;padding:3% 4%;
+                    display:flex;flex-direction:column;gap:4%;flex-shrink:0;">
+          <div style="font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--gold2);">📊 北谷町・宮城海岸エリアの宿泊市場（実態）</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3%;">
+            <div style="background:rgba(255,255,255,0.06);border-radius:3px;padding:3.5%;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">北谷民泊 平日平均（Trip.com）</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.6vw,21px);font-weight:500;color:var(--gold2);">4.7万円/泊</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.06);border-radius:3px;padding:3.5%;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">北谷民泊 週末平均（Trip.com）</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(12px,1.6vw,21px);font-weight:500;color:var(--gold2);">5.1万円/泊</div>
+            </div>
+          </div>
+          <div style="background:rgba(200,149,42,0.15);border:1px solid rgba(200,149,42,0.3);border-radius:3px;padding:3%;">
+            <div style="font-size:clamp(7px,0.82vw,10px);color:var(--gold2);font-weight:700;margin-bottom:3%;">当物件の差別化ポイント</div>
+            <div style="font-size:clamp(7px,0.8vw,10px);color:rgba(255,255,255,0.85);line-height:1.6;">
+              80㎡の広さ・洗濯乾燥機完備・海沿い立地は<br>
+              家族旅行・長期滞在需要に強く、<strong style="color:var(--gold2);">4〜6万円の強気設定も市場内</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- 経営判断ポイント -->
+        <div style="flex:1;background:var(--light);border-radius:4px;padding:3% 4%;
+                    display:flex;flex-direction:column;gap:3%;overflow:hidden;min-height:0;">
+          <div style="font-size:clamp(8px,0.92vw,11px);font-weight:700;color:var(--navy);
+                      border-bottom:1px solid rgba(13,27,62,0.1);padding-bottom:3%;flex-shrink:0;">⚖ 経営判断の4ポイント</div>
+          <div style="display:flex;align-items:flex-start;gap:6px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0;margin-top:3px;"></div>
+            <div style="font-size:clamp(7px,0.8vw,10px);color:#222;line-height:1.55;"><strong>収益性：1泊3万・65%で賃貸超え</strong><br>市場相場4.7万なら年間451〜658万（賃貸比+71〜149%）</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:6px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:3px;"></div>
+            <div style="font-size:clamp(7px,0.8vw,10px);color:#222;line-height:1.55;"><strong>初期費用：旅館業許可＋内装で100〜210万/室</strong><br>24室全体では2,640〜5,040万の先行投資が必要</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:6px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0;margin-top:3px;"></div>
+            <div style="font-size:clamp(7px,0.8vw,10px);color:#222;line-height:1.55;"><strong>季節変動：夏は高稼働・冬は閑散</strong><br>沖縄は繁忙期と閑散期の差が大きく、年平均65%の確認が必要</div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:6px;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:3px;"></div>
+            <div style="font-size:clamp(7px,0.8vw,10px);color:#222;line-height:1.55;"><strong>進め方：まず1〜3室で試験（2028年〜）</strong><br>修繕完了後に少数室で12ヶ月実績を取り、全室展開を判断</div>
+          </div>
+          <!-- 賃貸vs民泊ミニ比較 -->
+          <div style="margin-top:auto;background:var(--navy);border-radius:3px;padding:2.5% 3.5%;
+                      display:grid;grid-template-columns:1fr 1fr;gap:2%;flex-shrink:0;">
+            <div style="text-align:center;">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">現状（米軍賃貸）年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(11px,1.4vw,18px);font-weight:600;color:var(--white);">264万</div>
+              <div style="font-size:clamp(5px,0.6vw,7px);color:var(--slate);">安定・固定</div>
+            </div>
+            <div style="text-align:center;border-left:1px solid rgba(255,255,255,0.1);">
+              <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);margin-bottom:3px;">民泊（5万/泊・70%）年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(11px,1.4vw,18px);font-weight:600;color:var(--gold2);">658万</div>
+              <div style="font-size:clamp(5px,0.6vw,7px);color:var(--slate);">変動あり・上振れ期待</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /右カラム -->
+
+    </div><!-- /grid -->
+
+    <div class="slide-page" style="color:#8A9BB5;">03 / 06</div>
+    <div class="slide-label" style="color:#8A9BB5;">SANKAI — CHATAN MIYAGI MINPAKU SIMULATION</div>
+  </div>
+
+<!-- ====== SLIDE 3B: 北谷物件 専用シミュレーション ====== -->
+  <!-- ====== SLIDE 4: 意思決定フレーム ====== -->
+  
+<!-- ===== 民泊転換に必要な法整備・初期費用スライド ===== -->
+<div class="slide" style="background:var(--navy);">
+    <div class="slide-header">
+      <div class="hbar"></div>
+      <div class="htitle">収益モデル比較｜意思決定フレーム（北谷物件 24室・2棟）</div>
+      <div class="hbadge">シナリオ比較 — 経営判断の論点整理</div>
+    </div>
+    <div class="decision-body" style="top:13%;bottom:22%;">
+
+      <!-- シナリオA：現状維持 -->
+      <div class="scenario-card sc-current">
+        <div class="sc-header">
+          <div class="sc-icon">🏢</div>
+          <div>
+            <div class="sc-title">シナリオA｜現状維持（米軍向け賃貸 24室・2棟）</div>
+            <div class="sc-subtitle">修繕完了後 → 賃料改定（22万→25万/室）</div>
+          </div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-metric">
+            <div class="sc-metric-label">24室 現状年収合計</div>
+            <div class="sc-metric-value good">6,336万</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">賃料改定後（25万×24室）</div>
+            <div class="sc-metric-value good">7,200万</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">収益の安定性</div>
+            <div class="sc-metric-value good">◎ 高い</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">運営管理コスト</div>
+            <div class="sc-metric-value good">◎ 低い</div>
+          </div>
+        </div>
+        <div class="sc-pros-cons">
+          <div class="sc-pros-cons-label">✅ 優位点</div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-green"></div><div>米軍需要は構造的・政治的に安定。空室リスクが極めて低い</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-green"></div><div>管理工数・変動コストが低く、現体制で継続できる</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-green"></div><div>修繕完了後の賃料改定（22万→25万）で年間+864万の収益増</div></div>
+          <div class="sc-pros-cons-label" style="margin-top:4%;">⚠ リスク</div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-red"></div><div>米軍基地縮小・再編のリスク（中長期）</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-red"></div><div>2026-2027年の修繕費集中による一時的な資金負荷</div></div>
+        </div>
+      </div>
+
+      <!-- シナリオB：民泊転換 -->
+      <div class="scenario-card sc-minpaku">
+        <div class="sc-header">
+          <div class="sc-icon">🏨</div>
+          <div>
+            <div class="sc-title">シナリオB｜民泊転換（北谷宮城海岸 2棟 24室）</div>
+            <div class="sc-subtitle">旅館業許可取得 ＋ 1泊3〜6万円設定 ＋ 稼働率65%以上</div>
+          </div>
+        </div>
+        <div class="sc-row">
+          <div class="sc-metric">
+            <div class="sc-metric-label">年収・標準（3万・65%）</div>
+            <div class="sc-metric-value neutral">291万/室</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">年収・好調（5万・70%）</div>
+            <div class="sc-metric-value good">658万/室</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">初期費用（24室分）</div>
+            <div class="sc-metric-value bad">2640〜5040万</div>
+          </div>
+          <div class="sc-metric">
+            <div class="sc-metric-label">運営管理コスト</div>
+            <div class="sc-metric-value bad">✗ 高い（手数料32.5%）</div>
+          </div>
+        </div>
+        <div class="sc-pros-cons">
+          <div class="sc-pros-cons-label">💡 有利になる条件</div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-green"></div><div>1泊3万・65%稼働で損益分岐点超え。北谷市場の実勢相場（平日4.7万）なら大幅に有利</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-green"></div><div>1泊5万・70%稼働で658万/室（現状賃貸6336万比 +-5678万）</div></div>
+          <div class="sc-pros-cons-label" style="margin-top:4%;">⚠ 実現上の課題</div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-red"></div><div>旅館業許可・内装整備で初期費用2640〜5040万円が先行する</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-red"></div><div>沖縄の繁忙期（7〜9月）と閑散期（1〜2月）の稼働率差が大きく、年間平均65%維持が前提</div></div>
+          <div class="sc-list-item"><div class="sc-bullet bullet-red"></div><div>大規模修繕（2026-2027年）と並行しての転換は資金・工事面で困難。修繕完了後が現実的</div></div>
+        </div>
+      </div>
+
+    </div>
+    <div class="decision-trigger" style="bottom:5%;">
+      <div class="dt-label">▶ 実行判断の4条件</div>
+      <div class="dt-conditions">
+        <div class="dt-cond">
+          <strong>条件①：修繕の完了</strong>
+          アスベスト除去・外壁修繕の完了（2027〜2028年）。修繕と転換工事の並行は資金・工程が過負荷になる。
+        </div>
+        <div class="dt-cond">
+          <strong>条件②：試験運営（1室〜）</strong>
+          まず1〜3室で旅館業許可を取得し、実際の稼働率・1泊料金・運営コストを12ヶ月以上実測。全室展開の前に数値で検証する。
+        </div>
+        <div class="dt-cond">
+          <strong>条件③：採算の確認</strong>
+          試験運営で年間平均「1泊3万円以上・稼働率65%以上」を達成できているか確認。北谷市場の実勢（4.7万/泊）なら達成しやすい。
+        </div>
+        <div class="dt-cond">
+          <strong>条件④：投資回収の計算</strong>
+          初期費用2640〜5040万円に対し、年収増加分（658万−264万＝+394万/年）で約6〜12年で回収できるか確認。
+        </div>
+      </div>
+    </div>
+    <div class="slide-page">04 / 06</div>
+    <div class="slide-label">SANKAI — DECISION FRAMEWORK</div>
+  </div>
+
+
+
+
+<!-- ===== 補足資料：月次ランニングコスト詳細 ===== -->
+<div class="slide" style="background:var(--navy);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">【補足】月次ランニングコスト詳細｜民泊転換シナリオ別収支</div>
+    <div class="hbadge">1室あたり・北谷宮城海岸 2LDK 80㎡　旅館業許可（365日）前提</div>
+  </div>
+
+  <div style="position:absolute;top:13%;left:3%;right:3%;bottom:5%;
+              display:grid;grid-template-columns:1.2fr 1fr;gap:2.5%;">
+
+    <!-- 左：コスト明細テーブル -->
+    <div style="display:flex;flex-direction:column;gap:2%;">
+
+      <div style="font-size:clamp(8.5px,1vw,13px);font-weight:700;color:var(--gold2);
+                  padding-bottom:2%;border-bottom:1px solid rgba(200,149,42,0.3);flex-shrink:0;">
+        💰 月次収支内訳（1室・月次換算）
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;font-size:clamp(8px,0.95vw,12px);">
+        <thead>
+          <tr>
+            <th style="background:rgba(255,255,255,0.1);color:var(--white);padding:3% 3%;
+                       text-align:left;border:1px solid rgba(255,255,255,0.1);font-weight:600;width:32%;">費目</th>
+            <th style="background:rgba(26,122,74,0.4);color:#5DE89A;padding:3% 2%;
+                       text-align:center;border:1px solid rgba(255,255,255,0.1);font-weight:600;">
+              シナリオA<br><span style="font-size:clamp(7px,0.82vw,10px);font-weight:400;">3万/泊・65%稼働</span>
+            </th>
+            <th style="background:rgba(200,149,42,0.4);color:var(--gold2);padding:3% 2%;
+                       text-align:center;border:1px solid rgba(255,255,255,0.1);font-weight:600;">
+              シナリオB<br><span style="font-size:clamp(7px,0.82vw,10px);font-weight:400;">5万/泊・70%稼働</span>
+            </th>
+            <th style="background:rgba(255,255,255,0.08);color:var(--slate);padding:3% 2%;
+                       text-align:left;border:1px solid rgba(255,255,255,0.08);font-weight:400;
+                       font-size:clamp(6.5px,0.75vw,9.5px);">計算根拠</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 収入 -->
+          <tr>
+            <td colspan="4" style="padding:2% 3%;background:rgba(255,255,255,0.05);
+                color:var(--slate);font-size:clamp(7px,0.8vw,10px);letter-spacing:0.1em;
+                border:1px solid rgba(255,255,255,0.06);">▶ 収入</td>
+          </tr>
+          <tr>
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.08);color:var(--white);">月間売上</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:700;color:#5DE89A;
+                font-size:clamp(10px,1.2vw,15px);">59.3万円</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:700;color:var(--gold2);
+                font-size:clamp(10px,1.2vw,15px);">106.4万円</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.06);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">1泊料金×稼働日数÷12</td>
+          </tr>
+          <!-- 支出 -->
+          <tr>
+            <td colspan="4" style="padding:2% 3%;background:rgba(255,255,255,0.05);
+                color:var(--slate);font-size:clamp(7px,0.8vw,10px);letter-spacing:0.1em;
+                border:1px solid rgba(255,255,255,0.06);">▶ 支出（ランニングコスト）</td>
+          </tr>
+          <tr>
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.08);color:var(--white);">
+              予約サイト手数料
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-top:2px;">Airbnb等</div>
+            </td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△ 8.9万円</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△16.0万円</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.06);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">売上の15%</td>
+          </tr>
+          <tr style="background:rgba(255,255,255,0.03);">
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.08);color:var(--white);">
+              管理・運営代行
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-top:2px;">清掃手配・チェックイン対応等</div>
+            </td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△10.4万円</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△18.6万円</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.06);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">売上の17.5%</td>
+          </tr>
+          <tr>
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.08);color:var(--white);">
+              清掃費
+              <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-top:2px;">チェックアウト毎・業者委託</div>
+            </td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△15.8万円</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:#FF9999;">△17.0万円</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.06);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">8,000円/泊×稼働日数÷12</td>
+          </tr>
+          <!-- 小計 -->
+          <tr style="background:rgba(192,57,43,0.15);">
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.1);
+                color:#FF9999;font-weight:700;">月次コスト合計</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.1);
+                font-family:'DM Mono',monospace;font-weight:700;color:#FF9999;
+                font-size:clamp(10px,1.2vw,15px);">△35.1万円</td>
+            <td style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.1);
+                font-family:'DM Mono',monospace;font-weight:700;color:#FF9999;
+                font-size:clamp(10px,1.2vw,15px);">△51.6万円</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.08);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">手数料＋管理代行＋清掃費</td>
+          </tr>
+          <!-- 手取り -->
+          <tr style="background:rgba(26,122,74,0.2);">
+            <td style="padding:3% 3%;border:1px solid rgba(26,122,74,0.3);
+                color:#5DE89A;font-weight:700;font-size:clamp(9px,1.05vw,13px);">月次手取り</td>
+            <td style="text-align:center;padding:3%;border:1px solid rgba(26,122,74,0.3);
+                font-family:'DM Mono',monospace;font-weight:700;color:#5DE89A;
+                font-size:clamp(12px,1.5vw,19px);">24.3万円</td>
+            <td style="text-align:center;padding:3%;border:1px solid rgba(26,122,74,0.3);
+                font-family:'DM Mono',monospace;font-weight:700;color:#5DE89A;
+                font-size:clamp(12px,1.5vw,19px);">54.9万円</td>
+            <td style="padding:3% 2%;border:1px solid rgba(26,122,74,0.2);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">売上−コスト合計</td>
+          </tr>
+          <!-- 参考：賃貸 -->
+          <tr style="background:rgba(255,255,255,0.04);">
+            <td style="padding:2.5% 3%;border:1px solid rgba(255,255,255,0.08);
+                color:var(--slate);font-style:italic;">参考：現状賃貸（月収）</td>
+            <td colspan="2" style="text-align:center;padding:2.5%;border:1px solid rgba(255,255,255,0.08);
+                font-family:'DM Mono',monospace;font-weight:600;color:var(--slate);
+                font-size:clamp(10px,1.2vw,15px);">22万円（固定・コストなし）</td>
+            <td style="padding:2.5% 2%;border:1px solid rgba(255,255,255,0.06);
+                color:var(--slate);font-size:clamp(6.5px,0.75vw,9.5px);">設定家賃22万/月</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 右：年換算サマリー＋注意事項 -->
+    <div style="display:flex;flex-direction:column;gap:2%;">
+
+      <div style="font-size:clamp(8.5px,1vw,13px);font-weight:700;color:var(--gold2);
+                  padding-bottom:2%;border-bottom:1px solid rgba(200,149,42,0.3);flex-shrink:0;">
+        📊 年間収益サマリー（1室 → 24室）
+      </div>
+
+      <!-- 年間換算カード -->
+      <div style="display:flex;flex-direction:column;gap:2%;">
+        <!-- シナリオA -->
+        <div style="background:rgba(26,122,74,0.12);border:1px solid rgba(26,122,74,0.3);
+                    border-radius:5px;padding:4% 5%;">
+          <div style="font-size:clamp(8px,0.92vw,11.5px);font-weight:700;color:#5DE89A;margin-bottom:3%;">
+            シナリオA｜3万円/泊・65%稼働
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3%;">
+            <div style="text-align:center;">
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);margin-bottom:3px;">1室あたり年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(14px,1.8vw,23px);
+                          font-weight:700;color:#5DE89A;">291万円</div>
+            </div>
+            <div style="text-align:center;border-left:1px solid rgba(26,122,74,0.3);">
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);margin-bottom:3px;">24室合計年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(14px,1.8vw,23px);
+                          font-weight:700;color:#5DE89A;">6,975万円</div>
+            </div>
+          </div>
+          <div style="margin-top:3%;font-size:clamp(7px,0.82vw,10px);color:rgba(93,232,154,0.7);
+                      padding-top:3%;border-top:1px solid rgba(26,122,74,0.2);">
+            現状賃貸6,336万比 ＋639万（＋10%）
+          </div>
+        </div>
+
+        <!-- シナリオB -->
+        <div style="background:rgba(200,149,42,0.12);border:1px solid rgba(200,149,42,0.3);
+                    border-radius:5px;padding:4% 5%;">
+          <div style="font-size:clamp(8px,0.92vw,11.5px);font-weight:700;color:var(--gold2);margin-bottom:3%;">
+            シナリオB｜5万円/泊・70%稼働
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3%;">
+            <div style="text-align:center;">
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);margin-bottom:3px;">1室あたり年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(14px,1.8vw,23px);
+                          font-weight:700;color:var(--gold2);">658万円</div>
+            </div>
+            <div style="text-align:center;border-left:1px solid rgba(200,149,42,0.3);">
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);margin-bottom:3px;">24室合計年収</div>
+              <div style="font-family:'DM Mono',monospace;font-size:clamp(14px,1.8vw,23px);
+                          font-weight:700;color:var(--gold2);">15,790万円</div>
+            </div>
+          </div>
+          <div style="margin-top:3%;font-size:clamp(7px,0.82vw,10px);color:rgba(232,184,75,0.7);
+                      padding-top:3%;border-top:1px solid rgba(200,149,42,0.2);">
+            現状賃貸6,336万比 ＋9,454万（＋149%）
+          </div>
+        </div>
+      </div>
+
+      <!-- 注意事項 -->
+      <div style="flex:1;background:rgba(255,255,255,0.04);border-radius:5px;padding:4% 5%;
+                  border:1px solid rgba(255,255,255,0.08);">
+        <div style="font-size:clamp(8px,0.92vw,11.5px);font-weight:700;color:var(--slate);margin-bottom:4%;">
+          ⚠ 本試算の前提と留意点
+        </div>
+        <div style="display:flex;flex-direction:column;gap:3%;">
+          <div style="display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#FF9999;flex-shrink:0;margin-top:4px;"></div>
+            <div style="font-size:clamp(7px,0.82vw,10px);color:rgba(255,255,255,0.75);line-height:1.6;">
+              <strong style="color:var(--white);">稼働率は年間平均値</strong>。沖縄は夏（7〜9月）が高稼働、冬（1〜2月）は低稼働。繁閑差が大きく、年平均65〜70%を維持できるかは実測が必要。
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#FF9999;flex-shrink:0;margin-top:4px;"></div>
+            <div style="font-size:clamp(7px,0.82vw,10px);color:rgba(255,255,255,0.75);line-height:1.6;">
+              <strong style="color:var(--white);">管理代行費17.5%は中間値</strong>。代行会社によって15〜20%の幅あり。自主管理に切り替えると削減可能だが工数が増加。
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:5px;height:5px;border-radius:50%;background:#FFB84D;flex-shrink:0;margin-top:4px;"></div>
+            <div style="font-size:clamp(7px,0.82vw,10px);color:rgba(255,255,255,0.75);line-height:1.6;">
+              <strong style="color:var(--white);">清掃費は1泊8,000円を想定</strong>。80㎡2LDKの業者清掃費。自社スタッフ対応で圧縮可能。
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;align-items:flex-start;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--slate);flex-shrink:0;margin-top:4px;"></div>
+            <div style="font-size:clamp(7px,0.82vw,10px);color:rgba(255,255,255,0.75);line-height:1.6;">
+              <strong style="color:var(--white);">リネン・消耗品費は未計上</strong>。タオル・アメニティ等で月1〜3万/室が追加的に発生。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-page">05 / 06</div>
+  <div class="slide-label">SANKAI — SUPPLEMENTAL: MONTHLY RUNNING COST</div>
+</div>
+
+<div class="slide" style="background:var(--white);">
+  <div class="slide-header">
+    <div class="hbar"></div>
+    <div class="htitle">民泊転換に必要な法整備と初期費用内訳</div>
+    <div class="hbadge">旅館業（簡易宿所）許可取得ルート　北谷宮城海岸 2LDK 80㎡ 想定</div>
+  </div>
+
+  <div style="position:absolute;top:13%;left:2.5%;right:2.5%;bottom:5%;
+              display:grid;grid-template-columns:1.1fr 1fr;gap:2%;">
+
+    <!-- 左：法整備フロー -->
+    <div style="display:flex;flex-direction:column;gap:2%;">
+
+      <!-- 用途地域の確認（大前提） -->
+      <div style="background:#FEF3F2;border:1px solid rgba(192,57,43,0.25);border-radius:5px;padding:3% 4%;flex-shrink:0;">
+        <div style="font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--red);margin-bottom:3%;">
+          ⚠ 大前提：用途地域の確認（まず北谷町役場へ）
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2%;font-size:clamp(7px,0.85vw,10.5px);">
+          <div style="background:rgba(26,122,74,0.08);border-radius:3px;padding:3%;">
+            <div style="font-weight:700;color:var(--green);margin-bottom:3%;">✅ 旅館業（365日）可能</div>
+            <div style="color:#333;">第一種住居地域・第二種住居地域・準住居地域・近隣商業・商業・準工業</div>
+          </div>
+          <div style="background:rgba(192,57,43,0.06);border-radius:3px;padding:3%;">
+            <div style="font-weight:700;color:var(--red);margin-bottom:3%;">❌ 旅館業不可</div>
+            <div style="color:#333;">第一種・第二種低層住居専用地域／第一種・第二種中高層住居専用地域／工業地域</div>
+          </div>
+        </div>
+        <div style="margin-top:2.5%;font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);">
+          ▶ 宮城海岸沿いは準住居・商業地域の可能性が高いが<strong>番地で異なる</strong>。北谷町都市計画課（098-936-1234）に番地を伝えれば5分で確認可能。
+        </div>
+      </div>
+
+      <!-- 許可取得フロー -->
+      <div style="flex:1;background:var(--light);border-radius:5px;padding:3% 4%;overflow:hidden;">
+        <div style="font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--navy);margin-bottom:4%;border-bottom:1px solid rgba(13,27,62,0.1);padding-bottom:3%;">
+          📋 旅館業（簡易宿所）許可取得フロー
+        </div>
+        <!-- ステップ一覧 -->
+        <div style="display:flex;flex-direction:column;gap:3.5%;">
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <div style="background:var(--navy);color:var(--gold2);width:clamp(18px,2.2vw,28px);height:clamp(18px,2.2vw,28px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(7px,0.88vw,11px);flex-shrink:0;">1</div>
+            <div>
+              <div style="font-size:clamp(7.5px,0.9vw,11.5px);font-weight:700;color:var(--navy);">用途地域確認 ＋ 建物用途変更の可否確認</div>
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);line-height:1.5;">北谷町都市計画課へ番地を伝え即日確認。現在「共同住宅」なら「ホテル・旅館」への用途変更が必要（建築士対応）。</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <div style="background:var(--navy);color:var(--gold2);width:clamp(18px,2.2vw,28px);height:clamp(18px,2.2vw,28px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(7px,0.88vw,11px);flex-shrink:0;">2</div>
+            <div>
+              <div style="font-size:clamp(7.5px,0.9vw,11.5px);font-weight:700;color:var(--navy);">消防設備の設置工事 ＋ 消防法令適合通知書の取得</div>
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);line-height:1.5;">自動火災報知機・誘導灯・消火器・防炎物品を設置。消防署の立入検査後に適合通知書を取得（工事費15〜40万/室）。</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <div style="background:var(--navy);color:var(--gold2);width:clamp(18px,2.2vw,28px);height:clamp(18px,2.2vw,28px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(7px,0.88vw,11px);flex-shrink:0;">3</div>
+            <div>
+              <div style="font-size:clamp(7.5px,0.9vw,11.5px);font-weight:700;color:var(--navy);">保健所へ旅館業許可申請（沖縄県知事許可）</div>
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);line-height:1.5;">申請書類：建物図面・消防法令適合通知書・登記事項証明書等。審査期間：約2〜3ヶ月。申請手数料：22,000円（沖縄県）。</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <div style="background:var(--navy);color:var(--gold2);width:clamp(18px,2.2vw,28px);height:clamp(18px,2.2vw,28px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(7px,0.88vw,11px);flex-shrink:0;">4</div>
+            <div>
+              <div style="font-size:clamp(7.5px,0.9vw,11.5px);font-weight:700;color:var(--navy);">内装・家具・家電・設備の整備</div>
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);line-height:1.5;">台所・浴室・トイレ・洗面設備は既設で概ね対応可能。宿泊向け内装・家具・家電・Wi-Fi・スマートロックを整備。</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;">
+            <div style="background:var(--green);color:var(--white);width:clamp(18px,2.2vw,28px);height:clamp(18px,2.2vw,28px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:clamp(7px,0.88vw,11px);flex-shrink:0;">5</div>
+            <div>
+              <div style="font-size:clamp(7.5px,0.9vw,11.5px);font-weight:700;color:var(--green);">許可取得 → Airbnb等に掲載開始</div>
+              <div style="font-size:clamp(6.5px,0.75vw,9.5px);color:var(--slate);line-height:1.5;">宿泊者名簿の備え付け（外国人はパスポート確認必須）。365日営業開始。レビュー蓄積に12〜18ヶ月を要する。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 右：初期費用内訳 -->
+    <div style="display:flex;flex-direction:column;gap:2%;">
+
+      <!-- 1室あたり初期費用 -->
+      <div style="background:var(--navy);border-radius:5px;padding:3% 4%;flex-shrink:0;">
+        <div style="font-size:clamp(8px,0.95vw,12px);font-weight:700;color:var(--gold2);margin-bottom:4%;">💰 初期費用内訳（1室あたり・80㎡ 2LDK）</div>
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(7px,0.85vw,10.5px);">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.15);color:var(--slate);font-weight:500;">費目</th>
+              <th style="text-align:center;padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.15);color:var(--slate);font-weight:500;">下限</th>
+              <th style="text-align:center;padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.15);color:var(--slate);font-weight:500;">上限</th>
+              <th style="text-align:left;padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.15);color:var(--slate);font-weight:500;">備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--white);">内装リフォーム・家具家電</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">50万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">120万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--slate);font-size:clamp(6px,0.72vw,9px);">ベッド・家電・キッチン用品含む</td>
+            </tr>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--white);">消防設備設置工事</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">15万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">40万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--slate);font-size:clamp(6px,0.72vw,9px);">自火報・誘導灯・消火器・防炎物品</td>
+            </tr>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--white);">旅館業許可申請（行政書士含む）</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">5万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">30万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--slate);font-size:clamp(6px,0.72vw,9px);">申請手数料22,000円＋行政書士費用</td>
+            </tr>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--white);">建物用途変更手続き</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">20万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">50万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--slate);font-size:clamp(6px,0.72vw,9px);">建築士費用・確認申請（200㎡超の場合）</td>
+            </tr>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--white);">Wi-Fi・スマートロック・撮影</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">10万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(255,255,255,0.06);font-family:'DM Mono',monospace;color:var(--gold2);font-weight:600;">20万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--slate);font-size:clamp(6px,0.72vw,9px);">高品質Wi-Fi・電子鍵・プロ写真撮影</td>
+            </tr>
+            <tr style="background:rgba(200,149,42,0.15);">
+              <td style="padding:2.5% 2%;color:var(--gold2);font-weight:700;">合計（1室）</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;color:var(--gold2);font-weight:700;font-size:clamp(9px,1.1vw,14px);">100万</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;color:var(--gold2);font-weight:700;font-size:clamp(9px,1.1vw,14px);">260万</td>
+              <td style="padding:2% 2%;color:var(--slate);font-size:clamp(6px,0.72vw,9px);">80㎡2LDK・既設設備良好な場合</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 24室全体の試算 -->
+      <div style="background:rgba(26,58,124,0.07);border:1px solid rgba(26,58,124,0.15);border-radius:5px;padding:3% 4%;flex-shrink:0;">
+        <div style="font-size:clamp(8px,0.92vw,11.5px);font-weight:700;color:var(--blue);margin-bottom:4%;">📐 北谷物件 24室全体の初期投資試算</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2%;">
+          <div style="text-align:center;background:rgba(26,58,124,0.08);border-radius:3px;padding:3%;">
+            <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">1〜3室（試験）</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,16px);font-weight:600;color:var(--blue);">100〜780万</div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">まず試験運営</div>
+          </div>
+          <div style="text-align:center;background:rgba(200,149,42,0.1);border-radius:3px;padding:3%;">
+            <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">12室（半棟）</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,16px);font-weight:600;color:var(--gold);">1,200〜3,120万</div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">段階展開</div>
+          </div>
+          <div style="text-align:center;background:rgba(192,57,43,0.08);border-radius:3px;padding:3%;">
+            <div style="font-size:clamp(6px,0.7vw,8.5px);color:var(--slate);margin-bottom:3px;">24室（全室）</div>
+            <div style="font-family:'DM Mono',monospace;font-size:clamp(10px,1.3vw,16px);font-weight:600;color:var(--red);">2,400〜6,240万</div>
+            <div style="font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">一括転換</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 月次ランニングコスト -->
+      <div style="flex:1;background:var(--light);border-radius:5px;padding:3% 4%;min-height:0;overflow:hidden;">
+        <div style="font-size:clamp(8px,0.92vw,11.5px);font-weight:700;color:var(--navy);
+                    border-bottom:1px solid rgba(13,27,62,0.1);padding-bottom:2.5%;margin-bottom:3%;">
+          🔄 月次ランニングコスト比較（1室あたり）
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:clamp(7px,0.85vw,10.5px);">
+          <thead>
+            <tr>
+              <th style="text-align:left;padding:2% 2%;background:var(--navy);color:var(--white);font-weight:600;font-size:clamp(6.5px,0.78vw,9.5px);">費目</th>
+              <th style="text-align:center;padding:2% 2%;background:var(--navy);color:var(--white);font-weight:600;font-size:clamp(6.5px,0.78vw,9.5px);">3万/泊・65%</th>
+              <th style="text-align:center;padding:2% 2%;background:var(--navy);color:var(--white);font-weight:600;font-size:clamp(6.5px,0.78vw,9.5px);">5万/泊・70%</th>
+              <th style="text-align:left;padding:2% 2%;background:var(--navy);color:var(--slate);font-weight:400;font-size:clamp(5.5px,0.65vw,8px);">計算式</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);color:var(--navy);">予約サイト手数料</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△8.9万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△16.0万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">売上の15%</td>
+            </tr>
+            <tr style="background:rgba(237,241,248,0.5);">
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);color:var(--navy);">管理・運営代行</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△10.4万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△18.6万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">売上の17.5%</td>
+            </tr>
+            <tr>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);color:var(--navy);">清掃費</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△15.8万</td>
+              <td style="text-align:center;padding:2%;border-bottom:1px solid rgba(13,27,62,0.07);font-family:'DM Mono',monospace;font-weight:600;color:var(--red);">△17.0万</td>
+              <td style="padding:2% 2%;border-bottom:1px solid rgba(13,27,62,0.07);font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">8,000円/泊×稼働日数</td>
+            </tr>
+            <tr style="background:rgba(13,27,62,0.04);">
+              <td style="padding:2.5% 2%;color:var(--navy);font-weight:700;">月次コスト合計</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;font-weight:700;color:var(--red);font-size:clamp(8px,1vw,13px);">△35.1万</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;font-weight:700;color:var(--red);font-size:clamp(8px,1vw,13px);">△51.6万</td>
+              <td style="padding:2% 2%;font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">手数料＋清掃費計</td>
+            </tr>
+            <tr style="background:rgba(26,122,74,0.08);">
+              <td style="padding:2.5% 2%;color:var(--green);font-weight:700;">月次手取り</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;font-weight:700;color:var(--green);font-size:clamp(9px,1.1vw,14px);">24.3万</td>
+              <td style="text-align:center;padding:2.5%;font-family:'DM Mono',monospace;font-weight:700;color:var(--green);font-size:clamp(9px,1.1vw,14px);">54.9万</td>
+              <td style="padding:2% 2%;font-size:clamp(5.5px,0.65vw,8px);color:var(--slate);">年収÷12ヶ月</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-top:2.5%;background:rgba(13,27,62,0.04);border-radius:3px;padding:2.5% 3%;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:clamp(7px,0.85vw,10.5px);">
+            <span style="color:var(--navy);font-weight:700;">参考：現状賃貸の月収（22万・固定）</span>
+            <span style="font-family:'DM Mono',monospace;font-weight:700;color:var(--navy);">22万円/月</span>
+          </div>
+          <div style="font-size:clamp(6px,0.72vw,9px);color:var(--slate);margin-top:1.5%;">
+            ※ 賃貸は管理コスト・清掃費なし。民泊は稼働率変動リスクあり。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="slide-page" style="color:#8A9BB5;">06 / 06</div>
+  <div class="slide-label" style="color:#8A9BB5;">SANKAI — MINPAKU LEGAL & COST SETUP</div>
+</div>
+
+</html>
